@@ -15,12 +15,14 @@
 
 #define GAME_FACTORY GameFactory::getSingleton()
 
+namespace Balyoz
+{
 class Level;
 class Map;
 class Terrain;
 class GameUnit;
 class Weapon;
-
+};
 class GameFactory
 {
 public:
@@ -32,11 +34,11 @@ public:
 
 	static GameFactory* getSingleton();
 
-	Level*		getLevel	(std::string levelName);
-	Map*		getMap		(std::string mapName);
-	Terrain*	getTerrain	(std::string terrainName);
-	GameUnit*   getUnit		(std::string unitName);
-	Weapon*		getWeapon	(std::string weaponName);
+	Balyoz::Level*		getLevel	(std::string levelName);
+	Balyoz::Map*		getMap		(std::string mapName);
+	Balyoz::Terrain*	getTerrain	(std::string terrainName);
+	Balyoz::GameUnit*   getUnit		(std::string unitName);
+	Balyoz::Weapon*		getWeapon	(std::string weaponName);
 
 protected:
 	GameFactory(void);

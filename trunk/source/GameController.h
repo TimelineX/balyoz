@@ -15,6 +15,7 @@
 #include <Ogre3DRenderSystem.h>
 
 #include "UnitController.h"
+#include "BulletController.h"
 #include <list>
 
 namespace Balyoz
@@ -56,8 +57,9 @@ namespace Balyoz
 		OIS::Keyboard			*m_pKeyboard;
 		OIS::JoyStick			*m_pJoy;
 
-		std::list<UnitController*>	m_pUnitControllers;
-		std::list<UnitController*>	m_pBombControllers;
+		std::list<UnitMouseKeyboardController>	m_pUnitKeyboardMouseControllers;
+		std::list<UnitAIController>				m_pUnitAIControllers;
+		std::list<BulletController*>			m_pBulletControllers;
 	};
 
 }

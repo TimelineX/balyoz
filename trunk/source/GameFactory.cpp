@@ -1,4 +1,8 @@
 #include "GameFactory.h"
+#include "Weapon.h"
+#include <map>
+using namespace Balyoz;
+using std::map;
 
 GameFactory::GameFactory(void)
 {
@@ -68,19 +72,19 @@ Weapon* GameFactory::getWeapon(std::string weaponName){
 	
 	map<std::string,WeaponProperty*>::iterator it;
 
-	m_pWeaponXMLMap->m_Propertys->find(weaponName);
-	if(it != m_pWeaponXMLMap->m_Propertys->end()){
-
-		weapon->m_Controller	= it->second->m_Controller;
-		weapon->m_Effect		= it->second->m_Effect;
-		weapon->m_Explosion		= it->second->m_Explosion;
-		weapon->m_LifeTime		= it->second->m_iLifeTime;
-		weapon->m_MeshFileName	= it->second->m_Mesh;
-		weapon->m_Name			= it->second->m_Name;
-		weapon->m_Particles		= it->second->m_Particles;
-		weapon->m_Power			= it->second->m_iPower;
-		weapon->m_Radius		= it->second->m_fRadius;
-	}
+////	m_pWeaponXMLMap->m_Propertys->find(weaponName);
+//	if(it != m_pWeaponXMLMap->m_Propertys.end()){
+//
+//		weapon->m_Controller	= it->second->m_Controller;
+//		weapon->m_Effect		= it->second->m_Effect;
+//		weapon->m_Explosion		= it->second->m_Explosion;
+//		weapon->m_LifeTime		= it->second->m_iLifeTime;
+//		weapon->m_MeshFileName	= it->second->m_Mesh;
+//		weapon->m_Name			= it->second->m_Name;
+//		weapon->m_Particles		= it->second->m_Particles;
+//		weapon->m_Power			= it->second->m_iPower;
+//		weapon->m_Radius		= it->second->m_fRadius;
+//	}
 
 	return weapon;
 

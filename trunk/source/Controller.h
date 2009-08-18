@@ -3,11 +3,11 @@
 #include <string>
 #include "GameObject.h"
 
-template <typename GameObjectClass>
+template <typename GameObjectClass, typename RunInfo>
 class Controller
 {
 public:
-	Controller(void){};
+	Controller(void){ m_pRunInfoParameter = 0; };
 	~Controller(void){};
 
 	template <typename GameObjectClass>
@@ -42,7 +42,13 @@ public:
 
 	}
 
-	virtual void run() = 0;
+	template <typename RunInfo>
+	void setRunInfo( RunInfo* pRunInfoParameter){ m_pRunInfoParameter = pRunInfoParameter;};
 
+
+	
+	virtual void run() = 0;
+	
+	RunInfo *m_pRunInfoParameter;
 	std::list<GameObjectClass*> m_GameObjectList;	
 };
