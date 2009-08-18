@@ -193,6 +193,10 @@
 				Name="debug"
 				>
 				<File
+					RelativePath="..\configurations\debug\bulletcontroller.xml"
+					>
+				</File>
+				<File
 					RelativePath="..\configurations\debug\game.xml"
 					>
 				</File>
@@ -232,6 +236,10 @@
 			<Filter
 				Name="release"
 				>
+				<File
+					RelativePath="..\configurations\release\bulletcontroller.xml"
+					>
+				</File>
 				<File
 					RelativePath="..\configurations\release\game.xml"
 					>
@@ -279,7 +287,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\BulletController.h"
+				RelativePath=".\Bullet.h"
 				>
 			</File>
 			<File
@@ -360,7 +368,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\BulletController.cpp"
+				RelativePath=".\Bullet.cpp"
 				>
 			</File>
 			<File
@@ -428,6 +436,14 @@
 			Name="Beans"
 			>
 			<File
+				RelativePath=".\BulletControllerProperty.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\BulletControllerProperty.h"
+				>
+			</File>
+			<File
 				RelativePath=".\GameProperty.cpp"
 				>
 			</File>
@@ -487,6 +503,14 @@
 		<Filter
 			Name="Controllers"
 			>
+			<File
+				RelativePath=".\BulletController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\BulletController.h"
+				>
+			</File>
 			<File
 				RelativePath=".\Controller.h"
 				>
