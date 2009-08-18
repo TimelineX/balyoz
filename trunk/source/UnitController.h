@@ -1,21 +1,16 @@
 #pragma once
+#include "Controller.h"
 #include "GameUnit.h"
 #include <list>
 
 namespace Balyoz
 {
-	class UnitController
+	class UnitController : public Controller<GameUnit>
 	{
 	public:
 		UnitController(void);
 		~UnitController(void);
 
-		void registerUnit(GameUnit* pGameUnit);
-		void unregisterUnit(GameUnit* pGameUnit);
-		void unregisterUnit(std::string &gameUnitName);
-
 		void run();
-
-		std::list<GameUnit*> m_GameUnits;	
 	};
 }

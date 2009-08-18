@@ -15,6 +15,7 @@
 	#define ASSERT_AND_DO(p,errType,msg,stopExecution)	{if(p==NULL){ REPORT(errType,msg,stopExecution); }}
 	#define ASSERT_AND_WARN(p,msg)			{ ASSERT_AND_DO(p,ERR_WARNING,msg,false); }
 	#define ASSERT_AND_STOP(p,msg)			{ ASSERT_AND_DO(p,ERR_ERROR,msg,true); }
+	#define ASSERT_AND_STOP_IF_NULL(p)			{ ASSERT_AND_DO((p),ERR_ERROR,"NULL assigment",true); }
 #endif // USE_ASSERT
 
 

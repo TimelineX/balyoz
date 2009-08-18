@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="Balyoz"
 	ProjectGUID="{68BDF7EA-A049-4112-B031-068947812004}"
 	RootNamespace="simplesample"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(OGRE_HOME)\include&quot;;&quot;$(OGRE_HOME)\samples\include&quot;;&quot;$(NXOGRE_DIR)\sdk&quot;;&quot;$(PHYSX_DIR)\SDKs\Cooking\include&quot;;&quot;$(PHYSX_DIR)\SDKs\NxCharacter\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Foundation\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Physics\include&quot;;&quot;$(PHYSX_DIR)\SDKs\PhysXLoader\include&quot;;&quot;$(THE_GAME)\utils\tinyxml&quot;"
+				AdditionalIncludeDirectories="&quot;$(OGRE_HOME)\include&quot;;&quot;$(OGRE_HOME)\samples\include&quot;;&quot;$(NXOGRE_DIR)\sdk&quot;;&quot;$(PHYSX_DIR)\SDKs\Cooking\include&quot;;&quot;$(PHYSX_DIR)\SDKs\NxCharacter\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Foundation\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Physics\include&quot;;&quot;$(PHYSX_DIR)\SDKs\PhysXLoader\include&quot;;&quot;$(THE_GAME)\utils\tinyxml&quot;;&quot;$(NXOGRE_DIR)\rendersystems\ogre&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -279,6 +279,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BulletController.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ErrorReporter.h"
 				>
 			</File>
@@ -292,10 +296,6 @@
 			</File>
 			<File
 				RelativePath=".\GameBalyoz.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GameController.h"
 				>
 			</File>
 			<File
@@ -339,10 +339,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\UnitController.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Weapon.h"
 				>
 			</File>
@@ -364,6 +360,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BulletController.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ErrorReporter.cpp"
 				>
 			</File>
@@ -373,10 +373,6 @@
 			</File>
 			<File
 				RelativePath=".\GameBalyoz.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\GameController.cpp"
 				>
 			</File>
 			<File
@@ -413,10 +409,6 @@
 			</File>
 			<File
 				RelativePath=".\Terrain.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UnitController.cpp"
 				>
 			</File>
 			<File
@@ -489,6 +481,30 @@
 			</File>
 			<File
 				RelativePath=".\XmlMapProperty.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Controllers"
+			>
+			<File
+				RelativePath=".\Controller.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GameController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GameController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UnitController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UnitController.h"
 				>
 			</File>
 		</Filter>
