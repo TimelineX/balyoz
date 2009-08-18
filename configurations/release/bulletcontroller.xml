@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<bulletcontrollers>
+  <bulletcontroller>
+    <name>dummy</name>
+    <behaviour>forward</behaviour>
+    <accuracy>0.5</accuracy>
+    <aiming>none</aiming>
+  </bulletcontroller>
+
+
+  <bulletcontroller>
+    <name>guidedclevermissile</name>
+    <behaviour>guided</behaviour>
+    <accuracy>0.9</accuracy>
+    <aiming>weakest</aiming>
+  </bulletcontroller>
+
+</bulletcontrollers>
+
