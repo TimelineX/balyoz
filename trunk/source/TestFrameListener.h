@@ -291,7 +291,7 @@ public:
 		//(e.g. airplane)
 		m_pCamera->yaw(m_raRotX);
 		m_pCamera->pitch(m_raRotY);
-		m_pCamera->move(m_TranslateVector);
+		m_pCamera->moveRelative(m_TranslateVector);
 	}
 
 	virtual void showDebugOverlay(bool show)
