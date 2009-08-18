@@ -1,9 +1,22 @@
 #pragma once
 #include "Bullet.h"
-class BulletController :
-	public Controller<Bullet>
+#include <list>
+#include "GameUnit.h"
+#include "Controller.h"
+
+namespace Balyoz
 {
-public:
-	BulletController(void);
-	~BulletController(void);
+	class BulletController :
+		public Controller<Bullet,std::list<GameUnit*>>
+	{
+	public:
+		BulletController(void);
+		~BulletController(void);
+
+		void run() ;
+
+	};
+
+
+
 };

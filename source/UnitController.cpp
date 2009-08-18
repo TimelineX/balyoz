@@ -1,17 +1,32 @@
 #include "UnitController.h"
 using namespace Balyoz;
 
-UnitController::UnitController(void)
+
+
+UnitMouseKeyboardController::UnitMouseKeyboardController(RunInfoDevices * runInfo)
+{
+	setRunInfo(runInfo);
+}
+
+UnitMouseKeyboardController::~UnitMouseKeyboardController()
 {
 }
 
-UnitController::~UnitController(void)
+
+void UnitMouseKeyboardController::run()
+{
+	
+}
+
+UnitAIController::UnitAIController()
+{
+}
+UnitAIController::~UnitAIController()
 {
 }
 
 
-
-void UnitController::run()
+void UnitAIController::run()
 {
 	
 }
