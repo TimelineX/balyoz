@@ -22,6 +22,30 @@ bool WeaponProperty::set(const std::string &parameterName, const std::string &pa
 	{
 		m_iPower = atoi(parameterValue.c_str());
 	}
+	else if( parameterName.compare("/reloadtime") == 0 )
+	{
+		m_iReloadTime = atoi(parameterValue.c_str());
+	}
+	else if( parameterName.compare("/capacity") == 0 )
+	{
+		m_iCapacity = atoi(parameterValue.c_str());
+	}
+	else if( parameterName.compare("/initial") == 0 )
+	{
+		m_iInitial = atoi(parameterValue.c_str());
+	}
+	else if( parameterName.compare("/maximum") == 0 )
+	{
+		m_iMaximum = atoi(parameterValue.c_str());
+	}
+	else if( parameterName.compare("/minimum") == 0 )
+	{
+		m_iMinimum = atoi(parameterValue.c_str());
+	}
+	else if( parameterName.compare("/anglebetweenbullets") == 0 )
+	{
+		m_iAngle = atoi(parameterValue.c_str());
+	}
 	//else if( parameterName.compare("type") == 0 )
 	//{
 	//	m_iType = atoi(parameterValue.c_str());
