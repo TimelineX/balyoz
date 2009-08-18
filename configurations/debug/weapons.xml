@@ -3,12 +3,26 @@
 	<weapon>
 		<name>bazooka</name>
 		<mesh>cube.mesh</mesh>
-		<power>100</power>
-		<radius>10</radius>
-		<effect>linear</effect>
-		<lifetime>5</lifetime>
-		<particles>smoke</particles>
-		<explosion>explosion</explosion>
-		<controller>dummy</controller>
+    <reloadtime>500</reloadtime>
+    <numofbullets>
+      <capacity>1000</capacity>
+      <initial>1</initial>
+      <maximum>9</maximum>
+      <minimum>1</minimum>
+      <anglebetweenbullets>18</anglebetweenbullets>
+    </numofbullets>    
+    <bullet>
+      <power>100</power>
+      <radius>10</radius>
+      <effect>linear</effect>
+      <lifetime>5000</lifetime>
+      <particles>smoke</particles>
+      <explosion>explosion</explosion>
+      <controller>
+        <behaviour>guided</behaviour>
+        <accuricy>0.5</accuricy>
+        <aiming>weakest</aiming>
+      </controller>
+    </bullet>
 	</weapon>
 </weapons>

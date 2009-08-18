@@ -1,12 +1,63 @@
 #pragma once
-#include "OgreFrameListener.h"
+#include <OgreMath.h>
+#include <OgreFrameListener.h>
+#include <OgreWindowEventUtilities.h>
 #define OIS_DYNAMIC_LIB
-#include <OIS/OIS.h>
+#include <OIS/OISKeyboard.h>
+#include <OIS/OISMouse.h>
+#include <OIS/OISJoyStick.h>
+#include <OgreException.h>
+#include <OgreCamera.h>
+#include <OgreRenderWindow.h>
+#include <NxOgreScene.h>
+#include <NxOgreWorld.h>
+#include <NxOgreTimeController.h>
+#include <Ogre3DRenderSystem.h>
 
-class GameController :
-	public Ogre::FrameListener
+#include "UnitController.h"
+#include <list>
+
+namespace Balyoz
 {
-public:
-	GameController(void);
-	~GameController(void);
-};
+	class GameController :
+		public Ogre::FrameListener, public Ogre::WindowEventListener
+	{
+	public:
+		GameController(	
+			NxOgre::World		*pNxWorld,
+			NxOgre::Scene		*pNxScene,
+			OGRE3DRenderSystem	*pRenderSystem,
+			NxOgre::TimeController *pNxTimeController,
+			Ogre::RenderWindow	*pRenderWindow, 
+			Ogre::Camera		*pCamera
+		);
+		~GameController(void);
+		
+		bool frameEnded(const Ogre::FrameEvent& evt);
+		bool frameStarted(const Ogre::FrameEvent& evt);
+		bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
+		void runControllers();
+		void processEventQueue();
+
+		
+
+		bool					m_bBufferedKeys;
+		bool					m_bBufferedMouse;
+		bool					m_bBufferedJoy;
+		NxOgre::World			*m_pNxWorld;
+		NxOgre::Scene			*m_pNxScene;
+		OGRE3DRenderSystem		*m_pRenderSystem;
+		NxOgre::TimeController	*m_pNxTimeController;
+		Ogre::RenderWindow		*m_pRenderWindow;
+		Ogre::Camera			*m_pCamera;
+		OIS::InputManager		*m_pInputManager;
+		OIS::Mouse				*m_pMouse;
+		OIS::Keyboard			*m_pKeyboard;
+		OIS::JoyStick			*m_pJoy;
+
+		std::list<UnitController*>	m_pUnitControllers;
+		std::list<UnitController*>	m_pBombControllers;
+	};
+
+}
