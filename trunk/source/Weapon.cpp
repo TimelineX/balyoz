@@ -1,5 +1,5 @@
 #include "Weapon.h"
-
+#include "Bullet.h"
 
 
 Balyoz::Weapon::Weapon(void)

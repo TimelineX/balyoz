@@ -4,12 +4,7 @@
 
 namespace Balyoz{
 
-	enum EFFECT{
-		LINEER,
-		EXPONENTIAL,
-		NONE
-	};
-
+class Bullet;
 class Weapon : public GameObject
 {
 public:
@@ -26,15 +21,18 @@ public:
 				EFFECT			Effect);
 	~Weapon(void);
 
+	Bullet* bullet;
 	std::string		m_Name;
 	std::string		m_MeshFileName;
-	unsigned int	m_Power;
-	unsigned int	m_Radius;
-	unsigned int	m_LifeTime;
-	std::string		m_Explosion;
-	std::string		m_Particles;
-	std::string		m_Controller;
-	EFFECT			m_Effect;
+	unsigned int	m_ReloadTime;
+	unsigned int	m_capacity;
+	unsigned int	m_Initial;
+	unsigned int	m_Maximum;
+	unsigned int	m_Minimum;
+	unsigned int	m_BulletAngle;
+
+
+
 
 
 };
