@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<weapons>
+	<weapon>
+		<name>bazooka</name>
+		<mesh>cube.mesh</mesh>
+		<power>100</power>
+		<radius>10</radius>
+		<effect>linear</effect>
+		<lifetime>5</lifetime>
+		<particles>smoke</particles>
+		<explosion>explosion</explosion>
+		<controller>dummy</controller>
+	</weapon>
+</weapons>

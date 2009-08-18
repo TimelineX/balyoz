@@ -1,0 +1,1 @@
+All the dependency .lib files should be located here excluding ogre libs. but if you want you can also copy them here as well
