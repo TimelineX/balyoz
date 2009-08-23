@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="Balyoz"
 	ProjectGUID="{68BDF7EA-A049-4112-B031-068947812004}"
 	RootNamespace="simplesample"
