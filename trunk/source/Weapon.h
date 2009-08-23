@@ -1,10 +1,10 @@
 #pragma once
 #include "GameObject.h"
 #include <string>
-
+#include "Bullet.h"
 namespace Balyoz{
 
-class Bullet;
+
 class Weapon : public GameObject
 {
 public:
@@ -12,6 +12,12 @@ public:
 	Weapon(std::string name);
 	Weapon(		std::string		Name,
 				std::string		MeshFileName,
+				unsigned int	ReloadTime,
+				unsigned int	Capacity,
+				unsigned int	Initial,
+				unsigned int	Maximum,
+				unsigned int	Minimum,
+				unsigned int	Angle,
 				unsigned int	Power,
 				unsigned int	Radius,
 				unsigned int	LifeTime,
@@ -19,6 +25,7 @@ public:
 				std::string		Particles,
 				std::string		Controller,
 				EFFECT			Effect);
+
 	~Weapon(void);
 
 	Bullet* bullet;
@@ -30,10 +37,6 @@ public:
 	unsigned int	m_Maximum;
 	unsigned int	m_Minimum;
 	unsigned int	m_BulletAngle;
-
-
-
-
 
 };
 }

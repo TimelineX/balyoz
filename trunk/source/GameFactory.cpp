@@ -68,23 +68,40 @@ return NULL;
 }
 Weapon* GameFactory::getWeapon(std::string weaponName){
 
-	Weapon* weapon = new Weapon();
 	
+	Weapon* weapon = 0;
+
 	map<std::string,WeaponProperty*>::iterator it;
 
-////	m_pWeaponXMLMap->m_Propertys->find(weaponName);
-//	if(it != m_pWeaponXMLMap->m_Propertys.end()){
-//
-//		weapon->m_Controller	= it->second->m_Controller;
-//		weapon->m_Effect		= it->second->m_Effect;
-//		weapon->m_Explosion		= it->second->m_Explosion;
-//		weapon->m_LifeTime		= it->second->m_iLifeTime;
-//		weapon->m_MeshFileName	= it->second->m_Mesh;
-//		weapon->m_Name			= it->second->m_Name;
-//		weapon->m_Particles		= it->second->m_Particles;
-//		weapon->m_Power			= it->second->m_iPower;
-//		weapon->m_Radius		= it->second->m_fRadius;
-//	}
+	it = m_pWeaponXMLMap->m_Propertys.find(weaponName);
+
+	if(it != m_pWeaponXMLMap->m_Propertys.end()){
+		
+		weapon = new Weapon();
+		weapon->m_BulletAngle			= it->second->m_iAngle;
+		weapon->m_capacity				= it->second->m_iCapacity;
+		weapon->m_Initial				= it->second->m_iInitial;
+		weapon->m_Maximum				= it->second->m_iMaximum;
+		weapon->m_Minimum				= it->second->m_iMinimum;
+		weapon->m_Name 					= it->second->m_Name;
+		weapon->m_ReloadTime			= it->second->m_iReloadTime;
+		weapon->m_MeshFileName			= it->second->m_Mesh;
+		weapon->bullet->m_Controller	= it->second->m_Controller;
+		weapon->bullet->m_Explosion		= it->second->m_Explosion;
+		weapon->bullet->m_LifeTime		= it->second->m_iLifeTime;
+		weapon->bullet->m_Particles		= it->second->m_Particles;
+		weapon->bullet->m_Power			= it->second->m_iPower;
+		weapon->bullet->m_Radius		= it->second->m_fRadius;
+		
+		if(it->second->m_Effect == std::string("lineer")){
+			weapon->bullet->m_Effect = LINEER;
+		}else if(it->second->m_Effect == std::string("exponential")){
+			weapon->bullet->m_Effect = EXPONENTIAL;
+		}else{
+			weapon->bullet->m_Effect  = NONE;
+		}	
+		
+	}
 
 	return weapon;
 
