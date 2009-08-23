@@ -5,6 +5,7 @@
 		<mesh>cube.mesh</mesh>
 		<health>100</health>
 		<armour>10</armour>
+    <speed>10</speed>
 		<weapon>bazooka</weapon>
 		<controller>dummy</controller>
 		<type>navy</type>
@@ -14,6 +15,7 @@
 		<mesh>cube.mesh</mesh>
 		<health>200</health>
 		<armour>5</armour>
+    <speed>30</speed>
 		<weapon>bazooka</weapon>
 		<controller>dummy</controller>
 		<type>air</type>
