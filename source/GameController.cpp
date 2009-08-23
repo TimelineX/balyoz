@@ -4,7 +4,7 @@
 #define USE_ASSERT
 #include "macros.h"
 #include <OIS/OISInputManager.h>
-
+#include "NxOgre.h"
 
 using namespace Balyoz;
 
@@ -49,6 +49,11 @@ GameController::GameController(
 
 	//Set initial mouse clipping size
 	windowResized(m_pRenderWindow);
+
+	m_pNxScene->createKinematicActor(new NxOgre::Box(4,1,4))->setContactReportFlags(1);
+
+	m_pNxWorld->get
+
 
 }
 
