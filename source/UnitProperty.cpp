@@ -22,6 +22,10 @@ bool UnitProperty::set(const std::string &parameterName, const std::string &para
 	{
 		m_iHealth = atoi(parameterValue.c_str());		
 	}
+	else if(parameterName.compare("/name") == 0)
+	{
+		m_Name = parameterValue;		
+	}
 	else if( parameterName.compare("/mesh") == 0 )
 	{
 		m_Mesh = parameterValue;
@@ -33,6 +37,10 @@ bool UnitProperty::set(const std::string &parameterName, const std::string &para
 	else if (parameterName.compare("/armour") == 0)
 	{
 		m_iArmour  = atoi(parameterValue.c_str());	
+	}
+	else if (parameterName.compare("/speed") == 0)
+	{
+		m_Speed  = atoi(parameterValue.c_str());	
 	}
 	else if (parameterName.compare("/controller") == 0)
 	{
