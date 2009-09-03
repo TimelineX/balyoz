@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_15" class="java.beans.XMLDecoder"> 
+ <object class="com.horstmann.violet.SequenceDiagramGraph"> 
+  <void method="addNode"> 
+   <object id="LifelineNode0" class="com.horstmann.violet.ImplicitParameterNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>GameController</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>139.0</double> 
+     <double>0.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ActivationBarNode0" class="com.horstmann.violet.CallNode"> 
+    <void method="addChild"> 
+     <object id="ActivationBarNode1" class="com.horstmann.violet.CallNode"> 
+      <void method="addChild"> 
+       <object id="ActivationBarNode2" class="com.horstmann.violet.CallNode"> 
+        <void property="implicitParameter"> 
+         <object id="LifelineNode1" class="com.horstmann.violet.ImplicitParameterNode"> 
+          <void property="name"> 
+           <void property="text"> 
+            <string>EventQueue</string> 
+           </void> 
+          </void> 
+         </object> 
+        </void> 
+       </object> 
+      </void> 
+      <void property="implicitParameter"> 
+       <object id="LifelineNode2" class="com.horstmann.violet.ImplicitParameterNode"> 
+        <void property="name"> 
+         <void property="text"> 
+          <string>UnitController</string> 
+         </void> 
+        </void> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="addChild"> 
+     <object id="ActivationBarNode3" class="com.horstmann.violet.CallNode"> 
+      <void method="addChild"> 
+       <object id="ActivationBarNode4" class="com.horstmann.violet.CallNode"> 
+        <void property="implicitParameter"> 
+         <object idref="LifelineNode1"/> 
+        </void> 
+       </object> 
+      </void> 
+      <void property="implicitParameter"> 
+       <object id="LifelineNode3" class="com.horstmann.violet.ImplicitParameterNode"> 
+        <void property="name"> 
+         <void property="text"> 
+          <string>CollisionCollector</string> 
+         </void> 
+        </void> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="implicitParameter"> 
+     <object idref="LifelineNode0"/> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>171.0</double> 
+     <double>104.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object idref="LifelineNode2"/> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>252.0</double> 
+     <double>0.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object idref="LifelineNode3"/> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>453.0</double> 
+     <double>0.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object idref="ActivationBarNode1"/> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>284.0</double> 
+     <double>128.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object idref="LifelineNode1"/> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>353.0</double> 
+     <double>0.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object idref="ActivationBarNode2"/> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>385.0</double> 
+     <double>152.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="LifelineNode4" class="com.horstmann.violet.ImplicitParameterNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>GameBalyoz</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>34.0</double> 
+     <double>0.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ActivationBarNode5" class="com.horstmann.violet.CallNode"> 
+    <void method="addChild"> 
+     <object idref="ActivationBarNode0"/> 
+    </void> 
+    <void property="implicitParameter"> 
+     <object idref="LifelineNode4"/> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>66.0</double> 
+     <double>80.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ActivationBarNode6" class="com.horstmann.violet.CallNode"> 
+    <void method="addChild"> 
+     <object id="ActivationBarNode7" class="com.horstmann.violet.CallNode"> 
+      <void method="addChild"> 
+       <object id="ActivationBarNode8" class="com.horstmann.violet.CallNode"> 
+        <void property="implicitParameter"> 
+         <object idref="LifelineNode1"/> 
+        </void> 
+       </object> 
+      </void> 
+      <void property="implicitParameter"> 
+       <object idref="LifelineNode0"/> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="implicitParameter"> 
+     <object idref="LifelineNode4"/> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>66.0</double> 
+     <double>360.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object idref="ActivationBarNode3"/> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>485.0</double> 
+     <double>226.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object idref="ActivationBarNode4"/> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>385.0</double> 
+     <double>250.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object idref="ActivationBarNode8"/> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>385.0</double> 
+     <double>408.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object idref="ActivationBarNode7"/> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>171.0</double> 
+     <double>384.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="NoteNode0" class="com.horstmann.violet.NoteNode"> 
+    <void property="color"> 
+     <object class="java.awt.Color"> 
+      <int>255</int> 
+      <int>140</int> 
+      <int>0</int> 
+      <int>255</int> 
+     </object> 
+    </void> 
+    <void property="text"> 
+     <void property="text"> 
+      <string>There is no such detectCollisions function, 
+actually this is a callback and being called
+by the physics similtaneously.
+This line is just for demostration</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>541.0</double> 
+     <double>388.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="PointNode0" class="com.horstmann.violet.PointNode"> 
+    <void id="Rectangle2D$Double0" property="bounds"> 
+     <void method="setRect"> 
+      <double>343.0</double> 
+      <double>226.0</double> 
+      <double>0.0</double> 
+      <double>0.0</double> 
+     </void> 
+    </void> 
+    <void property="bounds"> 
+     <object idref="Rectangle2D$Double0"/> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>343.0</double> 
+     <double>226.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="NoteNode1" class="com.horstmann.violet.NoteNode"> 
+    <void property="text"> 
+     <void property="text"> 
+      <string>UnitController cycles through
+all the objects being registered 
+to it and decides what to the on
+the event level,
+at the end of the frame, all the
+events registered to the queue
+are being processed by the game
+controller, thus only the game 
+controller talks to ogre or physics</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>593.0</double> 
+     <double>103.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="PointNode1" class="com.horstmann.violet.PointNode"> 
+    <void id="Rectangle2D$Double1" property="bounds"> 
+     <void method="setRect"> 
+      <double>304.0</double> 
+      <double>47.0</double> 
+      <double>0.0</double> 
+      <double>0.0</double> 
+     </void> 
+    </void> 
+    <void property="bounds"> 
+     <object idref="Rectangle2D$Double1"/> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>304.0</double> 
+     <double>47.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.CallEdge"> 
+    <void property="middleLabel"> 
+     <string>process</string> 
+    </void> 
+   </object> 
+   <object idref="ActivationBarNode0"/> 
+   <object idref="ActivationBarNode1"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.CallEdge"> 
+    <void property="middleLabel"> 
+     <string>addEvent</string> 
+    </void> 
+   </object> 
+   <object idref="ActivationBarNode1"/> 
+   <object idref="ActivationBarNode2"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ReturnEdge"/> 
+   <object idref="ActivationBarNode2"/> 
+   <object idref="ActivationBarNode1"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.CallEdge"> 
+    <void property="middleLabel"> 
+     <string>frameStart</string> 
+    </void> 
+   </object> 
+   <object idref="ActivationBarNode5"/> 
+   <object idref="ActivationBarNode0"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.CallEdge"> 
+    <void property="middleLabel"> 
+     <string>addEvent</string> 
+    </void> 
+   </object> 
+   <object idref="ActivationBarNode3"/> 
+   <object idref="ActivationBarNode4"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ReturnEdge"/> 
+   <object idref="ActivationBarNode4"/> 
+   <object idref="ActivationBarNode3"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ReturnEdge"/> 
+   <object idref="ActivationBarNode1"/> 
+   <object idref="ActivationBarNode0"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ReturnEdge"/> 
+   <object idref="ActivationBarNode0"/> 
+   <object idref="ActivationBarNode5"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.CallEdge"> 
+    <void property="middleLabel"> 
+     <string>getEvents</string> 
+    </void> 
+   </object> 
+   <object idref="ActivationBarNode7"/> 
+   <object idref="ActivationBarNode8"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ReturnEdge"/> 
+   <object idref="ActivationBarNode8"/> 
+   <object idref="ActivationBarNode7"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.CallEdge"> 
+    <void property="middleLabel"> 
+     <string>frameEnd</string> 
+    </void> 
+   </object> 
+   <object idref="ActivationBarNode6"/> 
+   <object idref="ActivationBarNode7"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ReturnEdge"/> 
+   <object idref="ActivationBarNode7"/> 
+   <object idref="ActivationBarNode6"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.CallEdge"> 
+    <void property="middleLabel"> 
+     <string>detectCollisions</string> 
+    </void> 
+   </object> 
+   <object idref="ActivationBarNode0"/> 
+   <object idref="ActivationBarNode3"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ReturnEdge"/> 
+   <object idref="ActivationBarNode3"/> 
+   <object idref="ActivationBarNode0"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.NoteEdge"/> 
+   <object idref="NoteNode0"/> 
+   <object idref="PointNode0"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.NoteEdge"/> 
+   <object idref="NoteNode1"/> 
+   <object idref="PointNode1"/> 
+  </void> 
+ </object> 
+</java> 
