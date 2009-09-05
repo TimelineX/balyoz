@@ -21,9 +21,9 @@ class GameUnit :
 {
 public:
 	GameUnit(void);
-	GameUnit(std::string name,std::string mesh,std::string controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type);
-	GameUnit(std::string name,std::string mesh,std::string controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type, std::vector<Weapon*>& weapons);
-	~GameUnit(void);
+	GameUnit(const std::string& name,const std::string& mesh,const std::string& controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type);
+	GameUnit(const std::string& name,const std::string& mesh,const std::string& controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type, std::vector<Weapon*>& weapons);
+	~GameUnit();
 
 	
 	std::string m_Mesh;
@@ -35,7 +35,7 @@ public:
 	std::vector<Weapon*> m_Weapons;
 
 private:
-	void setAttributes(std::string mesh,std::string controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type);
-	
+	void setAttributes(const std::string& mesh,const std::string& controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type);
+
 };
 }

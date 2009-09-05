@@ -20,6 +20,10 @@ bool MapProperty::set(const std::string &parameterName, const std::string &param
 	if( XmlMapProperty::set(parameterName,parameterValue) )
 	{
 	}
+	else if(parameterName.compare("/name") == 0)
+	{
+		m_Name = parameterValue;
+	}
 	else if(parameterName.compare("/unit/name") == 0)
 	{
 		m_pLastAddUnit = new UnitData();

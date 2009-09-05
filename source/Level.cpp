@@ -1,10 +1,10 @@
 #include "Level.h"
 
 
-Level::Level(void)
+Balyoz::Level::Level(void)
 {
 }
 
-Level::~Level(void)
+Balyoz::Level::~Level(void)
 {
 }

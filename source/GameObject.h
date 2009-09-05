@@ -5,7 +5,7 @@ class GameObject
 {
 public:
 	GameObject(void);
-	GameObject(std::string);
+	GameObject(const std::string&);
 	~GameObject(void);
 	std::string m_Name;
 };

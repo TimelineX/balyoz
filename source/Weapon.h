@@ -9,9 +9,9 @@ class Weapon : public GameObject
 {
 public:
 	Weapon(void);
-	Weapon(std::string name);
-	Weapon(		std::string		Name,
-				std::string		MeshFileName,
+	Weapon(const std::string& name);
+	Weapon(		const std::string&		Name,
+				const std::string&		MeshFileName,
 				unsigned int	ReloadTime,
 				unsigned int	Capacity,
 				unsigned int	Initial,
@@ -19,17 +19,16 @@ public:
 				unsigned int	Minimum,
 				unsigned int	Angle,
 				unsigned int	Power,
-				unsigned int	Radius,
+				float			Radius,
 				unsigned int	LifeTime,
-				std::string		Explosion,
-				std::string		Particles,
-				std::string		Controller,
+				const std::string&		Explosion,
+				const std::string&		Particles,
+				const std::string&		Controller,
 				EFFECT			Effect);
 
 	~Weapon(void);
 
-	Bullet* bullet;
-	std::string		m_Name;
+	Bullet* bullet;	
 	std::string		m_MeshFileName;
 	unsigned int	m_ReloadTime;
 	unsigned int	m_capacity;

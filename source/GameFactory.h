@@ -18,7 +18,7 @@
 namespace Balyoz
 {
 class Level;
-class Map;
+class GameMap;
 class Terrain;
 class GameUnit;
 class Weapon;
@@ -34,11 +34,11 @@ public:
 
 	static GameFactory* getSingleton();
 
-	Balyoz::Level*		getLevel	(std::string levelName);
-	Balyoz::Map*		getMap		(std::string mapName);
-	Balyoz::Terrain*	getTerrain	(std::string terrainName);
-	Balyoz::GameUnit*   getUnit		(std::string unitName);
-	Balyoz::Weapon*		getWeapon	(std::string weaponName);
+	Balyoz::Level*		getLevel	(const std::string& levelName);
+	Balyoz::GameMap*	getMap	    (const std::string& mapName);
+	Balyoz::Terrain*	getTerrain	(const std::string& terrainName);
+	Balyoz::GameUnit*   getUnit		(const std::string& unitName);
+	Balyoz::Weapon*		getWeapon	(const std::string& weaponName);
 
 protected:
 	GameFactory(void);
