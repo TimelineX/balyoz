@@ -10,13 +10,13 @@ Balyoz::Weapon::~Weapon(void)
 	
 }
 
-Balyoz::Weapon::Weapon(std::string name){
-	m_Name	= name;
+Balyoz::Weapon::Weapon(const std::string& name) : GameObject(name){
+
 	bullet  = new Bullet();
 }
 
-Balyoz::Weapon::Weapon(std::string Name, 
-					   std::string MeshFileName, 
+Balyoz::Weapon::Weapon(const std::string& Name, 
+					   const std::string& MeshFileName, 
 					   unsigned int ReloadTime, 
 					   unsigned int Capacity, 
 					   unsigned int Initial, 
@@ -24,11 +24,11 @@ Balyoz::Weapon::Weapon(std::string Name,
 					   unsigned int Minimum, 
 					   unsigned int Angle, 
 					   unsigned int Power, 
-					   unsigned int Radius, 
+					   float		Radius, 
 					   unsigned int LifeTime, 
-					   std::string Explosion, 
-					   std::string Particles, 
-					   std::string Controller, 
+					   const std::string& Explosion, 
+					   const std::string& Particles, 
+					   const std::string& Controller, 
 					   EFFECT Effect) : GameObject(Name){
 
 						   

@@ -4,8 +4,9 @@
 namespace Balyoz{
 	
 	class AirGameUnit
-		: GameUnit{
+		:public GameUnit{
 
+	public:
 			AirGameUnit();
 			~AirGameUnit();
 	};

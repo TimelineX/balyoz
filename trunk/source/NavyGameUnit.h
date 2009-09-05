@@ -4,8 +4,9 @@
 namespace Balyoz{
 	
 	class NavyGameUnit
-		: GameUnit{
+		: public GameUnit{
 
+	public:
 			NavyGameUnit();
 			~NavyGameUnit();
 	};
