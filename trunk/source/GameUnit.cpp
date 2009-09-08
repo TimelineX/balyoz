@@ -1,25 +1,24 @@
 #include "GameUnit.h"
 #include "Weapon.h"
+using namespace Balyoz;
 
-Balyoz::GameUnit::GameUnit(void) : GameObject("")
+GameUnit::GameUnit(void) : GameObject("")
 {
 	setAttributes("","",0,0,0,ENUM_UNIT_TYPE::NONE);
 }
 
-Balyoz::GameUnit::GameUnit(const std::string& name, const std::string& mesh, const std::string& controller, 
+GameUnit::GameUnit(const std::string& name, const std::string& mesh, const std::string& controller, 
 						   int health, int armour, int speed,ENUM_UNIT_TYPE::TYPE type) : GameObject(name){
 
 	setAttributes(mesh,controller,health,armour,speed,type);
 }
-Balyoz::GameUnit::GameUnit(const std::string& name,const std::string& mesh,const std::string& controller,int health, 
-						   int armour,int speed,ENUM_UNIT_TYPE::TYPE type, std::vector<Weapon*>& weapons) : GameObject(name){
+GameUnit::GameUnit(const std::string& name,const std::string& mesh,const std::string& controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type, std::vector<Weapon*>& weapons) : GameObject(name){
 
    m_Weapons = weapons;
    setAttributes(mesh,controller,health,armour,speed,type);
 	
 }
-Balyoz::GameUnit::setAttributes(const std::string& mesh, 
-								const std::string& controller, int health, int armour, int speed,ENUM_UNIT_TYPE::TYPE type){
+void GameUnit::setAttributes(const std::string& mesh,const std::string& controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type){
 
 									m_Controller	= controller;
 									m_Mesh			= mesh;
@@ -29,6 +28,6 @@ Balyoz::GameUnit::setAttributes(const std::string& mesh,
 									m_Type			= type;
 
 }
-Balyoz::GameUnit::~GameUnit(void)
+GameUnit::~GameUnit(void)
 {
 }

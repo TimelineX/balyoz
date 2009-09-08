@@ -1,11 +1,14 @@
 #pragma once
 #include <string>
 
-class GameObject
+namespace Balyoz
 {
-public:
-	GameObject(void);
-	GameObject(const std::string&);
-	~GameObject(void);
-	std::string m_Name;
-};
+	class GameObject
+	{
+	public:
+		GameObject(void);
+		GameObject(const std::string&);
+		~GameObject(void);
+		std::string m_Name;
+	};
+}

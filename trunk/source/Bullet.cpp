@@ -1,4 +1,5 @@
 #include "Bullet.h"
+using namespace Balyoz;
 
 Bullet::Bullet() : GameObject("")
 {

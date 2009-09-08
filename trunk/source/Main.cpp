@@ -10,7 +10,7 @@ using namespace std;
 //	startup
 INT WINAPI WinMain(HINSTANCE , HINSTANCE, LPSTR, INT)
 {
-	GameBalyoz app;
+	Balyoz::GameBalyoz app;
 
 	//	aplication setup and loop
 	try {

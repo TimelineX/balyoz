@@ -52,7 +52,7 @@ GameController::GameController(
 
 	m_pNxScene->createKinematicActor(new NxOgre::Box(4,1,4))->setContactReportFlags(1);
 
-	m_pNxWorld->get
+
 
 
 }

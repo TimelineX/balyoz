@@ -7,20 +7,24 @@
 #include "TestFrameListener.h"
 #include "OGRE3DCommon.h"
 
-class GameBalyoz : public GameApplication
+namespace Balyoz
 {
-public:
 
-	GameBalyoz();
-	~GameBalyoz();
-	void createScene(void);
-	void createFrameListener(void);
-	void init();
+	class GameBalyoz : public GameApplication
+	{
+	public:
 
-protected:
-	NxOgre::World	*m_pNxWorld;
-	NxOgre::Scene	*m_pNxScene;
-	OGRE3DRenderSystem *m_pRenderSystem;
-	NxOgre::TimeController *m_pNxTimeController;
-	TestFrameListener *m_pTestFrameListener;
+		GameBalyoz();
+		~GameBalyoz();
+		void createScene(void);
+		void createFrameListener(void);
+		void init();
+
+	protected:
+		NxOgre::World	*m_pNxWorld;
+		NxOgre::Scene	*m_pNxScene;
+		OGRE3DRenderSystem *m_pRenderSystem;
+		NxOgre::TimeController *m_pNxTimeController;
+		TestFrameListener *m_pTestFrameListener;
+	};
 };

@@ -7,6 +7,7 @@
 #define USE_REPORT
 
 using std::map;
+using namespace Balyoz;
 
 GameFactory::GameFactory(void)
 {
@@ -58,19 +59,19 @@ GameFactory* GameFactory::getSingleton()
 	return sg_pGameFactory;
 }
 
-Balyoz::Level* GameFactory::getLevel(const std::string& levelName){
+Level* GameFactory::getLevel(const std::string& levelName){
 return NULL;
 }
-Balyoz::GameMap* GameFactory::getMap(const std::string& mapName){
+GameMap* GameFactory::getMap(const std::string& mapName){
 return NULL;
 }
-Balyoz::Terrain* GameFactory::getTerrain(const std::string& terrainName){
+Terrain* GameFactory::getTerrain(const std::string& terrainName){
 return NULL;
 }
 
-Balyoz::GameUnit* GameFactory::getUnit(const std::string& unitName){
+GameUnit* GameFactory::getUnit(const std::string& unitName){
 
-	Balyoz::GameUnit* unit = 0;
+	GameUnit* unit = 0;
 
 	map<std::string,UnitProperty*>::iterator it;
 
@@ -78,10 +79,10 @@ Balyoz::GameUnit* GameFactory::getUnit(const std::string& unitName){
 	if(it != m_pUnitXMLMap->m_Propertys.end()){
 
 		if(it->second->m_Type == "air"){
-			unit = new Balyoz::AirGameUnit();
+			unit = new AirGameUnit();
 			unit->m_Type = ENUM_UNIT_TYPE::AIR;
 		}else if(it->second->m_Type == "navy"){
-			unit = new Balyoz::NavyGameUnit();
+			unit = new NavyGameUnit();
 			unit->m_Type = ENUM_UNIT_TYPE::NAVY;
 		}else
 			REPORT_WARNING("Unknown game unit type!");
@@ -93,18 +94,18 @@ Balyoz::GameUnit* GameFactory::getUnit(const std::string& unitName){
 		unit->m_Name		= it->second->m_Name;
 		unit->m_Speed		= it->second->m_Speed;
 
-		std::vector<Weapon*>::iterator weaponIt = it->second->m_Weapons.begin();
+		std::vector<std::string>::iterator weaponIt = it->second->m_Weapons.begin();
 		for(; weaponIt != it->second->m_Weapons.end() ; ++weaponIt){
-			unit->m_Weapons.push_back(getSingleton()->getWeapon(weaponIt->m_Name));
+			unit->m_Weapons.push_back(getSingleton()->getWeapon((*weaponIt)));
 		}
 	}
 
 	return unit;
 }
-Balyoz::Weapon* GameFactory::getWeapon(const std::string& weaponName){
+Weapon* GameFactory::getWeapon(const std::string& weaponName){
 
 	
-	Balyoz::Weapon* weapon = 0;
+	Weapon* weapon = 0;
 
 	map<std::string,WeaponProperty*>::iterator it;
 
@@ -112,7 +113,7 @@ Balyoz::Weapon* GameFactory::getWeapon(const std::string& weaponName){
 
 	if(it != m_pWeaponXMLMap->m_Propertys.end()){
 		
-		weapon = new Balyoz::Weapon(weaponName);
+		weapon = new Weapon(weaponName);
 		weapon->m_BulletAngle			= it->second->m_iAngle;
 		weapon->m_capacity				= it->second->m_iCapacity;
 		weapon->m_Initial				= it->second->m_iInitial;
@@ -134,11 +135,13 @@ Balyoz::Weapon* GameFactory::getWeapon(const std::string& weaponName){
 			weapon->bullet->m_Effect = EXPONENTIAL;
 		}else{
 			weapon->bullet->m_Effect  = NONE;
-		}	
+		}
+		
 		
 	}
 
 	return weapon;
 
-}
 
+
+}

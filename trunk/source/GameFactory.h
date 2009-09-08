@@ -17,36 +17,37 @@
 
 namespace Balyoz
 {
-class Level;
-class GameMap;
-class Terrain;
-class GameUnit;
-class Weapon;
-};
-class GameFactory
-{
-public:
-	~GameFactory(void);
+	class Level;
+	class GameMap;
+	class Terrain;
+	class GameUnit;
+	class Weapon;
 
-	bool init();
-	
-	void createXmlMapRepostories();
+	class GameFactory
+	{
+	public:
+		~GameFactory(void);
 
-	static GameFactory* getSingleton();
+		bool init();
+		
+		void createXmlMapRepostories();
 
-	Balyoz::Level*		getLevel	(const std::string& levelName);
-	Balyoz::GameMap*	getMap	    (const std::string& mapName);
-	Balyoz::Terrain*	getTerrain	(const std::string& terrainName);
-	Balyoz::GameUnit*   getUnit		(const std::string& unitName);
-	Balyoz::Weapon*		getWeapon	(const std::string& weaponName);
+		static GameFactory* getSingleton();
 
-protected:
-	GameFactory(void);
+		Balyoz::Level*		getLevel	(const std::string& levelName);
+		Balyoz::GameMap*	getMap	    (const std::string& mapName);
+		Balyoz::Terrain*	getTerrain	(const std::string& terrainName);
+		Balyoz::GameUnit*   getUnit		(const std::string& unitName);
+		Balyoz::Weapon*		getWeapon	(const std::string& weaponName);
 
-	XMLMapRepostory<WeaponProperty>*	m_pWeaponXMLMap;
-	XMLMapRepostory<UnitProperty>*		m_pUnitXMLMap;
-	XMLMapRepostory<TerrainProperty>*	m_pTerrainXMLMap;
-	XMLMapRepostory<MapProperty>*		m_pMapXMLMap;
-	XMLMapRepostory<LevelProperty>*		m_pLevelXMLMap;
-	XMLMapRepostory<GameProperty>*		m_pGameXMLMap;
+	protected:
+		GameFactory(void);
+
+		XMLMapRepostory<WeaponProperty>*	m_pWeaponXMLMap;
+		XMLMapRepostory<UnitProperty>*		m_pUnitXMLMap;
+		XMLMapRepostory<TerrainProperty>*	m_pTerrainXMLMap;
+		XMLMapRepostory<MapProperty>*		m_pMapXMLMap;
+		XMLMapRepostory<LevelProperty>*		m_pLevelXMLMap;
+		XMLMapRepostory<GameProperty>*		m_pGameXMLMap;
+	};
 };
