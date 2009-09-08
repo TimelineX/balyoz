@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 
-class Weapon;
 
 namespace ENUM_UNIT_TYPE{
 	enum TYPE{
@@ -15,6 +14,7 @@ namespace ENUM_UNIT_TYPE{
 }
 
 namespace Balyoz{
+class Weapon;
 
 class GameUnit :
 	public GameObject

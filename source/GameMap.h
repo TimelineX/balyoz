@@ -1,14 +1,15 @@
 #pragma once
 #include <OgreVector3.h>
 
-class GameObject;
 
 namespace Balyoz
 {	
+	class GameObject;
 
 	class GameMap{
-
+	public:
 		typedef struct _MapGameObject{
+		public:
 			GameObject*		gameObject;
 			Ogre::Vector3	orientation;
 			Ogre::Vector3	position;
@@ -21,11 +22,11 @@ namespace Balyoz
 
 		std::string m_MapName;
 
-		MapGameObject* getMapObjectByName		(const std::string& objName) const ;
-		MapGameObject* getMapObjectByPosition	(const Ogre::Vector3& position) const;
+		MapGameObject* getMapObjectByName		(const std::string& objName)  ;
+		MapGameObject* getMapObjectByPosition	(const Ogre::Vector3& position) ;
 		std::vector<MapGameObject*>* getAllMapObjects();
 
-	private:
+	public:
 		std::vector<MapGameObject*> m_GameObjectList;
 
 		

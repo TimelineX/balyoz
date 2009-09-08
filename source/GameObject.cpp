@@ -1,5 +1,5 @@
 #include "GameObject.h"
-
+using namespace Balyoz;
 GameObject::GameObject(void)
 {
 }

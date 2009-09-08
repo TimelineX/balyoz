@@ -1,6 +1,7 @@
 #include "GameBalyoz.h"
 #include "GameFactory.h"
 //#include "WeaponXMLMap.h"
+using namespace Balyoz;
 
 GameBalyoz::GameBalyoz()
 {
