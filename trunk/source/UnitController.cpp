@@ -12,6 +12,7 @@ HumanController::HumanController()
 {
 	m_pMouse = GameController::getInfoProvider()->getMouse();
 	m_pKeyboard = GameController::getInfoProvider()->getKeyboard();
+	m_Name = "human";
 }
 
 HumanController::~HumanController()
@@ -50,6 +51,7 @@ void HumanController::run()
 UnitAIController::UnitAIController()
 :UnitController(CONTROLLER_AI)
 {
+	m_Name = "dummy";
 }
 UnitAIController::~UnitAIController()
 {

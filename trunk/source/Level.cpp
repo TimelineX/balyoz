@@ -1,10 +1,12 @@
 #include "Level.h"
 
-
-Balyoz::Level::Level(void)
+using namespace Balyoz;
+Level::Level(LevelProperty *pLevelProperty, MapProperty *pMapProperty)
 {
+	m_pLevelProperty = pLevelProperty;
+	m_pMapProperty = pMapProperty;
 }
 
-Balyoz::Level::~Level(void)
+Level::~Level(void)
 {
 }

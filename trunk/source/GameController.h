@@ -16,8 +16,10 @@
 
 #include "UnitController.h"
 #include "BulletController.h"
+#include "MapProperty.h"
 #include <list>
 #include <map>
+
 
 namespace Balyoz
 {
@@ -50,6 +52,9 @@ namespace Balyoz
 		bool frameStarted(const Ogre::FrameEvent& evt);
 		bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
+		void loadLevel(const std::string &levelName);
+
+
 		void runControllers();
 		void processEventQueue();	
 		
@@ -58,7 +63,7 @@ namespace Balyoz
 
 		static GameplayInfoProvider* getInfoProvider();
 
-		GameUnit* createGameUnit(const std::string &name);
+		GameUnit* createGameUnit(const UnitData* pUnitData);
 
 		
 

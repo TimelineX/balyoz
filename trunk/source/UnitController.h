@@ -16,6 +16,9 @@ namespace Balyoz
 		UnitController(void){}
 		UnitController(ControllerType ctype):Controller<GameUnit>(ctype){}
 		~UnitController(void){}
+		std::string& getName(){return m_Name;};
+
+		std::string m_Name;
 
 	};
 
@@ -27,6 +30,7 @@ namespace Balyoz
 		HumanController();
 		~HumanController();
 		void run() ;
+
 
 		OIS::Mouse*			m_pMouse;
 		OIS::Keyboard*		m_pKeyboard;
