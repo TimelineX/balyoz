@@ -6,6 +6,7 @@
 #include "NxOgreOGRE3D.h"
 #include "TestFrameListener.h"
 #include "OGRE3DCommon.h"
+#include "GameController.h"
 
 namespace Balyoz
 {
@@ -25,6 +26,6 @@ namespace Balyoz
 		NxOgre::Scene	*m_pNxScene;
 		OGRE3DRenderSystem *m_pRenderSystem;
 		NxOgre::TimeController *m_pNxTimeController;
-		TestFrameListener *m_pTestFrameListener;
+		GameController *m_pTestFrameListener;
 	};
 };

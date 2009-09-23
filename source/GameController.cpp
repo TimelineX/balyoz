@@ -1,4 +1,5 @@
 #include "GameController.h"
+#include "GameFactory.h"
 #define USE_SAFE
 #define USE_REPORT
 #define USE_ASSERT
@@ -7,6 +8,9 @@
 #include "NxOgre.h"
 
 using namespace Balyoz;
+using std::list;
+
+static GameplayInfoProvider* ms_pGameplayInfoProvider;
 
 GameController::GameController(	
 			NxOgre::World		*pNxWorld,
@@ -50,15 +54,25 @@ GameController::GameController(
 	//Set initial mouse clipping size
 	windowResized(m_pRenderWindow);
 
-	m_pNxScene->createKinematicActor(new NxOgre::Box(4,1,4))->setContactReportFlags(1);
 
+	ms_pGameplayInfoProvider = dynamic_cast<GameplayInfoProvider*>(this);
 
+	HumanController* hc = new HumanController();
+	m_GameUnitControllers.push_back(hc);
+	m_GameUnitControllerMap["human"] = hc;
 
+	createGameUnit(std::string("test-1"));
 
 }
 
 GameController::~GameController(void)
 {
+}
+
+
+GameplayInfoProvider* GameController::getInfoProvider()
+{
+	return ms_pGameplayInfoProvider;
 }
 
 
@@ -69,6 +83,8 @@ bool GameController::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool GameController::frameStarted(const Ogre::FrameEvent& evt)
 {
+	m_pNxTimeController->advance(evt.timeSinceLastFrame);
+	m_pMouse->capture();
 	runControllers();
 
 	return true;
@@ -81,12 +97,44 @@ bool GameController::frameEnded(const Ogre::FrameEvent& evt)
 }
 
 
+GameUnit* GameController::createGameUnit(const std::string &name)
+{
+	GameUnit* gu = GAME_FACTORY->getUnit(name);
+	NxOgre::RigidBodyDescription desc;
+	desc.mDensity = 0;
+	Ogre::Vector3 v = m_pCamera->getPosition() + m_pCamera->getDirection() * 40.0f;
+	NxOgre::Vec3 objectPos(v);
+
+	
+	gu->m_pBody = m_pRenderSystem->createBody(new NxOgre::Box(1, 1, 1), objectPos, gu->m_Mesh.c_str(),desc);
+	gu->m_pBody->getEntity()->getParentNode()->setScale(0.01,0.01,0.01);
+	m_GameUnitControllerMap[gu->m_Controller]->registerGameObject(gu);
+
+
+	return gu;
+}
 
 
 
 void GameController::runControllers()
 {
+	list<UnitController*>::iterator it = m_GameUnitControllers.begin();	
+	const list<UnitController*>::iterator endit = m_GameUnitControllers.end();	
+	while(it != endit)
+	{
+		(*it)->run();
+		it++;
+	}
 }
 void GameController::processEventQueue()
 {
+}
+
+OIS::Mouse* GameController::getMouse()
+{
+	return m_pMouse;
+}
+OIS::Keyboard* GameController::getKeyboard()
+{
+	return m_pKeyboard;
 }

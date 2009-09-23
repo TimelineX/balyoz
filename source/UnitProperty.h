@@ -15,7 +15,6 @@ public:
 	int m_Speed;
 	std::string m_Mesh;
 	std::string m_Controller;	
-	std::string m_Name;
 	std::string m_Type;
 	std::vector<std::string> m_Weapons;
 };

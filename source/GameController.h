@@ -17,11 +17,23 @@
 #include "UnitController.h"
 #include "BulletController.h"
 #include <list>
+#include <map>
 
 namespace Balyoz
 {
+	class GameplayInfoProvider
+	{
+	public:
+		GameplayInfoProvider(){}
+		~GameplayInfoProvider(){}
+
+		virtual OIS::Mouse* getMouse() = 0;
+		virtual OIS::Keyboard* getKeyboard() = 0;
+	};
+	
+	
 	class GameController :
-		public Ogre::FrameListener, public Ogre::WindowEventListener
+		public Ogre::FrameListener, public Ogre::WindowEventListener, public GameplayInfoProvider
 	{
 	public:
 		GameController(	
@@ -39,7 +51,14 @@ namespace Balyoz
 		bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 		void runControllers();
-		void processEventQueue();
+		void processEventQueue();	
+		
+		OIS::Mouse*			getMouse();
+		OIS::Keyboard*		getKeyboard();
+
+		static GameplayInfoProvider* getInfoProvider();
+
+		GameUnit* createGameUnit(const std::string &name);
 
 		
 
@@ -56,10 +75,12 @@ namespace Balyoz
 		OIS::Mouse				*m_pMouse;
 		OIS::Keyboard			*m_pKeyboard;
 		OIS::JoyStick			*m_pJoy;
+		
+		std::map<std::string,UnitController*>	m_GameUnitControllerMap;
+		std::list<UnitController*>				m_GameUnitControllers;
 
-		std::list<UnitMouseKeyboardController>	m_pUnitKeyboardMouseControllers;
-		std::list<UnitAIController>				m_pUnitAIControllers;
-		std::list<BulletController*>			m_pBulletControllers;
+		std::map<std::string,BulletController*>	m_BulletControllerMap;
+		std::list<BulletController*>			m_BulletControllers;
 	};
 
 }

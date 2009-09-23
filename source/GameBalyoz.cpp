@@ -15,7 +15,7 @@ void GameBalyoz::createFrameListener(void)
 {
 
 //#ifdef _DEBUG
-	m_pTestFrameListener = new TestFrameListener(m_pWindow,m_pCamera);
+	m_pTestFrameListener = new GameController(m_pNxWorld,m_pNxScene,m_pRenderSystem,m_pNxTimeController, m_pWindow, m_pCamera);
 	m_pRoot->addFrameListener(m_pTestFrameListener);
 //#endif // _DEBUG
 }
@@ -34,7 +34,7 @@ void GameBalyoz::createScene(void)
 {
 
 	//	[OGRE] set up camera
-	m_pCamera->setPosition(Vector3(0,10,20));
+	m_pCamera->setPosition(Vector3(0,35,35));
 	m_pCamera->lookAt(Vector3(0,0,0));
 	m_pCamera->setNearClipDistance(1);
 
@@ -58,7 +58,7 @@ void GameBalyoz::createScene(void)
 		}
 	}
 	s->build();
-	//m_pSceneMgr->setWorldGeometryRenderQueue(8);
+	m_pSceneMgr->setWorldGeometryRenderQueue(8);
 
 
     	//	[OGRE] create a skybox
@@ -69,7 +69,7 @@ void GameBalyoz::createScene(void)
 	//	ogre time controller means rhat ogre will care about it	
 		m_pNxWorld = NxOgre::World::createWorld();
 		NxOgre::SceneDescription sceneDesc;
-		sceneDesc.mGravity =NxOgre::Real3(0,-9.8f,0);
+		sceneDesc.mGravity =NxOgre::Real3(0,0,0);
 		sceneDesc.mName = "Hello world";
 		m_pNxScene = m_pNxWorld->createScene(sceneDesc);
 		NxOgre::Material *mat = m_pNxScene->getMaterial(0);
@@ -84,12 +84,12 @@ void GameBalyoz::createScene(void)
 	OGRE3DBody* mCube;
 	NxOgre::RigidBodyDescription desc;
 	desc.mMass = 10;
-	mCube = m_pRenderSystem->createBody(new NxOgre::Box(10, 10, 10), NxOgre::Real3(0, 50, 0), "cube.mesh", desc);
-	mCube->getEntity()->getParentNode()->setScale(0.1,0.1,0.1);
+//	mCube = m_pRenderSystem->createBody(new NxOgre::Box(10, 10, 10), NxOgre::Real3(8, 17, 0), "cube.mesh", desc);
+//	mCube->getEntity()->getParentNode()->setScale(0.1,0.1,0.1);
 //	m_Bodies->push_back(mCube);
-	mCube = m_pRenderSystem->createBody(new NxOgre::Box(10, 10, 10), NxOgre::Real3(5, 80, 0), "cube.mesh");
+//	mCube = m_pRenderSystem->createBody(new NxOgre::Box(10, 10, 10), NxOgre::Real3(8, 10, 0), "cube.mesh");
 //	mBodies->push_back(mCube);
-	mCube->getEntity()->getParentNode()->setScale(0.1,0.1,0.1);
+//	mCube->getEntity()->getParentNode()->setScale(0.1,0.1,0.1);
 //	m_pNxScene->createSceneGeometry(new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0)), NxOgre::Matrix44(NxOgre::Matrix44::IDENTITY));
 //"time-controller:ogre, log:yes"
 	//	create scene, you can have maximum 32 scenes, object from one scene can't

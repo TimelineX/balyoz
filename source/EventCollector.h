@@ -1,8 +1,19 @@
 #pragma once
 
-class EventCollector
+namespace Balyoz
 {
-public:
-	EventCollector(void);
-	~EventCollector(void);
-};
+	class EventCollector
+	{	
+		
+		EventCollector(void);
+		~EventCollector(void);
+
+	public:
+
+
+
+
+		static EventCollector* getSingleton();
+	};
+
+}
