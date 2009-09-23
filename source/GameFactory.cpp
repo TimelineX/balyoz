@@ -1,10 +1,11 @@
 #include "GameFactory.h"
 #include "Weapon.h"
+#define USE_REPORT
 #include "macros.h"
 #include "AirGameUnit.h"
 #include "NavyGameUnit.h"
+#include "Level.h"
 #include <map>
-#define USE_REPORT
 
 using std::map;
 using namespace Balyoz;
@@ -60,7 +61,12 @@ GameFactory* GameFactory::getSingleton()
 }
 
 Level* GameFactory::getLevel(const std::string& levelName){
-return NULL;
+	LevelProperty *pLevelProp = m_pLevelXMLMap->m_Propertys[levelName];
+	ASSERT_AND_STOP_IF_NULL(pLevelProp);
+	MapProperty *pMapProp = m_pMapXMLMap->m_Propertys[pLevelProp->m_Map];
+	ASSERT_AND_STOP_IF_NULL(pMapProp);
+
+	return new Level( pLevelProp, pMapProp) ;
 }
 GameMap* GameFactory::getMap(const std::string& mapName){
 return NULL;

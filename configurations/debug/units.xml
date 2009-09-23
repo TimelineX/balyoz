@@ -8,9 +8,9 @@
     <speed>40</speed>
 		<weapon>bazooka</weapon>
 		<controller>human</controller>
-		<type>navy</type>
+		<type>navy</type> 
 	</unit>
-	<unit>
+	<unit> 
 		<name>test-2</name>
 		<mesh>cube.mesh</mesh>
 		<health>200</health>

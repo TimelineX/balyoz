@@ -1,12 +1,13 @@
 #include "GameController.h"
 #include "GameFactory.h"
+#include "MapProperty.h"
 #define USE_SAFE
 #define USE_REPORT
 #define USE_ASSERT
 #include "macros.h"
 #include <OIS/OISInputManager.h>
 #include "NxOgre.h"
-
+#include "Level.h"
 using namespace Balyoz;
 using std::list;
 
@@ -57,11 +58,28 @@ GameController::GameController(
 
 	ms_pGameplayInfoProvider = dynamic_cast<GameplayInfoProvider*>(this);
 
+
 	HumanController* hc = new HumanController();
 	m_GameUnitControllers.push_back(hc);
-	m_GameUnitControllerMap["human"] = hc;
+	m_GameUnitControllerMap[hc->getName()] = hc;
 
-	createGameUnit(std::string("test-1"));
+	loadLevel("level-1");
+
+	
+	
+}
+
+void GameController::loadLevel(const std::string &levelName)
+{
+	Level *level = GAME_FACTORY->getLevel(levelName);
+	std::list<UnitData*>::iterator it = level->m_pMapProperty->m_Units.begin();
+	const std::list<UnitData*>::iterator endit = level->m_pMapProperty->m_Units.end();
+	
+	while(it != endit)
+	{
+		createGameUnit( *it );
+		it++;
+	}
 
 }
 
@@ -102,18 +120,34 @@ bool GameController::frameEnded(const Ogre::FrameEvent& evt)
 }
 
 
-GameUnit* GameController::createGameUnit(const std::string &name)
+GameUnit* GameController::createGameUnit(const UnitData* pUnitData)
 {
-	GameUnit* gu = GAME_FACTORY->getUnit(name);
+	GameUnit* gu = GAME_FACTORY->getUnit(pUnitData->m_Name);
+	if(!gu)
+	{
+		REPORT_WARNING(std::string("cannot find unit:")+ pUnitData->m_Name);
+		return NULL;
+	}
 	NxOgre::RigidBodyDescription desc;
 	desc.mDensity = 0;
-	Ogre::Vector3 v = m_pCamera->getPosition() + m_pCamera->getDirection() * 40.0f;
-	NxOgre::Vec3 objectPos(v);
+	
+	NxOgre::Vec3 objectPos(pUnitData->m_Position);
 
 	
 	gu->m_pBody = m_pRenderSystem->createBody(new NxOgre::Box(1, 1, 1), objectPos, gu->m_Mesh.c_str(),desc);
 	gu->m_pBody->getEntity()->getParentNode()->setScale(0.01,0.01,0.01);
-	m_GameUnitControllerMap[gu->m_Controller]->registerGameObject(gu);
+
+	if(!(m_GameUnitControllerMap[gu->m_Controller]))
+	{
+		REPORT_WARNING(std::string("cannot find controller:")+ gu->m_Controller);
+		m_pRenderSystem->destroyBody(gu->m_pBody);
+		SAFE_DELETE(gu);
+		return NULL;
+	}
+	else
+	{
+		m_GameUnitControllerMap[gu->m_Controller]->registerGameObject(gu);
+	}
 
 
 	return gu;
