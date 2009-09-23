@@ -7,7 +7,7 @@
 namespace Balyoz
 {
 	class BulletController :
-		public Controller<Bullet,std::list<GameUnit*>>
+		public Controller<Bullet>
 	{
 	public:
 		BulletController(void);

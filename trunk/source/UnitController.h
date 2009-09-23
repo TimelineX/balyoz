@@ -2,41 +2,43 @@
 #include "Controller.h"
 #include "GameUnit.h"
 #include <list>
+
+#define OIS_DYNAMIC_LIB
 #include <OIS/OISKeyboard.h>
 #include <OIS/OISMouse.h>
 
 
 namespace Balyoz
 {
-	template<typename RunInfo>
-	class UnitController : public Controller<GameUnit,RunInfo>
+	class UnitController : public Controller<GameUnit>
 	{
 	public:
 		UnitController(void){}
+		UnitController(ControllerType ctype):Controller<GameUnit>(ctype){}
 		~UnitController(void){}
 
 	};
 
-	typedef struct
-	{
-		OIS::Keyboard	*m_pKeyboard;
-		OIS::Mouse		*m_pMouse;
-	}RunInfoDevices;
 
-	class UnitMouseKeyboardController
-		: public UnitController<RunInfoDevices>
+	class HumanController
+		: public UnitController
 	{
 	public:
-		UnitMouseKeyboardController(RunInfoDevices * runInfo);
-		~UnitMouseKeyboardController();
+		HumanController();
+		~HumanController();
 		void run() ;
+
+		OIS::Mouse*			m_pMouse;
+		OIS::Keyboard*		m_pKeyboard;
+
+		NxOgre::Vec3		m_TranslateVec;
 
 	};
 
 
 
 	class UnitAIController
-		: public UnitController<std::list<GameUnit*>>
+		: public UnitController
 	{
 	public:
 		UnitAIController();

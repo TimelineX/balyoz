@@ -1,32 +1,54 @@
 #include "UnitController.h"
+#include "GameController.h"
+#include "EventCollector.h"
+#include "GameUnit.h"
+
 using namespace Balyoz;
 
 
 
-UnitMouseKeyboardController::UnitMouseKeyboardController(RunInfoDevices * runInfo)
+HumanController::HumanController()
+:UnitController(CONTROLLER_HUMAN)
 {
-	setRunInfo(runInfo);
+	m_pMouse = GameController::getInfoProvider()->getMouse();
+	m_pKeyboard = GameController::getInfoProvider()->getKeyboard();
 }
 
-UnitMouseKeyboardController::~UnitMouseKeyboardController()
+HumanController::~HumanController()
 {
 }
 
 
-void UnitMouseKeyboardController::run()
+void HumanController::run()
 {
-//	const OIS::MouseState &ms = m_pRunInfoParameter->m_pMouse->getMouseState();
 	std::list<GameUnit*>::iterator it = m_GameObjectList.begin();
 	const std::list<GameUnit*>::iterator endIt = m_GameObjectList.end();
-	
+
+	const OIS::MouseState &mouseState =  m_pMouse->getMouseState();
+
+	if(mouseState.X.rel != 0 )
+	{
+		m_TranslateVec[0] += mouseState.X.rel / 1000.0f;
+	}
+	if( mouseState.Y.rel != 0 )
+	{
+		m_TranslateVec[2] += mouseState.Y.rel / 1000.0f;
+	}
+
+
+	NxOgre::Vec3 currentPos;
 	while(it != endIt)
 	{
+		currentPos = (*it)->m_pBody->getGlobalPosition();
+		(*it)->m_pBody->setGlobalPosition( currentPos + m_TranslateVec * (0.5f + (*it)->m_Speed / 200.0f ) );
 		it++;
 	}
 
+	m_TranslateVec *= .985f ;
 }
 
 UnitAIController::UnitAIController()
+:UnitController(CONTROLLER_AI)
 {
 }
 UnitAIController::~UnitAIController()

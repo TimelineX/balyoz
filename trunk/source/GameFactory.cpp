@@ -93,6 +93,7 @@ GameUnit* GameFactory::getUnit(const std::string& unitName){
 		unit->m_Mesh		= it->second->m_Mesh;
 		unit->m_Name		= it->second->m_Name;
 		unit->m_Speed		= it->second->m_Speed;
+		unit->m_pBody		= NULL;
 
 		std::vector<std::string>::iterator weaponIt = it->second->m_Weapons.begin();
 		for(; weaponIt != it->second->m_Weapons.end() ; ++weaponIt){
