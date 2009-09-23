@@ -227,6 +227,13 @@
 				<File
 					RelativePath="..\configurations\debug\units.xml"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\configurations\debug\weapons.xml"

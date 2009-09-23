@@ -40,7 +40,7 @@ void HumanController::run()
 	while(it != endIt)
 	{
 		currentPos = (*it)->m_pBody->getGlobalPosition();
-		(*it)->m_pBody->setGlobalPosition( currentPos + m_TranslateVec * (0.5f + (*it)->m_Speed / 200.0f ) );
+		(*it)->m_pBody->setGlobalPosition( currentPos + m_TranslateVec * ( (*it)->m_Speed / 100.0f ) );
 		it++;
 	}
 
