@@ -85,6 +85,11 @@ bool GameController::frameStarted(const Ogre::FrameEvent& evt)
 {
 	m_pNxTimeController->advance(evt.timeSinceLastFrame);
 	m_pMouse->capture();
+	m_pKeyboard->capture();
+	if(m_pKeyboard->isKeyDown(OIS::KC_ESCAPE))
+	{
+		return false;
+	}
 	runControllers();
 
 	return true;
