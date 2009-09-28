@@ -346,6 +346,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PhysicsObject.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Terrain.h"
 				>
 			</File>
@@ -420,6 +424,10 @@
 			</File>
 			<File
 				RelativePath=".\OgreErrorReporter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PhysicsObject.cpp"
 				>
 			</File>
 			<File

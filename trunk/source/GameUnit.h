@@ -4,9 +4,9 @@
 
 #include <string>
 #include <vector>
-#include "NxOgreOGRE3D.h"
+//#include "NxOgreOGRE3D.h"
 #include "OGRE3DCommon.h"
-
+#include "PhysicsObject.h"
 
 namespace ENUM_UNIT_TYPE{
 	enum TYPE{
@@ -37,7 +37,7 @@ public:
 	ENUM_UNIT_TYPE::TYPE m_Type;
 	std::vector<Weapon*> m_Weapons;
 
-	OGRE3DBody		*m_pBody;
+	PhysicsObject		*m_pBody;
 
 
 private:

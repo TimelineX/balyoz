@@ -29,8 +29,9 @@ namespace Balyoz
 		GameplayInfoProvider(){}
 		~GameplayInfoProvider(){}
 
-		virtual OIS::Mouse* getMouse() = 0;
-		virtual OIS::Keyboard* getKeyboard() = 0;
+		virtual OIS::Mouse*			getMouse() = 0;
+		virtual OIS::Keyboard*		getKeyboard() = 0;
+		virtual float				getFrameTime() = 0;
 	};
 	
 	
@@ -60,6 +61,7 @@ namespace Balyoz
 		
 		OIS::Mouse*			getMouse();
 		OIS::Keyboard*		getKeyboard();
+		float				getFrameTime();
 
 		static GameplayInfoProvider* getInfoProvider();
 
@@ -80,6 +82,8 @@ namespace Balyoz
 		OIS::Mouse				*m_pMouse;
 		OIS::Keyboard			*m_pKeyboard;
 		OIS::JoyStick			*m_pJoy;
+
+		Ogre::FrameEvent		m_LastFrameEvent;
 		
 		std::map<std::string,UnitController*>	m_GameUnitControllerMap;
 		std::list<UnitController*>				m_GameUnitControllers;

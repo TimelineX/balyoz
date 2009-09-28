@@ -1,23 +1,23 @@
 <?xml version="1.0" ?>
 <units>
-	<unit>
-		<name>test-1</name>
-		<mesh>cube.mesh</mesh>
-		<health>100</health>
-		<armour>10</armour>
+  <unit>
+    <name>test-1</name>
+    <mesh>cube.mesh</mesh>
+    <health>100</health>
+    <armour>10</armour>
     <speed>40</speed>
-		<weapon>bazooka</weapon>
-		<controller>human</controller>
-		<type>navy</type> 
-	</unit>
-	<unit> 
-		<name>test-2</name>
-		<mesh>cube.mesh</mesh>
-		<health>200</health>
-		<armour>5</armour>
-    <speed>30</speed>
-		<weapon>bazooka</weapon>
-		<controller>dummy</controller>
-		<type>air</type>
-	</unit>	
+    <weapon>bazooka</weapon>
+    <controller>human</controller>
+    <type>navy</type>
+  </unit>
+  <unit>
+    <name>test-2</name>
+    <mesh>cube.mesh</mesh>
+    <health>200</health>
+    <armour>5</armour>
+    <speed>3</speed>
+    <weapon>bazooka</weapon>
+    <controller>human</controller>
+    <type>air</type>
+  </unit>
 </units>
