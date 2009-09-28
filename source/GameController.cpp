@@ -7,7 +7,10 @@
 #include "macros.h"
 #include <OIS/OISInputManager.h>
 #include "NxOgre.h"
+#include "NxOgreVec.h"
 #include "Level.h"
+#include "Bullet.h"
+#include "EventCollector.h"
 using namespace Balyoz;
 using std::list;
 
@@ -69,6 +72,11 @@ GameController::GameController(
 	
 }
 
+float GameController::getFrameTime()
+{
+	return m_LastFrameEvent.timeSinceLastFrame;
+}
+
 void GameController::loadLevel(const std::string &levelName)
 {
 	Level *level = GAME_FACTORY->getLevel(levelName);
@@ -101,6 +109,7 @@ bool GameController::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool GameController::frameStarted(const Ogre::FrameEvent& evt)
 {
+	m_LastFrameEvent = evt;
 	m_pNxTimeController->advance(evt.timeSinceLastFrame);
 	m_pMouse->capture();
 	m_pKeyboard->capture();
@@ -120,6 +129,7 @@ bool GameController::frameEnded(const Ogre::FrameEvent& evt)
 }
 
 
+
 GameUnit* GameController::createGameUnit(const UnitData* pUnitData)
 {
 	GameUnit* gu = GAME_FACTORY->getUnit(pUnitData->m_Name);
@@ -130,12 +140,20 @@ GameUnit* GameController::createGameUnit(const UnitData* pUnitData)
 	}
 	NxOgre::RigidBodyDescription desc;
 	desc.mDensity = 0;
-	
+	desc.mBodyFlags |= Enums::BodyFlags_FreezePositionY | Enums::BodyFlags_FreezeRotation;
+	desc.mLinearDamping = 100.0f;
 	NxOgre::Vec3 objectPos(pUnitData->m_Position);
-
 	
-	gu->m_pBody = m_pRenderSystem->createBody(new NxOgre::Box(1, 1, 1), objectPos, gu->m_Mesh.c_str(),desc);
-	gu->m_pBody->getEntity()->getParentNode()->setScale(0.01,0.01,0.01);
+	NxOgre::Box *box = new NxOgre::Box(1,1,2) ;
+	gu->m_pBody = static_cast<PhysicsObject*>(m_pRenderSystem->createBody(box , objectPos, gu->m_Mesh.c_str(),desc));
+	gu->m_pBody->m_pGameObject = gu;
+	gu->m_pBody->setContactReportFlags(Enums::ContactPairFlags_All);
+	
+//	gu->m_pBody->
+	gu->m_pBody->setContactCallback(EventCollector::getSingleton());
+	float radius = 0.01f;//gu->m_pBody->getEntity()->getMesh()->getBoundingSphereRadius() / 10000.0f;
+		
+	gu->m_pBody->getEntity()->getParentNode()->setScale(radius*3,radius*.5,radius*3);
 
 	if(!(m_GameUnitControllerMap[gu->m_Controller]))
 	{

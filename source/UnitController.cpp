@@ -24,6 +24,7 @@ void HumanController::run()
 {
 	std::list<GameUnit*>::iterator it = m_GameObjectList.begin();
 	const std::list<GameUnit*>::iterator endIt = m_GameObjectList.end();
+	float fTime = GameController::getInfoProvider()->getFrameTime();
 
 	const OIS::MouseState &mouseState =  m_pMouse->getMouseState();
 
@@ -37,15 +38,46 @@ void HumanController::run()
 	}
 
 
-	NxOgre::Vec3 currentPos;
+	float fRoll = 0;
+	float fPitch = 0;
 	while(it != endIt)
 	{
-		currentPos = (*it)->m_pBody->getGlobalPosition();
-		(*it)->m_pBody->setGlobalPosition( currentPos + m_TranslateVec * ( (*it)->m_Speed / 100.0f ) );
+		GameUnit *pGU = (*it);
+		PhysicsObject *kb  = pGU->m_pBody;
+		NxOgre::Vec3 tmpV = ( m_TranslateVec * ( pGU->m_Speed * fTime  ));
+		kb->setGlobalPosition( kb->getGlobalPosition() + tmpV );
+
+		fRoll = -m_TranslateVec[0] * 30.0f ;
+		if(fRoll > 90)
+		{
+			fRoll = 90;
+		}
+		else if (fRoll < -90)
+		{
+			fRoll = -90;
+		}
+		
+		fPitch = m_TranslateVec[2] * 30.0f ;
+		if(fPitch > 90)
+		{
+			fPitch = 90;
+		}
+		else if (fPitch < -90)
+		{
+			fPitch = -90;
+		}
+
+		kb->getSceneNode()->roll(Ogre::Radian(Ogre::Angle(fRoll)));
+		kb->getSceneNode()->pitch(Ogre::Radian(Ogre::Angle(fPitch)));
+
+		if(mouseState.buttonDown(OIS::MB_Left))
+		{
+			//pGU->m_Weapons[0]->
+		}
 		it++;
 	}
-
-	m_TranslateVec *= .985f ;
+		
+	m_TranslateVec *= .985  ;
 }
 
 UnitAIController::UnitAIController()

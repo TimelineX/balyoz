@@ -69,7 +69,7 @@ void GameBalyoz::createScene(void)
 	//	ogre time controller means rhat ogre will care about it	
 		m_pNxWorld = NxOgre::World::createWorld();
 		NxOgre::SceneDescription sceneDesc;
-		sceneDesc.mGravity =NxOgre::Real3(0,0,0);
+		sceneDesc.mGravity =NxOgre::Real3(0,-9.8f,0);
 		sceneDesc.mName = "Hello world";
 		m_pNxScene = m_pNxWorld->createScene(sceneDesc);
 		NxOgre::Material *mat = m_pNxScene->getMaterial(0);
@@ -81,7 +81,7 @@ void GameBalyoz::createScene(void)
 
 		m_pNxTimeController = NxOgre::TimeController::getSingleton();
 
-	OGRE3DBody* mCube;
+		PhysicsObject* mCube;
 	NxOgre::RigidBodyDescription desc;
 	desc.mMass = 10;
 //	mCube = m_pRenderSystem->createBody(new NxOgre::Box(10, 10, 10), NxOgre::Real3(8, 17, 0), "cube.mesh", desc);
