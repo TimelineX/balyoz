@@ -32,6 +32,7 @@ namespace Balyoz
 		virtual OIS::Mouse*			getMouse() = 0;
 		virtual OIS::Keyboard*		getKeyboard() = 0;
 		virtual float				getFrameTime() = 0;
+		virtual void				shoot(GameUnit *pGameUnit, int iWeaponIndex) = 0;
 	};
 	
 	
@@ -65,7 +66,8 @@ namespace Balyoz
 
 		static GameplayInfoProvider* getInfoProvider();
 
-		GameUnit* createGameUnit(const UnitData* pUnitData);
+		GameUnit*	createGameUnit(const UnitData* pUnitData);
+		void		shoot(GameUnit *pGameUnit, int iWeaponIndex);
 
 		
 

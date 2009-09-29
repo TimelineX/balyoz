@@ -459,6 +459,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BulletProperty.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\BulletProperty.h"
+				>
+			</File>
+			<File
 				RelativePath=".\GameProperty.cpp"
 				>
 			</File>

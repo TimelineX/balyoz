@@ -127,21 +127,21 @@ Weapon* GameFactory::getWeapon(const std::string& weaponName){
 		weapon->m_Maximum				= it->second->m_iMaximum;
 		weapon->m_Minimum				= it->second->m_iMinimum;
 		weapon->m_Name 					= it->second->m_Name;
-		weapon->m_ReloadTime			= it->second->m_iReloadTime;
+		weapon->m_ReloadTime			= it->second->m_fReloadTime;
 		weapon->m_MeshFileName			= it->second->m_Mesh;
-		weapon->bullet->m_Controller	= it->second->m_Controller;
-		weapon->bullet->m_Explosion		= it->second->m_Explosion;
-		weapon->bullet->m_LifeTime		= it->second->m_iLifeTime;
-		weapon->bullet->m_Particles		= it->second->m_Particles;
-		weapon->bullet->m_Power			= it->second->m_iPower;
-		weapon->bullet->m_Radius		= it->second->m_fRadius;
+		weapon->m_BulletProperty.m_Controller	= it->second->m_Controller;
+		weapon->m_BulletProperty.m_Explosion		= it->second->m_Explosion;
+		weapon->m_BulletProperty.m_LifeTime		= it->second->m_fLifeTime;
+		weapon->m_BulletProperty.m_Particles		= it->second->m_Particles;
+		weapon->m_BulletProperty.m_Power			= it->second->m_fPower;
+		weapon->m_BulletProperty.m_Radius		= it->second->m_fRadius;
 		
-		if(it->second->m_Effect == std::string("lineer")){
-			weapon->bullet->m_Effect = LINEER;
-		}else if(it->second->m_Effect == std::string("exponential")){
-			weapon->bullet->m_Effect = EXPONENTIAL;
+		if(it->second->m_Effect.compare(std::string("lineer")) == 0){
+			weapon->m_BulletProperty.m_Effect = LINEER;
+		}else if(it->second->m_Effect.compare(std::string("exponential")) == 0){
+			weapon->m_BulletProperty.m_Effect = EXPONENTIAL;
 		}else{
-			weapon->bullet->m_Effect  = NONE;
+			weapon->m_BulletProperty.m_Effect  = NONE;
 		}
 		
 		

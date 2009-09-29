@@ -7,28 +7,7 @@
       <position>6 10 -10</position>
       <orientation>0 -1 0</orientation>
     </unit>
-    <unit>
-      <name>test-2</name>
-      <position>-6 10 0</position>
-      <orientation>0 -2 0</orientation>
-    </unit>
 
-    <unit>
-      <name>test-2</name>
-      <position>-6 10 -15</position>
-      <orientation>0 -2 0</orientation>
-    </unit>
-
-    <unit>
-      <name>test-3</name>
-      <position>3 0 0</position>
-      <orientation>0 -3 0</orientation>
-    </unit>
-    <unit>
-      <name>test-4</name>
-      <position>4 0 0</position>
-      <orientation>0 -4 0</orientation>
-    </unit>
   </map>
 
 </maps>

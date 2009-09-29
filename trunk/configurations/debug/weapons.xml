@@ -1,24 +1,24 @@
 <?xml version="1.0" ?>
 <weapons>
   <weapon>
-    <name>bazooka</name>*
-    <mesh>cube.mesh</mesh>*
-    <reloadtime>500</reloadtime>*
+    <name>bazooka</name>
+    <mesh>cube.mesh</mesh>
+    <reloadtime>5</reloadtime>
     <numofbullets>
-      <capacity>1000</capacity>*
-      <initial>1</initial>*
-      <maximum>9</maximum>*
-      <minimum>1</minimum>*
+      <capacity>1000</capacity>
+      <initial>1</initial>
+      <maximum>9</maximum>
+      <minimum>1</minimum>
       <anglebetweenbullets>18</anglebetweenbullets>
     </numofbullets>
     <bullet>
-      <power>100</power>*
-      <radius>10</radius>*
-      <effect>linear</effect>*
-      <lifetime>5000</lifetime>*
-      <particles>smoke</particles>*
-      <explosion>explosion</explosion>*
-      <controller>dummy</controller>*
+      <power>100</power>
+      <radius>10</radius>
+      <effect>linear</effect>
+      <lifetime>5000</lifetime>
+      <particles>smoke</particles>
+      <explosion>explosion</explosion>
+      <controller>dummy</controller>
     </bullet>
   </weapon>
 </weapons>

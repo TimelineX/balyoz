@@ -18,31 +18,31 @@ bool WeaponProperty::set(const std::string &parameterName, const std::string &pa
 	{
 
 	}
-	else if( parameterName.compare("/power") == 0 )
+	else if( parameterName.compare("/bullet/power") == 0 )
 	{
-		m_iPower = atoi(parameterValue.c_str());
+		m_fPower = atof(parameterValue.c_str());
 	}
 	else if( parameterName.compare("/reloadtime") == 0 )
 	{
-		m_iReloadTime = atoi(parameterValue.c_str());
+		m_fReloadTime = atof(parameterValue.c_str());
 	}
-	else if( parameterName.compare("/capacity") == 0 )
+	else if( parameterName.compare("/numofbullets/capacity") == 0 )
 	{
 		m_iCapacity = atoi(parameterValue.c_str());
 	}
-	else if( parameterName.compare("/initial") == 0 )
+	else if( parameterName.compare("/numofbullets/initial") == 0 )
 	{
 		m_iInitial = atoi(parameterValue.c_str());
 	}
-	else if( parameterName.compare("/maximum") == 0 )
+	else if( parameterName.compare("/numofbullets/maximum") == 0 )
 	{
 		m_iMaximum = atoi(parameterValue.c_str());
 	}
-	else if( parameterName.compare("/minimum") == 0 )
+	else if( parameterName.compare("/numofbullets/minimum") == 0 )
 	{
 		m_iMinimum = atoi(parameterValue.c_str());
 	}
-	else if( parameterName.compare("/anglebetweenbullets") == 0 )
+	else if( parameterName.compare("/numofbullets/anglebetweenbullets") == 0 )
 	{
 		m_iAngle = atoi(parameterValue.c_str());
 	}
@@ -50,31 +50,31 @@ bool WeaponProperty::set(const std::string &parameterName, const std::string &pa
 	//{
 	//	m_iType = atoi(parameterValue.c_str());
 	//}
-	else if( parameterName.compare("/radius") == 0 )
+	else if( parameterName.compare("/bullet/radius") == 0 )
 	{
 		m_fRadius = (float)atof(parameterValue.c_str());
 	}
-	else if( parameterName.compare("/lifetime") == 0 )
+	else if( parameterName.compare("/bullet/lifetime") == 0 )
 	{
-		m_iLifeTime = atoi(parameterValue.c_str());
+		m_fLifeTime = atof(parameterValue.c_str());
 	}
 	else if( parameterName.compare("/mesh") == 0 )
 	{
 		m_Mesh = parameterValue;
 	}
-	else if( parameterName.compare("/effect") == 0 )
+	else if( parameterName.compare("/bullet/effect") == 0 )
 	{
 		m_Effect = parameterValue;
 	}
-	else if( parameterName.compare("/particles") == 0 )
+	else if( parameterName.compare("/bullet/particles") == 0 )
 	{
 		m_Particles = parameterValue;
 	}
-	else if( parameterName.compare("/explosion") == 0 )
+	else if( parameterName.compare("/bullet/explosion") == 0 )
 	{
 		m_Explosion = parameterValue;
 	}
-	else if( parameterName.compare("/controller") == 0 )
+	else if( parameterName.compare("/bullet/controller") == 0 )
 	{
 		m_Controller = parameterValue;
 	}
