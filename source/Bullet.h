@@ -1,13 +1,12 @@
 #pragma once
-#include "GameObject.h"
 
+#include "PhysicsObject.h"
+#include "BulletProperty.h"
+#include "NxOgreVec.h"
+#include "GameObject.h"
 namespace Balyoz
 {
-	enum EFFECT{
-		LINEER,
-		EXPONENTIAL,
-		NONE
-	};
+
 	class Bullet :
 		public GameObject
 	{
@@ -15,35 +14,25 @@ namespace Balyoz
 		Bullet();
 		Bullet(const std::string& name);
 		Bullet(	const std::string& name,
-				unsigned int Power, 
-				float Radius,
-				unsigned int LifeTime,
-				const std::string& Explosion, 
-				const std::string& Particles, 
-				const std::string& Controller,
-				EFFECT		Effect
+				const BulletProperty &bulletProperty
 				);
-		Bullet(	unsigned int	Power,
-			float				m_Radius,
-			EFFECT				m_Effect,	
-			unsigned int		m_LifeTime,
-			const std::string&	m_Explosion,
-			const std::string&	m_Particles,
-			const std::string&	m_Controller
-			);
+		Bullet(	const BulletProperty &bulletProperty );
 		~Bullet(void);
-
-		unsigned int	m_Power;
+		void setBulletProperty(const BulletProperty &bulletProperty );
+		
+		float			m_Power;
 		float			m_Radius;
-		EFFECT			m_Effect;	
-		unsigned int	m_LifeTime;
-		std::string		m_Explosion;
-		std::string		m_Particles;
-		std::string		m_Controller;
+		float			m_LifeTime;
+		float			m_CreationTime;
+		EFFECT			m_Effect;
+		NxOgre::Vec3	m_Force;
 
-	private:
-		void setBulletAttributes(unsigned int pow, float radius,unsigned int lifetime,
-			const std::string& explosion, const std::string& particles, const std::string& controller, EFFECT effect);
+		PhysicsObject*	m_pPhysicsObject;
+
+		
+
+
+
 	};
 
 }

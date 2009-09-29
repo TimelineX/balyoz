@@ -2,6 +2,7 @@
 #include "GameController.h"
 #include "EventCollector.h"
 #include "GameUnit.h"
+#include "Weapon.h"
 
 using namespace Balyoz;
 
@@ -72,7 +73,12 @@ void HumanController::run()
 
 		if(mouseState.buttonDown(OIS::MB_Left))
 		{
-			//pGU->m_Weapons[0]->
+			if( pGU->m_Weapons[0]->m_LastShootTime  < 0 )
+			{
+				GameController::getInfoProvider()->shoot(pGU,0);
+				pGU->m_Weapons[0]->m_LastShootTime = pGU->m_Weapons[0]->m_ReloadTime;
+			}
+			pGU->m_Weapons[0]->m_LastShootTime -= fTime * 1000.0f;
 		}
 		it++;
 	}

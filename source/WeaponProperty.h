@@ -8,14 +8,14 @@ public:
 	virtual ~WeaponProperty();
 
 	virtual bool set(const std::string &parameterName, const std::string &parameterValue);
-	unsigned int m_iPower;
+	float m_fPower;
 	float m_fRadius;
-	unsigned int m_iLifeTime;
+	float m_fLifeTime;
 	unsigned int m_iCapacity;
 	unsigned int m_iMinimum;
 	unsigned int m_iMaximum;
 	unsigned int m_iAngle;
-	unsigned int m_iReloadTime;
+	float m_fReloadTime;
 	unsigned int m_iInitial;
 
 	std::string m_Mesh;

@@ -9,8 +9,11 @@
 #include "NxOgre.h"
 #include "NxOgreVec.h"
 #include "Level.h"
-#include "Bullet.h"
+#include "BulletController.h"
 #include "EventCollector.h"
+#include "Weapon.h"
+#include "NxScene.h"
+#include "NxActor.h"
 using namespace Balyoz;
 using std::list;
 
@@ -66,7 +69,14 @@ GameController::GameController(
 	m_GameUnitControllers.push_back(hc);
 	m_GameUnitControllerMap[hc->getName()] = hc;
 
+	DummyBulletController* pDBC = new DummyBulletController();
+	m_BulletControllers.push_back(pDBC);
+	m_BulletControllerMap["dummy"] = pDBC;
+
 	loadLevel("level-1");
+
+	m_pNxScene->getScene()->setGroupCollisionFlag(0, 1, false);
+	m_pNxScene->getScene()->setGroupCollisionFlag(1, 1, false);
 
 	
 	
@@ -129,6 +139,44 @@ bool GameController::frameEnded(const Ogre::FrameEvent& evt)
 }
 
 
+void GameController::shoot(GameUnit *pGameUnit, int iWeaponIndex)
+{
+	if (pGameUnit->m_Weapons.size() < iWeaponIndex)
+	{
+		REPORT_WARNING(std::string("weapon out of bounds for ")+pGameUnit->m_Name);
+		return;
+	}
+	Weapon *pWeapon = pGameUnit->m_Weapons[iWeaponIndex];
+	BulletController *pBC = m_BulletControllerMap[pWeapon->m_BulletProperty.m_Controller];
+	if( pBC == NULL )
+	{
+		REPORT_WARNING(std::string("cannot find controller:")+ pWeapon->m_BulletProperty.m_Controller);
+		return;
+	}
+	Bullet *pBullet = new Bullet(pWeapon->m_BulletProperty);
+	NxOgre::RigidBodyDescription desc;
+	desc.mBodyFlags |= Enums::BodyFlags_FreezePositionY | Enums::BodyFlags_FreezeRotation;
+
+	NxOgre::Vec3 objectPos(pGameUnit->m_pBody->getGlobalPosition());
+
+	NxOgre::Box *box = new NxOgre::Box(.5,.5,1) ;
+	pBullet->m_pPhysicsObject = static_cast<PhysicsObject*>(m_pRenderSystem->createBody(box , objectPos, pWeapon->m_MeshFileName.c_str(),desc));
+	pBullet->m_pPhysicsObject->m_pGameObject = pBullet;
+	//pBullet->m_pPhysicsObject->setContactReportFlags(Enums::ContactPairFlags_All);
+	pBullet->m_pPhysicsObject->getNxActor()->setGroup(1);;
+	pBullet->m_pPhysicsObject->setLinearVelocity(NxOgre::Vec3(0,0,20));
+	 
+//	gu->m_pBody->
+	pBullet->m_pPhysicsObject->setContactCallback(EventCollector::getSingleton());
+	float radius = 0.005f;//gu->m_pBody->getEntity()->getMesh()->getBoundingSphereRadius() / 10000.0f;
+		
+	pBullet->m_pPhysicsObject->getEntity()->getParentNode()->setScale(radius,radius,radius*2);
+	pBC->registerGameObject(pBullet);
+
+	m_pNxScene->setActorFlags(pGameUnit->m_pBody, pBullet->m_pPhysicsObject, NxOgre::Enums::ActorFlags_DisableCollision);
+
+
+}
 
 GameUnit* GameController::createGameUnit(const UnitData* pUnitData)
 {
@@ -144,10 +192,11 @@ GameUnit* GameController::createGameUnit(const UnitData* pUnitData)
 	desc.mLinearDamping = 100.0f;
 	NxOgre::Vec3 objectPos(pUnitData->m_Position);
 	
-	NxOgre::Box *box = new NxOgre::Box(1,1,2) ;
+
+	NxOgre::Box *box = new NxOgre::Box(3,.5,3) ;
 	gu->m_pBody = static_cast<PhysicsObject*>(m_pRenderSystem->createBody(box , objectPos, gu->m_Mesh.c_str(),desc));
 	gu->m_pBody->m_pGameObject = gu;
-	gu->m_pBody->setContactReportFlags(Enums::ContactPairFlags_All);
+	//gu->m_pBody->setContactReportFlags(Enums::ContactPairFlags_All);
 	
 //	gu->m_pBody->
 	gu->m_pBody->setContactCallback(EventCollector::getSingleton());
@@ -168,6 +217,7 @@ GameUnit* GameController::createGameUnit(const UnitData* pUnitData)
 	}
 
 
+
 	return gu;
 }
 
@@ -175,12 +225,24 @@ GameUnit* GameController::createGameUnit(const UnitData* pUnitData)
 
 void GameController::runControllers()
 {
-	list<UnitController*>::iterator it = m_GameUnitControllers.begin();	
-	const list<UnitController*>::iterator endit = m_GameUnitControllers.end();	
-	while(it != endit)
 	{
-		(*it)->run();
-		it++;
+		list<UnitController*>::iterator it = m_GameUnitControllers.begin();	
+		const list<UnitController*>::iterator endit = m_GameUnitControllers.end();	
+		while(it != endit)
+		{
+			(*it)->run();
+			it++;
+		}
+	}
+
+	{
+		list<BulletController*>::iterator it = m_BulletControllers.begin();	
+		const list<BulletController*>::iterator endit = m_BulletControllers.end();	
+		while(it != endit)
+		{
+			(*it)->run();
+			it++;
+		}
 	}
 }
 void GameController::processEventQueue()
