@@ -1,6 +1,8 @@
 #include "BulletProperty.h"
 using namespace Balyoz;
 BulletProperty::BulletProperty(
+				float InitialSpeed, 
+				float MaximumSpeed,
 				float Power, 
 				float Radius,
 				float LifeTime,
@@ -10,6 +12,8 @@ BulletProperty::BulletProperty(
 				EFFECT		Effect
 				)
 {
+	m_InitialSpeed = InitialSpeed;
+	m_MaximumSpeed = MaximumSpeed;
 	m_Power = Power;
 	m_Radius = Radius;
 	m_LifeTime = LifeTime;

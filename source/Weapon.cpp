@@ -20,22 +20,24 @@ Weapon::Weapon(const std::string& name) : GameObject(name){
 }
 
 Weapon::Weapon(const std::string& Name, 
-					   const std::string& MeshFileName, 
-					   float		ReloadTime, 
-					   unsigned int Capacity, 
-					   unsigned int Initial, 
-					   unsigned int Maximum, 
-					   unsigned int Minimum, 
-					   unsigned int Angle, 
-					   float		Power, 
-					   float		Radius, 
-					   float		LifeTime, 
-					   const std::string& Explosion, 
-					   const std::string& Particles, 
-					   const std::string& Controller, 
-					   EFFECT Effect) 
-					   : GameObject(Name), 
-					   m_BulletProperty(Power,Radius,LifeTime,Explosion,Particles,Controller,Effect){
+				const std::string& MeshFileName, 
+				float		ReloadTime, 
+				unsigned int Capacity, 
+				unsigned int Initial, 
+				unsigned int Maximum, 
+				unsigned int Minimum, 
+				unsigned int Angle, 
+				float		InitialSpeed, 
+				float		MaximumSpeed,
+				float		Power, 
+				float		Radius, 
+				float		LifeTime, 
+				const std::string& Explosion, 
+				const std::string& Particles, 
+				const std::string& Controller, 
+				EFFECT Effect) 
+				: GameObject(Name), 
+				m_BulletProperty(InitialSpeed, MaximumSpeed, Power,Radius,LifeTime,Explosion,Particles,Controller,Effect){
 
 						   
 					   m_MeshFileName	= MeshFileName;

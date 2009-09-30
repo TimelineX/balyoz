@@ -1,3 +1,4 @@
+#include <cstdlib> 
 #include "GameController.h"
 #include "GameFactory.h"
 #include "MapProperty.h"
@@ -70,10 +71,11 @@ GameController::GameController(
 	m_GameUnitControllerMap[hc->getName()] = hc;
 
 	DummyBulletController* pDBC = new DummyBulletController();
+	pDBC->m_pBulletControllerProperty = GAME_FACTORY->getBulletControllerProperty("dummy");
 	m_BulletControllers.push_back(pDBC);
 	m_BulletControllerMap["dummy"] = pDBC;
 
-	loadLevel("level-1");
+	loadLevel("level-1"); 
 
 	m_pNxScene->getScene()->setGroupCollisionFlag(0, 1, false);
 	m_pNxScene->getScene()->setGroupCollisionFlag(1, 1, false);
@@ -85,6 +87,11 @@ GameController::GameController(
 float GameController::getFrameTime()
 {
 	return m_LastFrameEvent.timeSinceLastFrame;
+}
+
+void GameController::deletePhyicsObject(PhysicsObject* pPO)
+{
+	m_pRenderSystem->destroyBody(dynamic_cast<OGRE3DBody*>(pPO));
 }
 
 void GameController::loadLevel(const std::string &levelName)
@@ -138,7 +145,7 @@ bool GameController::frameEnded(const Ogre::FrameEvent& evt)
 	return true;
 }
 
-
+int i=0;
 void GameController::shoot(GameUnit *pGameUnit, int iWeaponIndex)
 {
 	if (pGameUnit->m_Weapons.size() < iWeaponIndex)
@@ -155,24 +162,34 @@ void GameController::shoot(GameUnit *pGameUnit, int iWeaponIndex)
 	}
 	Bullet *pBullet = new Bullet(pWeapon->m_BulletProperty);
 	NxOgre::RigidBodyDescription desc;
-	desc.mBodyFlags |= Enums::BodyFlags_FreezePositionY | Enums::BodyFlags_FreezeRotation;
+	desc.mBodyFlags |= Enums::BodyFlags_FreezePositionY ;//| Enums::BodyFlags_FreezeRotation;
 
 	NxOgre::Vec3 objectPos(pGameUnit->m_pBody->getGlobalPosition());
-
+ 
 	NxOgre::Box *box = new NxOgre::Box(.5,.5,1) ;
-	pBullet->m_pPhysicsObject = static_cast<PhysicsObject*>(m_pRenderSystem->createBody(box , objectPos, pWeapon->m_MeshFileName.c_str(),desc));
-	pBullet->m_pPhysicsObject->m_pGameObject = pBullet;
+	pBullet->m_pPhysicsObject = (PhysicsObject*)(m_pRenderSystem->createBody(box , objectPos, pWeapon->m_MeshFileName.c_str(),desc));
+//	pBullet->m_pPhysicsObject->m_pGameObject = pBullet;
 	//pBullet->m_pPhysicsObject->setContactReportFlags(Enums::ContactPairFlags_All);
-	pBullet->m_pPhysicsObject->getNxActor()->setGroup(1);;
-	pBullet->m_pPhysicsObject->setLinearVelocity(NxOgre::Vec3(0,0,20));
+	pBullet->m_pPhysicsObject->getNxActor()->setGroup(1);
+	pBullet->m_pPhysicsObject->setLinearVelocity(NxOgre::Vec3(0,0,pBullet->m_InitialSpeed)); 
+	pBullet->m_Force = NxOgre::Vec3((rand()%(10) - 5)*(1.0f-pBC->m_pBulletControllerProperty->m_fAccuracy),0,-10); 
+	pBullet->m_pPhysicsObject->addLocalTorque(NxOgre::Vec3(0,(rand()%(40) - 20)*(1.0f - pBC->m_pBulletControllerProperty->m_fAccuracy),0) );
+	//NxOgre::Box *bx = new NxOgre::Box(.5,.5,1) ;
+	//OGRE3DBody *b = (m_pRenderSystem->createBody(bx , objectPos, pWeapon->m_MeshFileName.c_str(),desc));
+
+	//m_pRenderSystem->destroyBody(b);
 	 
 //	gu->m_pBody->
 	pBullet->m_pPhysicsObject->setContactCallback(EventCollector::getSingleton());
-	float radius = 0.005f;//gu->m_pBody->getEntity()->getMesh()->getBoundingSphereRadius() / 10000.0f;
+	float radius = 0.004f;//gu->m_pBody->getEntity()->getMesh()->getBoundingSphereRadius() / 10000.0f;
 		
 	pBullet->m_pPhysicsObject->getEntity()->getParentNode()->setScale(radius,radius,radius*2);
+	pBullet->m_pPhysicsObject->getEntity()->setMaterialName("Examples/10PointBlock");
 	pBC->registerGameObject(pBullet);
 
+	Ogre::ParticleSystem* pSys3 = m_pRenderSystem->getSceneManager()->createParticleSystem(Ogre::StringConverter::toString(i++) + Ogre::String("fountain2"),
+		pWeapon->m_BulletProperty.m_Particles.c_str());
+	pBullet->m_pPhysicsObject->getEntity()->getParentSceneNode()->attachObject(pSys3);
 	m_pNxScene->setActorFlags(pGameUnit->m_pBody, pBullet->m_pPhysicsObject, NxOgre::Enums::ActorFlags_DisableCollision);
 
 
@@ -187,23 +204,22 @@ GameUnit* GameController::createGameUnit(const UnitData* pUnitData)
 		return NULL;
 	}
 	NxOgre::RigidBodyDescription desc;
-	desc.mDensity = 0;
 	desc.mBodyFlags |= Enums::BodyFlags_FreezePositionY | Enums::BodyFlags_FreezeRotation;
-	desc.mLinearDamping = 100.0f;
+	desc.mLinearDamping = 40.0f;
 	NxOgre::Vec3 objectPos(pUnitData->m_Position);
 	
 
 	NxOgre::Box *box = new NxOgre::Box(3,.5,3) ;
 	gu->m_pBody = static_cast<PhysicsObject*>(m_pRenderSystem->createBody(box , objectPos, gu->m_Mesh.c_str(),desc));
-	gu->m_pBody->m_pGameObject = gu;
+//	gu->m_pBody->m_pGameObject = gu;
 	//gu->m_pBody->setContactReportFlags(Enums::ContactPairFlags_All);
 	
 //	gu->m_pBody->
 	gu->m_pBody->setContactCallback(EventCollector::getSingleton());
-	float radius = 0.01f;//gu->m_pBody->getEntity()->getMesh()->getBoundingSphereRadius() / 10000.0f;
+	float radius = 0.01f;//gu->m_pBody->getEntity()->getMesh()->getBoundingSphereRadius() / 10000.0f; 
 		
-	gu->m_pBody->getEntity()->getParentNode()->setScale(radius*3,radius*.5,radius*3);
-
+	gu->m_pBody->getEntity()->getParentNode()->setScale(radius*3,radius*.8,radius*3);
+	gu->m_pBody->getEntity()->setMaterialName("Examples/10PointBlock");
 	if(!(m_GameUnitControllerMap[gu->m_Controller]))
 	{
 		REPORT_WARNING(std::string("cannot find controller:")+ gu->m_Controller);

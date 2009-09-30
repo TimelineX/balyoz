@@ -11,21 +11,23 @@ class Weapon : public GameObject
 public:
 	Weapon(void);
 	Weapon(const std::string& name);
-	Weapon(		const std::string&		Name,
-				const std::string&		MeshFileName,
-				float	ReloadTime,
-				unsigned int	Capacity,
-				unsigned int	Initial,
-				unsigned int	Maximum,
-				unsigned int	Minimum,
-				unsigned int	Angle,
-				float			Power,
-				float			Radius,
-				float			LifeTime,
-				const std::string&		Explosion,
-				const std::string&		Particles,
-				const std::string&		Controller,
-				EFFECT			Effect);
+	Weapon(		const std::string& Name, 
+				const std::string& MeshFileName, 
+				float		ReloadTime, 
+				unsigned int Capacity, 
+				unsigned int Initial, 
+				unsigned int Maximum, 
+				unsigned int Minimum, 
+				unsigned int Angle, 
+				float		InitialSpeed, 
+				float		MaximumSpeed,
+				float		Power, 
+				float		Radius, 
+				float		LifeTime, 
+				const std::string& Explosion, 
+				const std::string& Particles, 
+				const std::string& Controller, 
+				EFFECT Effect) ;
 
 	~Weapon(void);
 

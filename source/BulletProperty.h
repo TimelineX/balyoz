@@ -12,6 +12,8 @@ namespace Balyoz
 	public:
 		BulletProperty();
 		BulletProperty(
+				float InitialSpeed, 
+				float MaximumSpeed,
 				float Power, 
 				float Radius,
 				float LifeTime,
@@ -23,7 +25,9 @@ namespace Balyoz
 
 		~BulletProperty(void){};
 
-		float	m_Power;
+		float			m_MaximumSpeed;
+		float			m_InitialSpeed;
+		float			m_Power;
 		float			m_Radius;
 		EFFECT			m_Effect;	
 		float			m_LifeTime;

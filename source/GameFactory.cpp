@@ -5,6 +5,7 @@
 #include "AirGameUnit.h"
 #include "NavyGameUnit.h"
 #include "Level.h"
+#include "BulletControllerProperty.h"
 #include <map>
 
 using std::map;
@@ -29,6 +30,8 @@ bool GameFactory::init()
 void GameFactory::createXmlMapRepostories()
 {
 
+	m_pBulletControllerXMLMap = (new XMLMapRepostory<BulletControllerProperty>("bullet controller bean"));
+	m_pBulletControllerXMLMap->initFromXml( "bulletcontroller.xml" ,"bulletcontrollers", "bulletcontroller" );
 
 	m_pWeaponXMLMap = (new XMLMapRepostory<WeaponProperty>("weapon bean"));
 	m_pWeaponXMLMap->initFromXml( "weapons.xml" ,"weapons", "weapon" );
@@ -73,6 +76,20 @@ return NULL;
 }
 Terrain* GameFactory::getTerrain(const std::string& terrainName){
 return NULL;
+}
+
+BulletControllerProperty*		GameFactory::getBulletControllerProperty	(const std::string& controllerName)
+{
+	BulletControllerProperty *bcp = m_pBulletControllerXMLMap->m_Propertys[controllerName];
+	if(bcp == NULL)
+	{
+		REPORT_ERROR(controllerName+ std::string(" named controller not found"));
+		bcp = new BulletControllerProperty();
+		m_pBulletControllerXMLMap->m_Propertys[controllerName] = bcp;
+	}
+
+	return bcp;
+
 }
 
 GameUnit* GameFactory::getUnit(const std::string& unitName){
@@ -135,6 +152,8 @@ Weapon* GameFactory::getWeapon(const std::string& weaponName){
 		weapon->m_BulletProperty.m_Particles		= it->second->m_Particles;
 		weapon->m_BulletProperty.m_Power			= it->second->m_fPower;
 		weapon->m_BulletProperty.m_Radius		= it->second->m_fRadius;
+		weapon->m_BulletProperty.m_MaximumSpeed			= it->second->m_fMaximumSpeed;
+		weapon->m_BulletProperty.m_InitialSpeed		= it->second->m_fInitialSpeed;
 		
 		if(it->second->m_Effect.compare(std::string("lineer")) == 0){
 			weapon->m_BulletProperty.m_Effect = LINEER;

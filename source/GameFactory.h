@@ -1,6 +1,7 @@
 #pragma once
 #include "XMLMapRepostory.h"
 
+#include "BulletControllerProperty.h"
 #include "WeaponProperty.h"
 #include "LevelProperty.h"
 #include "UnitProperty.h"
@@ -22,6 +23,7 @@ namespace Balyoz
 	class Terrain;
 	class GameUnit;
 	class Weapon;
+	class BulletControllerProperty;
 
 	class GameFactory
 	{
@@ -34,6 +36,7 @@ namespace Balyoz
 
 		static GameFactory* getSingleton();
 
+		Balyoz::BulletControllerProperty*		getBulletControllerProperty	(const std::string& controllerName);
 		Balyoz::Level*		getLevel	(const std::string& levelName);
 		Balyoz::GameMap*	getMap	    (const std::string& mapName);
 		Balyoz::Terrain*	getTerrain	(const std::string& terrainName);
@@ -43,6 +46,7 @@ namespace Balyoz
 	protected:
 		GameFactory(void);
 
+		XMLMapRepostory<BulletControllerProperty>*	m_pBulletControllerXMLMap;
 		XMLMapRepostory<WeaponProperty>*	m_pWeaponXMLMap;
 		XMLMapRepostory<UnitProperty>*		m_pUnitXMLMap;
 		XMLMapRepostory<TerrainProperty>*	m_pTerrainXMLMap;

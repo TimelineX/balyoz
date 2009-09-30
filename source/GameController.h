@@ -33,6 +33,7 @@ namespace Balyoz
 		virtual OIS::Keyboard*		getKeyboard() = 0;
 		virtual float				getFrameTime() = 0;
 		virtual void				shoot(GameUnit *pGameUnit, int iWeaponIndex) = 0;
+		virtual void				deletePhyicsObject(PhysicsObject* pPO) = 0;
 	};
 	
 	
@@ -68,6 +69,7 @@ namespace Balyoz
 
 		GameUnit*	createGameUnit(const UnitData* pUnitData);
 		void		shoot(GameUnit *pGameUnit, int iWeaponIndex);
+		void		deletePhyicsObject(PhysicsObject* pPO);
 
 		
 
