@@ -1,5 +1,6 @@
 #pragma once
 #include "Bullet.h"
+#include "BulletControllerProperty.h"
 #include "Controller.h"
 
 namespace Balyoz
@@ -12,6 +13,8 @@ namespace Balyoz
 		~BulletController(void);
 
 		virtual void run() ;
+
+		BulletControllerProperty	*m_pBulletControllerProperty;
 
 	};
 

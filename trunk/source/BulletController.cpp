@@ -1,7 +1,8 @@
 #include "BulletController.h"
 #include "GameController.h"
 #include "Bullet.h"
-
+#define USE_SAFE
+#include "macros.h"
 using namespace Balyoz;
 BulletController::BulletController(void)
 {
@@ -37,12 +38,21 @@ void DummyBulletController::run()
 	while(it != endIt)
 	{
 		Bullet *pBullet = *it;
-		if(pBullet->m_CreationTime + pBullet->m_LifeTime > fTime)
+		pBullet->m_LifeTime -= fTime;
+		if(pBullet->m_LifeTime < 0)
 		{
 			// TODO: delete bullet
+			std::list<Bullet*>::iterator deleteit = it;
+			it++;
+			m_GameObjectList.erase(deleteit);
+			GameController::getInfoProvider()->deletePhyicsObject(pBullet->m_pPhysicsObject);
+			SAFE_DELETE(pBullet);
+			continue;
+
 		}
 //		pBullet->m_pPhysicsObject->addForce(NxOgre::Vec3(0,9.8*pBullet->m_pPhysicsObject->getMass(),0));
-		pBullet->m_pPhysicsObject->addLocalForce(NxOgre::Vec3(0,0,-9.8*pBullet->m_pPhysicsObject->getMass()));
+//		if(pBullet->m_pPhysicsObject->getLinearVelocity().magnitudeSquared() < pBullet->m_MaximumSpeed)
+			pBullet->m_pPhysicsObject->addLocalForce(pBullet->m_Force);
 		it++;
 	}
 

@@ -3,7 +3,7 @@
   <bulletcontroller>
     <name>dummy</name>
     <behaviour>forward</behaviour>
-    <accuracy>0.5</accuracy>
+    <accuracy>.599</accuracy>
     <aiming>none</aiming>
   </bulletcontroller>
 

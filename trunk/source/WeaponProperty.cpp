@@ -50,6 +50,14 @@ bool WeaponProperty::set(const std::string &parameterName, const std::string &pa
 	//{
 	//	m_iType = atoi(parameterValue.c_str());
 	//}
+	else if( parameterName.compare("/bullet/initialspeed") == 0 )
+	{
+		m_fInitialSpeed = (float)atof(parameterValue.c_str());
+	}
+	else if( parameterName.compare("/bullet/maximumspeed") == 0 )
+	{
+		m_fMaximumSpeed = (float)atof(parameterValue.c_str());
+	}
 	else if( parameterName.compare("/bullet/radius") == 0 )
 	{
 		m_fRadius = (float)atof(parameterValue.c_str());

@@ -20,6 +20,8 @@ namespace Balyoz
 		~Bullet(void);
 		void setBulletProperty(const BulletProperty &bulletProperty );
 		
+		float			m_MaximumSpeed;
+		float			m_InitialSpeed;
 		float			m_Power;
 		float			m_Radius;
 		float			m_LifeTime;

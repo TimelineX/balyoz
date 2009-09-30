@@ -11,6 +11,8 @@ public:
 	float m_fPower;
 	float m_fRadius;
 	float m_fLifeTime;
+	float m_fInitialSpeed;
+	float m_fMaximumSpeed;
 	unsigned int m_iCapacity;
 	unsigned int m_iMinimum;
 	unsigned int m_iMaximum;

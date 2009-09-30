@@ -1,6 +1,7 @@
 #include "BulletControllerProperty.h"
 #define USE_REPORT
 #include "macros.h"
+using namespace Balyoz;
 BulletControllerProperty::BulletControllerProperty(void)
 {
 }

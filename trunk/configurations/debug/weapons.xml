@@ -3,7 +3,7 @@
   <weapon>
     <name>bazooka</name>
     <mesh>cube.mesh</mesh>
-    <reloadtime>5</reloadtime>
+    <reloadtime>500</reloadtime>
     <numofbullets>
       <capacity>1000</capacity>
       <initial>1</initial>
@@ -12,11 +12,13 @@
       <anglebetweenbullets>18</anglebetweenbullets>
     </numofbullets>
     <bullet>
+      <initialspeed>-10</initialspeed>
+      <maximumspeed>-100</maximumspeed>
       <power>100</power>
       <radius>10</radius>
       <effect>linear</effect>
-      <lifetime>5000</lifetime>
-      <particles>smoke</particles>
+      <lifetime>4.5</lifetime>
+      <particles>Examples/Smoke</particles>
       <explosion>explosion</explosion>
       <controller>dummy</controller>
     </bullet>
