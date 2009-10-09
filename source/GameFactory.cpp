@@ -6,6 +6,7 @@
 #include "NavyGameUnit.h"
 #include "Level.h"
 #include "BulletControllerProperty.h"
+#include "GenericXmlMapProperty.h"
 #include <map>
 
 using std::map;
@@ -29,6 +30,8 @@ bool GameFactory::init()
 }
 void GameFactory::createXmlMapRepostories()
 {
+	XMLMapRepostory<GenericXmlMapProperty> *pTest = (new XMLMapRepostory<GenericXmlMapProperty>("generic bean"));
+	pTest->initFromXml( "maps.xml" ,"maps", "map" ); 
 
 	m_pBulletControllerXMLMap = (new XMLMapRepostory<BulletControllerProperty>("bullet controller bean"));
 	m_pBulletControllerXMLMap->initFromXml( "bulletcontroller.xml" ,"bulletcontrollers", "bulletcontroller" );
