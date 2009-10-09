@@ -475,6 +475,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GenericXmlMapProperty.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GenericXmlMapProperty.h"
+				>
+			</File>
+			<File
 				RelativePath=".\LevelProperty.cpp"
 				>
 			</File>
@@ -554,6 +562,10 @@
 				RelativePath=".\UnitController.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Utils"
+			>
 		</Filter>
 	</Files>
 	<Globals>
