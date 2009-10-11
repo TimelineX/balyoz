@@ -9,6 +9,8 @@ GenericXmlMapProperty::GenericXmlMapProperty(void)
 	m_pStringMap = 0;
 	m_pNumberMap = 0;
 	m_pChildren = 0;
+	m_pNumberArrayMap = 0;
+	m_pChildInProcess = 0;
 }
 
 GenericXmlMapProperty::~GenericXmlMapProperty(void)
@@ -19,6 +21,11 @@ GenericXmlMapProperty::~GenericXmlMapProperty(void)
 	SAFE_DELETE(m_pVector3Map);
 	SAFE_DELETE(m_pStringMap);
 	SAFE_DELETE(m_pNumberMap);
+	if( m_pNumberArrayMap && !m_pNumberArrayMap->empty() )
+	{
+		SAFE_DELETE((m_pNumberArrayMap->begin()->second));
+	}
+	SAFE_DELETE(m_pNumberArrayMap);
 	if(m_pChildren)
 	{
 		std::vector<GenericXmlMapProperty*>::iterator it = m_pChildren->begin();

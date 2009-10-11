@@ -163,7 +163,6 @@ void GameController::shoot(GameUnit *pGameUnit, int iWeaponIndex)
 	Bullet *pBullet = new Bullet(pWeapon->m_BulletProperty);
 	NxOgre::RigidBodyDescription desc;
 	desc.mBodyFlags |= Enums::BodyFlags_FreezePositionY ;//| Enums::BodyFlags_FreezeRotation;
-
 	NxOgre::Vec3 objectPos(pGameUnit->m_pBody->getGlobalPosition());
  
 	NxOgre::Box *box = new NxOgre::Box(.5,.5,1) ;
@@ -171,8 +170,8 @@ void GameController::shoot(GameUnit *pGameUnit, int iWeaponIndex)
 //	pBullet->m_pPhysicsObject->m_pGameObject = pBullet;
 	//pBullet->m_pPhysicsObject->setContactReportFlags(Enums::ContactPairFlags_All);
 	pBullet->m_pPhysicsObject->getNxActor()->setGroup(1);
-	pBullet->m_pPhysicsObject->setLinearVelocity(NxOgre::Vec3(0,0,pBullet->m_InitialSpeed)); 
-	pBullet->m_Force = NxOgre::Vec3((rand()%(10) - 5)*(1.0f-pBC->m_pBulletControllerProperty->m_fAccuracy),0,-10); 
+	pBullet->m_pPhysicsObject->setLinearVelocity(NxOgre::Vec3(0,0,pBullet->m_InitialSpeed+ pGameUnit->m_pBody->getLinearVelocity().z/10.0f) ); 
+	pBullet->m_Force = NxOgre::Vec3(pBullet->m_pPhysicsObject->getLinearVelocity().magnitude()/10.0f*(rand()%(10) - 5)*(1.0f-pBC->m_pBulletControllerProperty->m_fAccuracy),0,-1); 
 	pBullet->m_pPhysicsObject->addLocalTorque(NxOgre::Vec3(0,(rand()%(40) - 20)*(1.0f - pBC->m_pBulletControllerProperty->m_fAccuracy),0) );
 	//NxOgre::Box *bx = new NxOgre::Box(.5,.5,1) ;
 	//OGRE3DBody *b = (m_pRenderSystem->createBody(bx , objectPos, pWeapon->m_MeshFileName.c_str(),desc));
@@ -211,7 +210,7 @@ GameUnit* GameController::createGameUnit(const UnitData* pUnitData)
 
 	NxOgre::Box *box = new NxOgre::Box(3,.5,3) ;
 	gu->m_pBody = static_cast<PhysicsObject*>(m_pRenderSystem->createBody(box , objectPos, gu->m_Mesh.c_str(),desc));
-//	gu->m_pBody->m_pGameObject = gu;
+	//	gu->m_pBody->m_pGameObject = gu;
 	//gu->m_pBody->setContactReportFlags(Enums::ContactPairFlags_All);
 	
 //	gu->m_pBody->

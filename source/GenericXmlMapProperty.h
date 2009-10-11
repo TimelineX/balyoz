@@ -24,7 +24,9 @@ public:
 		XFT_VECTOR2,
 		XFT_VECTOR3,
 		XFT_MATRIX3,
-		XFT_MATRIX4
+		XFT_MATRIX4,
+		XFT_NUMBERARRAY,	// if none of the above but all numbers
+		XFT_GENERIC_XMP		// generic xml map property
 	};
 	GenericXmlMapProperty(void);
 	~GenericXmlMapProperty(void);
@@ -35,199 +37,328 @@ public:
 			return true;
 		}
 
-		std::string pName = parameterName.c_str();
 		
-		std::vector<std::string> paramNameVec = Ogre::StringUtil::split(parameterName,"/");
+		std::vector<std::string> paramNameVec = Ogre::StringUtil::split(parameterName,"/ ");
 		int vecSize = paramNameVec.size();
-		std::string tmpStr;
 		if(  vecSize > 1 )
 		{
-			for(int i = 0; i < paramNameVec.size()-1; i++)
+			std::string childParameterName;
+			for(int i = 1; i < paramNameVec.size(); i++)
 			{
-				tmpStr += std::string("/") + paramNameVec[i];
+				childParameterName += std::string("/") + paramNameVec[i];
 			}
-			
-			if( paramNameVec[vecSize-1].compare("name") == 0 )
-			{
-				m_bChildInProcess = true;
-				if(m_pChildren == NULL)
-				{
-					m_pChildren = new std::vector<GenericXmlMapProperty*>();
-				}
-				m_pChildren->push_back( new GenericXmlMapProperty() );
-				m_ChildTagPattern = tmpStr;
-				m_pChildren->at(m_pChildren->size()-1)->m_Name = parameterValue;
-				return true;
-			}
-			else if ( m_bChildInProcess )
-			{
-				if( tmpStr.compare(m_ChildTagPattern)  == 0 )
-				{
-					if( m_pChildren && m_pChildren->size() > 0 )
-					{
-						return m_pChildren->at(m_pChildren->size()-1)->set(parameterName,parameterValue);
-					}
-					else
-					{
-						REPORT_WARNING(parameterName + std::string(" no children set is valid: ") + parameterValue);
-					}
-				}
-				else
-				{
-					m_bChildInProcess = false;
-				}
 
-			}
-		}
-		else
-		{
-			m_bChildInProcess = false;
+			return m_pChildInProcess->set( childParameterName, parameterValue );
+
 		}
 
-		double d;
-		Ogre::Vector2 v2;
-		Ogre::Vector3 v3;
-		Ogre::Matrix3 m3;
-		Ogre::Matrix4 m4;
+
+
 
 		std::vector<std::string> vec = Ogre::StringUtil::split(parameterValue," ,\t\n");
-		
-		if( vec.size() == 1 )
+		if(areAllNumber(vec))
 		{
-			if(areAllNumber(vec))
+		
+			if( vec.size() == 1 )
 			{
 				if(m_pNumberMap == NULL)
 				{
 					m_pNumberMap = new std::map<std::string,double>();
 				}
-				d =Ogre::StringConverter::parseLong(parameterValue);
+				double d =Ogre::StringConverter::parseLong(parameterValue);
 
-				m_pNumberMap->insert(std::pair<std::string,double>(pName, d));
-				m_TypeMap[pName] = XFT_NUMBER;
+				m_pNumberMap->insert(std::pair<std::string,double>(parameterName, d));
+				m_TypeMap[parameterName] = XFT_NUMBER;
 				return true;
 			}
-		}
-		if( vec.size() == 2 )
-		{
-			if(areAllNumber(vec))
+
+			if( vec.size() == 2 )
 			{
+
 				if(m_pVector2Map == NULL)
 				{
 					m_pVector2Map = new std::map<std::string,Ogre::Vector2>();
 				}
-				v2 =Ogre::StringConverter::parseVector2(parameterValue);
+				Ogre::Vector2 v2 =Ogre::StringConverter::parseVector2(parameterValue);
 
-				m_pVector2Map->insert(std::pair<std::string,Ogre::Vector2>(pName, v2));
-				m_TypeMap[pName] = XFT_VECTOR2;
+				m_pVector2Map->insert(std::pair<std::string,Ogre::Vector2>(parameterName, v2));
+				m_TypeMap[parameterName] = XFT_VECTOR2;
 				return true;
 			}
-		}
 
-		else if( vec.size() == 3 )
-		{
-			if(areAllNumber(vec))
+			else if( vec.size() == 3 )
 			{
 				if(m_pVector3Map == NULL)
 				{
 					m_pVector3Map = new std::map<std::string,Ogre::Vector3>();
 				}
-				v3 = Ogre::StringConverter::parseVector3(parameterValue);
+				Ogre::Vector3 v3 = Ogre::StringConverter::parseVector3(parameterValue);
 
-				m_pVector3Map->insert(std::pair<std::string,Ogre::Vector3>(pName, v3));
-				m_TypeMap[pName] = XFT_VECTOR3;
+				m_pVector3Map->insert(std::pair<std::string,Ogre::Vector3>(parameterName, v3));
+				m_TypeMap[parameterName] = XFT_VECTOR3;
 				return true;
 			}
-		}
 
-		else if( vec.size() == 9 )
-		{
-			if(areAllNumber(vec))
+			else if( vec.size() == 9 )
 			{
+
 				if(m_pMatrix3Map == NULL)
 				{
 					m_pMatrix3Map = new std::map<std::string,Ogre::Matrix3>();
 				}
-				m3 = Ogre::StringConverter::parseMatrix3(parameterValue);
+				Ogre::Matrix3 m3 = Ogre::StringConverter::parseMatrix3(parameterValue);
 
-				m_pMatrix3Map->insert(std::pair<std::string,Ogre::Matrix3>(pName, m3));
-				m_TypeMap[pName] = XFT_MATRIX3;
+				m_pMatrix3Map->insert(std::pair<std::string,Ogre::Matrix3>(parameterName, m3));
+				m_TypeMap[parameterName] = XFT_MATRIX3;
 				return true;
+
 			}
-		}
-		else if( vec.size() == 16 )
-		{
-			if(areAllNumber(vec))
+			else if( vec.size() == 16 )
 			{
+
 				if(m_pMatrix4Map == NULL)
 				{
 					m_pMatrix4Map = new std::map<std::string,Ogre::Matrix4>();
 				}
-				m4 = Ogre::StringConverter::parseMatrix4(parameterValue);
+				Ogre::Matrix4 m4 = Ogre::StringConverter::parseMatrix4(parameterValue);
 
-				m_pMatrix4Map->insert(std::pair<std::string,Ogre::Matrix4>(pName, m4));
-				m_TypeMap[pName] = XFT_MATRIX4;
+				m_pMatrix4Map->insert(std::pair<std::string,Ogre::Matrix4>(parameterName, m4));
+				m_TypeMap[parameterName] = XFT_MATRIX4;
 				return true;
+			}
+			else
+			{
+				if(m_pNumberArrayMap == NULL)
+				{
+					m_pNumberArrayMap = new std::map<std::string,std::vector<double>*>();
+				}
+
+				std::vector<double>* pNumberArray = new std::vector<double>();
+				vectorStringToNumberArray( vec, *pNumberArray );
+				m_pNumberArrayMap->insert( std::pair<std::string,std::vector<double>*>( parameterName, pNumberArray ) );
+				m_TypeMap[parameterName] = XFT_NUMBERARRAY;
+				return true;
+
+			}
+		}
+		else
+		{
+			if(m_pStringMap == NULL)
+			{
+				m_pStringMap = new std::map<std::string,std::string>();
+			}
+			m_pStringMap->insert(std::pair<std::string,std::string>(parameterName, parameterValue));
+			m_TypeMap[parameterName] = XFT_STRING;
+			return true;
+		}
+	}
+
+	bool getChildrenOf(const std::string &fullTag, std::vector<GenericXmlMapProperty*>* &parameterValue)
+	{
+				
+		std::vector<std::string> words = Ogre::StringUtil::split(fullTag,"/ ");
+
+		if( words.size() > 0 && !words[0].empty() ) 
+		{
+			std::vector<std::string> tagSplit;
+			tagSplit = Ogre::StringUtil::split(words[0],":");
+			std::string tagChildName;
+			std::string tagName;
+			tagName = tagSplit[0];
+			if(tagSplit.size()>1)
+			{
+				tagChildName = tagSplit[1];
+			}
+
+			for( int i = 0; i < m_pChildren->size(); i++ )
+			{
+				if( m_pChildren->at(i)->m_RootTag.compare(tagName) == 0 )
+				{
+					if( tagChildName.size() == 0 || tagChildName.compare("*") == 0 || tagChildName.compare(m_pChildren->at(i)->m_Name) == 0 )
+					{
+						if(words.size() == 1)
+						{
+							parameterValue = m_pChildren;
+							return true;
+						}
+						else 
+						{
+							std::string childRootTag;
+							for(int j = 1; j < words.size() ; j++ )
+							{ 
+								childRootTag += "/" + words[j];
+							}
+							return m_pChildren->at(i)->getChildrenOf(childRootTag,parameterValue);
+						}
+					}
+				}
 			}
 		}
 
-		else
-		{
-				if(m_pStringMap == NULL)
-				{
-					m_pStringMap = new std::map<std::string,std::string>();
-				}
-				m_pStringMap->insert(std::pair<std::string,std::string>(pName, parameterValue));
-				m_TypeMap[pName] = XFT_STRING;
-				return true;
-		}
+
+		return false;
 	}
-	
+
+
 	template<typename T>
-	bool get(const std::string &parameterName, T& parameterValue)
+	bool get(const std::string &fullTag, T& parameterValue)
 	{
+		std::vector<std::string> words = Ogre::StringUtil::split(fullTag,"/ ");
+		if( words.size() > 1 ) 
+		{ 
+			if( m_pChildren == NULL )
+			{
+				return false;
+			}
+			std::vector<std::string> tagSplit;
+			tagSplit = Ogre::StringUtil::split(words[0],":");
+			std::string tagChildName;
+			std::string tagName;
+			tagName = tagSplit[0];
+			if(tagSplit.size()>1)
+			{
+				tagChildName = tagSplit[1];
+			}
+			for( int i = 0; i < m_pChildren->size(); i++ )
+			{
+				if( m_pChildren->at(i)->m_RootTag.compare(tagName) == 0 )
+				{
+					if( tagChildName.compare(m_pChildren->at(i)->m_Name) == 0 )
+					{
+					
+						std::string childRootTag;
+						for(int j = 1; j < words.size() ; j++ )
+						{ 
+							childRootTag += "/" + words[j];
+						}
+						return m_pChildren->at(i)->get<T>(childRootTag,parameterValue);
+					}
+				}
+			}
+			return false;
+		}
 
 		std::map<std::string, XML_FIELD_TYPES>::iterator it = m_TypeMap.begin();
 		const std::map<std::string, XML_FIELD_TYPES>::iterator endit = m_TypeMap.end();
 		while(it != endit)
 		{
-			if( (*it).first.compare(parameterName) == 0 )
+			if( (*it).first.compare(fullTag) == 0 )
 				break;
 			it++;
 		}
 		
 		if(it == endit)
 		{
-			REPORT_WARNING(pName + std::string(" named xml tag not found!"));
+			REPORT_WARNING(fullTag + std::string(" named xml tag not found!"));
 			return false;
 		}
 		
 		switch (it->second)
 		{
 		case XFT_STRING:
-			parameterValue = m_pStringMap->[parameterName];
+			parameterValue = *((T*)(&(m_pStringMap->find(fullTag)->second)));
 			break;
 		case XFT_NUMBER:
-			parameterValue = m_pNumberMap->[parameterName];
+			parameterValue = *((T*)(&(m_pNumberMap->find(fullTag)->second)));
 			break;
 		case XFT_VECTOR2:
-			parameterValue = m_pVector2Map->[parameterName];
+			parameterValue = *((T*)(&(m_pVector2Map->find(fullTag)->second)));
 			break;
 		case XFT_VECTOR3:
-			parameterValue = m_pVector3Map->[parameterName];
+			parameterValue = *((T*)(&(m_pVector3Map->find(fullTag)->second)));
 			break;
 		case XFT_MATRIX3:
-			parameterValue = m_pMatrix3Map->[parameterName];
+			parameterValue = *((T*)(&(m_pMatrix3Map->find(fullTag)->second)));
 			break;
 		case XFT_MATRIX4:
-			parameterValue = m_pMatrix4Map->[parameterName];
+			parameterValue = *((T*)(&(m_pMatrix4Map->find(fullTag)->second)));
+			break;
+		case XFT_NUMBERARRAY:
+			parameterValue = *((T*)(&(m_pNumberArrayMap->find(fullTag)->second)));
 			break;
 		default:
-			REPORT_WARNING(std::string("unknown XML FIELD TYPE for:") + pName );
+			REPORT_WARNING(std::string("unknown XML FIELD TYPE for:") + fullTag );
 			return false;
 		}
 		return true;		
 	}
 
+	void childTagStart( const std::string &tagName )
+	{
+		if( tagName.empty() )
+		{
+			return;
+		}
+
+
+
+		std::vector<std::string> tags = Ogre::StringUtil::split(tagName,"/ ");
+		if( tags.size() == 1 )
+		{
+			if( m_pChildren == NULL )
+			{
+				m_pChildren = new std::vector<GenericXmlMapProperty*>();
+			}
+			m_pChildInProcess = new GenericXmlMapProperty();
+			m_pChildren->push_back(m_pChildInProcess);
+			m_pChildInProcess->m_RootTag = tags[0];
+			return;
+		}
+		
+		if( m_pChildren == NULL )
+		{
+			return;
+		}
+
+		for( int i = 0; i < m_pChildren->size(); i++ )
+		{
+			if( m_pChildren->at(i)->m_RootTag.compare(tags[0]) == 0 )
+			{
+
+				std::string childRootTag;
+				for(int j = 1; j < tags.size() ; j++ )
+				{ 
+					childRootTag += "/" + tags[j];
+				}
+				m_pChildren->at(i)->childTagStart(childRootTag);
+			}				
+		}
+	}
+
+	void childTagEnd( const std::string &tagName )
+	{
+		if( tagName.empty() )
+		{
+			return;
+		}
+
+
+		std::vector<std::string> tags = Ogre::StringUtil::split(tagName,"/ ");
+		if( tags.size() == 1 )
+		{
+			m_pChildInProcess = NULL;
+			return;
+		}
+		
+		if( m_pChildren == NULL )
+		{
+			return;
+		}
+
+		for( int i = 0; i < m_pChildren->size(); i++ )
+		{
+			if( m_pChildren->at(i)->m_RootTag.compare(tags[0]) == 0 )
+			{
+
+				std::string childRootTag;
+				for(int j = 1; j < tags.size() ; j++ )
+				{ 
+					childRootTag += "/" + tags[j];
+				}
+				m_pChildren->at(i)->childTagEnd(childRootTag);
+			}				
+		}
+	}
 
 	std::map<std::string, XML_FIELD_TYPES>		m_TypeMap;
 	std::map<std::string, std::string>*			m_pStringMap;
@@ -236,12 +367,16 @@ public:
 	std::map<std::string, Ogre::Vector3>*		m_pVector3Map;
 	std::map<std::string, Ogre::Matrix3>*		m_pMatrix3Map;
 	std::map<std::string, Ogre::Matrix4>*		m_pMatrix4Map;
+	std::map<std::string, std::vector<double>*>*	m_pNumberArrayMap;
 
 	std::vector<GenericXmlMapProperty*>*		m_pChildren;
-	private:
-
-		bool m_bChildInProcess;
-		std::string m_ChildTagPattern;
+	std::string									m_RootTag;
+	std::vector<std::string>					m_TagNames;
+	protected:
+		
+		//bool									m_bChildInProcess;
+		GenericXmlMapProperty*					m_pChildInProcess;
+		std::string								m_ChildTagPattern;
 
 		bool areAllNumber(std::vector<std::string> &vec)
 		{
@@ -253,6 +388,15 @@ public:
 				}
 			}
 			return true;
+		}
+
+		void vectorStringToNumberArray( std::vector<std::string> &vectorString, std::vector<double> &numberArray  )
+		{
+			for( int i = 0; i < vectorString.size(); i++ )
+			{
+				numberArray.push_back( Ogre::StringConverter::parseLong( vectorString[i] ) );
+			}
+
 		}
 
 };
