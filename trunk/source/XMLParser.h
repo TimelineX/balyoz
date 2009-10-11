@@ -46,8 +46,9 @@ void parseXmlRecursive(XmlMapProperty* pProtoObject, std::vector<PropertyClass*>
 			{
 				sendVal += std::string("/") + str;
 			}
-
+			pProtoObject->childTagStart(sendVal);
 			parseXmlRecursive<PropertyClass>( pProtoObject, gamePropertys, tmp->FirstChildElement(), sendVal , mainTag );
+			pProtoObject->childTagEnd(sendVal);
 		}
 		tmp = tmp->NextSiblingElement();
 	}	

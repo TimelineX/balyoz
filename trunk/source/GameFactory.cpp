@@ -32,6 +32,13 @@ void GameFactory::createXmlMapRepostories()
 {
 	XMLMapRepostory<GenericXmlMapProperty> *pTest = (new XMLMapRepostory<GenericXmlMapProperty>("generic bean"));
 	pTest->initFromXml( "maps.xml" ,"maps", "map" ); 
+	double d;
+	std::string str;
+	pTest->m_Propertys["map-1"]->get<std::string>("/unit:test-2/justforfun/hello",str);
+
+	std::vector<GenericXmlMapProperty*> *pVector = 0;
+	pTest->m_Propertys["map-1"]->getChildrenOf("/unit:test-2/justforfun",pVector);
+	pVector->at(0)->get<std::string>("/justforfun/hello",str); 
 
 	m_pBulletControllerXMLMap = (new XMLMapRepostory<BulletControllerProperty>("bullet controller bean"));
 	m_pBulletControllerXMLMap->initFromXml( "bulletcontroller.xml" ,"bulletcontrollers", "bulletcontroller" );
