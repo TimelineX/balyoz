@@ -18,8 +18,8 @@ class GenericXmlMapProperty :
 public:
 	enum XML_FIELD_TYPES
 	{
-		XFT_NONE,
-		XFT_STRING,
+		XFT_NONE = -1,
+		XFT_STRING = 1,
 		XFT_NUMBER,
 		XFT_VECTOR2,
 		XFT_VECTOR3,
@@ -358,6 +358,29 @@ public:
 				m_pChildren->at(i)->childTagEnd(childRootTag);
 			}				
 		}
+	}
+
+	XML_FIELD_TYPES getTypeOf( const std::string & tagName )
+	{
+		XML_FIELD_TYPES ret = m_TypeMap[tagName];
+		if(  ret )
+		{
+			return ret;
+		}
+
+		if( m_pChildren )
+		{
+			for (int i = 0; i < m_pChildren->size() ; i++)
+			{
+				if( tagName.compare(m_pChildren->at(i)->m_RootTag) == 0 )
+				{
+					return XFT_GENERIC_XMP;
+				}
+			}
+		}
+		return XML_FIELD_TYPES(0);
+
+
 	}
 
 	std::map<std::string, XML_FIELD_TYPES>		m_TypeMap;
