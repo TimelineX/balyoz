@@ -16,7 +16,7 @@ particle_system Examples/Smoke
 		angle               		0
         	emission_rate       		10
         	time_to_live        		1
-        	direction           		-1 0 0
+        	direction           		0 -1 0
         	velocity_min        		5
         	velocity_max        		7 
 			duration 					0
