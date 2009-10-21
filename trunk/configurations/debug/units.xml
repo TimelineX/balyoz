@@ -5,8 +5,9 @@
     <mesh>cube.mesh</mesh>
     <health>100</health>
     <armour>10</armour>
-    <speed>40</speed>
-    <weapon>bazooka</weapon>
+    <speed>50</speed>
+    <primaryweapon>bazooka</primaryweapon>
+    <secondaryweapon>machine gun</secondaryweapon>
     <controller>human</controller>
     <type>navy</type>
   </unit>
@@ -15,8 +16,10 @@
     <mesh>cube.mesh</mesh>
     <health>200</health>
     <armour>5</armour>
-    <speed>3</speed>
-    <weapon>bazooka</weapon>
+    <speed>50</speed>
+    <primaryweapon>bazooka</primaryweapon>
+    <secondaryweapon>machine gun</secondaryweapon>
+
     <controller>human</controller>
     <type>air</type>
   </unit>
