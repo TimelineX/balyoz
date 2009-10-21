@@ -3,12 +3,19 @@
 
 namespace Balyoz
 {
+	enum ENUM_GAME_OBJECT_TYPE
+	{
+		GAME_OBJECT_TYPE_NONE = 0,
+		GAME_OBJECT_TYPE_STATIC = 1<<4,
+		GAME_OBJECT_TYPE_UNIT = 1 << 8
+	};
 	class GameObject
 	{
 	public:
 		GameObject(void);
-		GameObject(const std::string&);
+		GameObject(std::string* pName);
 		~GameObject(void);
-		std::string m_Name;
+		std::string* m_pName;
+		ENUM_GAME_OBJECT_TYPE	m_GameObjectType;
 	};
 }

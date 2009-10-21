@@ -45,8 +45,8 @@ void HumanController::run()
 	{
 		GameUnit *pGU = (*it);
 		PhysicsObject *kb  = pGU->m_pBody;
-		NxOgre::Vec3 tmpV = ( m_TranslateVec * ( pGU->m_Speed * fTime  ));
-		kb->addForce(m_TranslateVec*1000);//->setGlobalPosition( kb->getGlobalPosition() + tmpV );
+		NxOgre::Vec3 tmpV = ( m_TranslateVec * ( pGU->m_Speed * fTime  ))*4000;
+		kb->addForce(tmpV);//->setGlobalPosition( kb->getGlobalPosition() + tmpV );
 
 		fRoll = -m_TranslateVec[0] * 30.0f ;
 		if(fRoll > 90)
@@ -71,15 +71,28 @@ void HumanController::run()
 		kb->getSceneNode()->roll(Ogre::Radian(Ogre::Angle(fRoll)));
 		kb->getSceneNode()->pitch(Ogre::Radian(Ogre::Angle(fPitch)));
 
-		if(mouseState.buttonDown(OIS::MB_Left))
-		{
+		if(mouseState.buttonDown(OIS::MB_Left) && pGU->m_Weapons.size() > 0)
+		{			
 			if( pGU->m_Weapons[0]->m_LastShootTime  < 0 )
 			{
 				GameController::getInfoProvider()->shoot(pGU,0);
 				pGU->m_Weapons[0]->m_LastShootTime = pGU->m_Weapons[0]->m_ReloadTime;
 			}
 		}
+
+
+		if(mouseState.buttonDown(OIS::MB_Right) && pGU->m_Weapons.size() > 1)
+		{
+			if( pGU->m_Weapons[1]->m_LastShootTime  < 0 )
+			{
+				GameController::getInfoProvider()->shoot(pGU,1);
+				pGU->m_Weapons[1]->m_LastShootTime = pGU->m_Weapons[1]->m_ReloadTime;
+			}
+		}
+
+
 		pGU->m_Weapons[0]->m_LastShootTime -= fTime * 1000.0f;
+		pGU->m_Weapons[1]->m_LastShootTime -= fTime * 1000.0f;
 		it++;
 	}
 		

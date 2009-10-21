@@ -1,19 +1,23 @@
 #include "GameFactory.h"
-#include "Weapon.h"
 #define USE_REPORT
 #include "macros.h"
 #include "AirGameUnit.h"
 #include "NavyGameUnit.h"
-#include "Level.h"
-#include "BulletControllerProperty.h"
-#include "GenericXmlMapProperty.h"
+
 #include <map>
 
 using std::map;
 using namespace Balyoz;
 
+
+
 GameFactory::GameFactory(void)
 {
+	m_pWeaponPool = new DataPool<Weapon>(true, 128);
+	m_pBulletPool = new DataPool<Bullet>();
+	m_pGameUnitPool = new DataPool<GameUnit>(true, 128);
+	m_pBulletControllerList = new std::list<BulletController*>();
+
 }
 
 GameFactory::~GameFactory(void)
@@ -30,36 +34,199 @@ bool GameFactory::init()
 }
 void GameFactory::createXmlMapRepostories()
 {
-	XMLMapRepostory<GenericXmlMapProperty> *pTest = (new XMLMapRepostory<GenericXmlMapProperty>("generic bean"));
-	pTest->initFromXml( "maps.xml" ,"maps", "map" ); 
-	double d;
-	std::string str;
-	pTest->m_Propertys["map-1"]->get<std::string>("/unit:test-2/justforfun/hello",str);
+	XMLMapRepostory<GenericXmlMapProperty> *pFileMap = (new XMLMapRepostory<GenericXmlMapProperty>("filemap"));
+	pFileMap->initFromXml( "xmlfilemap.xml" ,"xmlfilemaps", "xmlfilemap" ); 
+	if( pFileMap == NULL || pFileMap->m_Propertys.empty() )
+	{
+		REPORT_ERROR("xmlfilemap loading failed");
+	}
+	//std::map<std::string,GenericXmlMapProperty*> files;
 
-	std::vector<GenericXmlMapProperty*> *pVector = 0;
-	pTest->m_Propertys["map-1"]->getChildrenOf("/unit:test-2/justforfun",pVector);
-	pVector->at(0)->get<std::string>("/justforfun/hello",str); 
+	std::map<std::string, GenericXmlMapProperty*>::iterator it = pFileMap->m_Propertys.begin();
+	const std::map<std::string, GenericXmlMapProperty*>::iterator endit = pFileMap->m_Propertys.end();
+	XMLMapRepostory<GenericXmlMapProperty> *tmp;
+	std::string roottag;
+	std::string maintag;
+	std::string filename;
+	while( it != endit)
+	{
+		tmp = new XMLMapRepostory<GenericXmlMapProperty>(it->first); 
+		if	(
+			it->second->get<std::string>("/roottag",roottag) &&
+			it->second->get<std::string>("/maintag",maintag) &&
+			it->second->get<std::string>("/file",filename) 
+			)
+		{
+				tmp->initFromXml(filename,roottag,maintag);
+		}
+		else
+		{
+				REPORT_ERROR("xmlfilemap loading failed");
+		}
 
-	m_pBulletControllerXMLMap = (new XMLMapRepostory<BulletControllerProperty>("bullet controller bean"));
-	m_pBulletControllerXMLMap->initFromXml( "bulletcontroller.xml" ,"bulletcontrollers", "bulletcontroller" );
+		std::map<std::string, GenericXmlMapProperty*>::iterator itPropertys = tmp->m_Propertys.begin();
+		const std::map<std::string, GenericXmlMapProperty*>::iterator enditPropertys = tmp->m_Propertys.end();
+		while( itPropertys != enditPropertys )
+		{
+			GenericXmlMapProperty *pSecond = itPropertys->second;
 
-	m_pWeaponXMLMap = (new XMLMapRepostory<WeaponProperty>("weapon bean"));
-	m_pWeaponXMLMap->initFromXml( "weapons.xml" ,"weapons", "weapon" );
+			bool bSuccess = false;
 
-	m_pUnitXMLMap = (new XMLMapRepostory<UnitProperty>("unit bean"));
-	m_pUnitXMLMap->initFromXml( "units.xml" ,"units", "unit" );
+			if( tmp->m_Name.compare("bullet controller") == 0 )
+			{
+				BulletController *pBulletController = new BulletController();
+				std::string sTmp = pSecond->getString("/behaviour");
+				if (sTmp.compare("forward") == 0)
+				{
+					pBulletController->m_Behavoiur = BULLET_BEHAVIOUR_HORIZONTAL;
+				}
+				else if (sTmp.compare("freefall") == 0)
+				{
+					pBulletController->m_Behavoiur = BULLET_BEHAVIOUR_VERTICAL;
+				}
+				else if (sTmp.compare("guided") == 0)
+				{
+					pBulletController->m_Behavoiur = BULLET_BEHAVIOUR_GUIDED;
+				}
+
+				else
+				{
+
+					REPORT_WARNING("nothing set for bullet controller behaviour field. default forward will be set");
+					pBulletController->m_Behavoiur = BULLET_BEHAVIOUR_HORIZONTAL;
+				}
+
+				sTmp = pSecond->getString("/aiming");
+				if (sTmp.compare("weakest") == 0)
+				{
+					pBulletController->m_Aiming = BULLET_AIMING_WEAKEST;
+				}
+				else if (sTmp.compare("strongest") == 0)
+				{
+					pBulletController->m_Aiming = BULLET_AIMING_STRONGEST;
+				}
+				else if (sTmp.compare("none") == 0)
+				{
+					pBulletController->m_Aiming = BULLET_AIMING_NONE;
+				}
+
+				else
+				{
+
+					REPORT_WARNING("nothing set for bullet controller aiming field. default none will be set");
+					pBulletController->m_Aiming = BULLET_AIMING_NONE;
+				}
+
+				pBulletController->m_fAccuracy = pSecond->getNumber("/accuracy");
+
+				m_BulletControllers[itPropertys->first] = pBulletController;
+				m_pBulletControllerList->push_back(pBulletController);
+
+			}
+			else if( tmp->m_Name.compare("game") == 0 )
+			{
+			}
+			else if( tmp->m_Name.compare("levels") == 0 )
+			{
+				Level *pLevel = new Level(itPropertys->first);
+				pLevel->m_Terrain = pSecond->getString("/terrain");
+				pLevel->m_MapName = pSecond->getString("/map");
+				pLevel->m_pGameMap = getMap(pLevel->m_MapName);
+				pLevel->m_SkyBox = pSecond->getString("/skybox");
+
+				m_GameLevels[itPropertys->first] = pLevel;
+			}
+			else if( tmp->m_Name.compare("maps") == 0 )
+			{
+				GameMap* pGameMap = new GameMap(itPropertys->first);
+
+				std::vector<GenericXmlMapProperty*>* pUnitsOnMap ;
+				itPropertys->second->getChildrenOf("/unit", pUnitsOnMap);
+				for(int i =0; i < pUnitsOnMap->size(); i++)
+				{
+					MapGameObject *pGamemapobject = new  MapGameObject(pUnitsOnMap->at(i)->m_Name,
+						pUnitsOnMap->at(i)->getVector3("/orientation"),
+						pUnitsOnMap->at(i)->getVector3("/position"));
+					pGameMap->m_pGameObjectList->push_back(pGamemapobject);
+				}
+				pGameMap->m_pGameObjectList->sort();
+				m_GameMaps[itPropertys->first] = pGameMap;
+			}
+			else if( tmp->m_Name.compare("terrains") == 0 )
+			{
+			}
+			else if( tmp->m_Name.compare("units") == 0 )
+			{
+				GameUnit *pGameUnit		= new GameUnit();
+				
+				pGameUnit->m_pMesh			= new std::string(pSecond->getString("/mesh", bSuccess));
+				pGameUnit->m_pController	= new std::string(pSecond->getString("/controller", bSuccess));
+				pGameUnit->m_Health = pSecond->getNumber("/health", bSuccess);
+				pGameUnit->m_Armour = pSecond->getNumber("/armour", bSuccess);
+				pGameUnit->m_Speed = pSecond->getNumber("/speed", bSuccess);
+
+				std::string sTmp = pSecond->getString("/primaryweapon", bSuccess);
+				pGameUnit->m_WeaponNames.push_back(sTmp) ;
+				sTmp = pSecond->getString("/secondaryweapon", bSuccess);
+				pGameUnit->m_WeaponNames.push_back(sTmp) ;
+
+				sTmp = pSecond->getString("/type",bSuccess);
+				if( sTmp.compare("navy") == 0 )
+				{
+					pGameUnit->m_Type = UNIT_TYPE_NAVY;
+				}
+				else if( sTmp.compare("air") == 0 )
+				{
+					pGameUnit->m_Type = UNIT_TYPE_AIR;
+				}
+
+				m_GameUnitPrototypes[itPropertys->first] = pGameUnit;
+			}
+			else if( tmp->m_Name.compare("weapons") == 0 )
+			{
+				Weapon *pWeapon = new Weapon(new std::string(itPropertys->first));
+				pWeapon->m_pMeshFileName = new std::string(pSecond->getString("/mesh"));
+				pWeapon->m_ReloadTime = pSecond->getNumber("/reloadtime");
+				pWeapon->m_Capacity = pSecond->getNumber("/capacity");
+				pWeapon->m_Initial = pSecond->getNumber("/initial");
+				pWeapon->m_Maximum = pSecond->getNumber("/maximum");
+				pWeapon->m_Minimum = pSecond->getNumber("/minimum");
+				pWeapon->m_BulletAngle = pSecond->getNumber("/anglebetweenbullets");
+				
+				pWeapon->m_BulletProperty.m_InitialSpeed = pSecond->getNumber("/bullet/initialspeed");
+				pWeapon->m_BulletProperty.m_MaximumSpeed = pSecond->getNumber("/bullet/maximumspeed");
+				pWeapon->m_BulletProperty.m_Power = pSecond->getNumber("/bullet/power");
+				pWeapon->m_BulletProperty.m_Radius = pSecond->getNumber("/bullet/radius");
+				pWeapon->m_BulletProperty.m_Effect = EFFECT_LINEER; // TODO :  pSecond->getNumber("/bullet/effect");
+				REPORT_WARNING("TODO : incomplete code for effect!");
+				pWeapon->m_BulletProperty.m_LifeTime = pSecond->getNumber("/bullet/lifetime");
+				pWeapon->m_BulletProperty.m_Particles = pSecond->getString("/bullet/particles");
+				pWeapon->m_BulletProperty.m_Explosion = pSecond->getString("/bullet/explosion");
+				pWeapon->m_BulletProperty.m_Controller = pSecond->getString("/bullet/controller");
+				pWeapon->m_BulletProperty.m_pBulletController = getBulletController(pSecond->getString("/controller"));
+				m_WeaponPrototypes[itPropertys->first] = pWeapon;
+
+
+			}
+			itPropertys++;
+		}
+		
+		//files[it->first] = tmp;
+		it++;
+	}
+
+	//m_pBulletControllerXMLMap = files["bullet controller"];
+	//m_pGameXMLMap = files["game"];
+	//m_pLevelXMLMap = files["levels"];
+	//m_pMapXMLMap = files["maps"];
+	//m_pTerrainXMLMap = files["terrains"];
+	//m_pUnitXMLMap = files["units"];
+	//m_pWeaponXMLMap= files["weapons"];
+
 	
-	m_pTerrainXMLMap = (new XMLMapRepostory<TerrainProperty>("terrain bean"));
-	m_pTerrainXMLMap->initFromXml("terrains.xml","terrains","terrain");
 	
-	m_pMapXMLMap =  (new XMLMapRepostory<MapProperty>("map bean"));
-	m_pMapXMLMap->initFromXml("maps.xml","maps","map");
 
-	m_pLevelXMLMap = (new XMLMapRepostory<LevelProperty>("level bean"));
-	m_pLevelXMLMap->initFromXml( "levels.xml" ,"levels", "level" );
 
-	m_pGameXMLMap = (new XMLMapRepostory<GameProperty>("game bean"));
-	m_pGameXMLMap->initFromXml( "game.xml" ,"games", "game" );
 
 }
 static GameFactory *sg_pGameFactory = 0;
@@ -73,111 +240,67 @@ GameFactory* GameFactory::getSingleton()
 	return sg_pGameFactory;
 }
 
-Level* GameFactory::getLevel(const std::string& levelName){
-	LevelProperty *pLevelProp = m_pLevelXMLMap->m_Propertys[levelName];
-	ASSERT_AND_STOP_IF_NULL(pLevelProp);
-	MapProperty *pMapProp = m_pMapXMLMap->m_Propertys[pLevelProp->m_Map];
-	ASSERT_AND_STOP_IF_NULL(pMapProp);
+Level* GameFactory::getLevel(const std::string& levelName)
+{
+	Level *pLevel = m_GameLevels[levelName];
+	if (pLevel != NULL)
+	{
+		pLevel->m_pGameMap = getMap(pLevel->m_MapName);
+	}
 
-	return new Level( pLevelProp, pMapProp) ;
+	return pLevel;
 }
 GameMap* GameFactory::getMap(const std::string& mapName){
-return NULL;
+	return m_GameMaps[mapName];
 }
 Terrain* GameFactory::getTerrain(const std::string& terrainName){
 return NULL;
 }
 
-BulletControllerProperty*		GameFactory::getBulletControllerProperty	(const std::string& controllerName)
+BulletController*		GameFactory::getBulletController	(const std::string& controllerName)
 {
-	BulletControllerProperty *bcp = m_pBulletControllerXMLMap->m_Propertys[controllerName];
-	if(bcp == NULL)
-	{
-		REPORT_ERROR(controllerName+ std::string(" named controller not found"));
-		bcp = new BulletControllerProperty();
-		m_pBulletControllerXMLMap->m_Propertys[controllerName] = bcp;
-	}
-
-	return bcp;
+	BulletController *pBulletController = m_BulletControllers[controllerName];
+	
+	return pBulletController;
 
 }
 
 GameUnit* GameFactory::getUnit(const std::string& unitName){
 
-	GameUnit* unit = 0;
-
-	map<std::string,UnitProperty*>::iterator it;
-
-	it = m_pUnitXMLMap->m_Propertys.find(unitName);
-	if(it != m_pUnitXMLMap->m_Propertys.end()){
-
-		if(it->second->m_Type == "air"){
-			unit = new AirGameUnit();
-			unit->m_Type = ENUM_UNIT_TYPE::AIR;
-		}else if(it->second->m_Type == "navy"){
-			unit = new NavyGameUnit();
-			unit->m_Type = ENUM_UNIT_TYPE::NAVY;
-		}else
-			REPORT_WARNING("Unknown game unit type!");
-
-		unit->m_Armour		= it->second->m_iArmour;
-		unit->m_Controller	= it->second->m_Controller;
-		unit->m_Health		= it->second->m_iHealth;
-		unit->m_Mesh		= it->second->m_Mesh;
-		unit->m_Name		= it->second->m_Name;
-		unit->m_Speed		= it->second->m_Speed;
-		unit->m_pBody		= NULL;
-
-		std::vector<std::string>::iterator weaponIt = it->second->m_Weapons.begin();
-		for(; weaponIt != it->second->m_Weapons.end() ; ++weaponIt){
-			unit->m_Weapons.push_back(getSingleton()->getWeapon((*weaponIt)));
-		}
+	GameUnit* pUnit = m_pGameUnitPool->get();
+	*pUnit = *(m_GameUnitPrototypes[unitName]);
+	for(int i = 0 ; i < pUnit->m_WeaponNames.size(); i++)
+	{
+		pUnit->m_Weapons.push_back(getWeapon(pUnit->m_WeaponNames[i]));
 	}
 
-	return unit;
+	return pUnit;
 }
+
+Bullet*		GameFactory::getBullet	(const BulletProperty& bulletProperty )
+{
+	Bullet *pBullet = m_pBulletPool->get();
+	pBullet->setBulletProperty(bulletProperty);
+	return pBullet;
+}
+
+
 Weapon* GameFactory::getWeapon(const std::string& weaponName){
 
 	
-	Weapon* weapon = 0;
+	Weapon* pWeapon = m_pWeaponPool->get();
+	*pWeapon = *(m_WeaponPrototypes[weaponName]);
+	pWeapon->m_BulletProperty.m_pBulletController = m_BulletControllers[pWeapon->m_BulletProperty.m_Controller];
 
-	map<std::string,WeaponProperty*>::iterator it;
 
-	it = m_pWeaponXMLMap->m_Propertys.find(weaponName);
-
-	if(it != m_pWeaponXMLMap->m_Propertys.end()){
-		
-		weapon = new Weapon(weaponName);
-		weapon->m_BulletAngle			= it->second->m_iAngle;
-		weapon->m_capacity				= it->second->m_iCapacity;
-		weapon->m_Initial				= it->second->m_iInitial;
-		weapon->m_Maximum				= it->second->m_iMaximum;
-		weapon->m_Minimum				= it->second->m_iMinimum;
-		weapon->m_Name 					= it->second->m_Name;
-		weapon->m_ReloadTime			= it->second->m_fReloadTime;
-		weapon->m_MeshFileName			= it->second->m_Mesh;
-		weapon->m_BulletProperty.m_Controller	= it->second->m_Controller;
-		weapon->m_BulletProperty.m_Explosion		= it->second->m_Explosion;
-		weapon->m_BulletProperty.m_LifeTime		= it->second->m_fLifeTime;
-		weapon->m_BulletProperty.m_Particles		= it->second->m_Particles;
-		weapon->m_BulletProperty.m_Power			= it->second->m_fPower;
-		weapon->m_BulletProperty.m_Radius		= it->second->m_fRadius;
-		weapon->m_BulletProperty.m_MaximumSpeed			= it->second->m_fMaximumSpeed;
-		weapon->m_BulletProperty.m_InitialSpeed		= it->second->m_fInitialSpeed;
-		
-		if(it->second->m_Effect.compare(std::string("lineer")) == 0){
-			weapon->m_BulletProperty.m_Effect = LINEER;
-		}else if(it->second->m_Effect.compare(std::string("exponential")) == 0){
-			weapon->m_BulletProperty.m_Effect = EXPONENTIAL;
-		}else{
-			weapon->m_BulletProperty.m_Effect  = NONE;
-		}
-		
-		
-	}
-
-	return weapon;
+	return pWeapon;
 
 
 
 }
+
+
+//UnitController*	GameFactory::getUnitController	(const std::string& controllerName)
+//{
+//	return m_UnitControllers[controllerName];
+//}

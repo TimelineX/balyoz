@@ -15,8 +15,9 @@
 #include <Ogre3DRenderSystem.h>
 
 #include "UnitController.h"
+#include "GameMap.h"
 #include "BulletController.h"
-#include "MapProperty.h"
+#include "Level.h"
 #include <list>
 #include <map>
 
@@ -34,6 +35,8 @@ namespace Balyoz
 		virtual float				getFrameTime() = 0;
 		virtual void				shoot(GameUnit *pGameUnit, int iWeaponIndex) = 0;
 		virtual void				deletePhyicsObject(PhysicsObject* pPO) = 0;
+		virtual void		deleteBullet(Bullet* pBullet) = 0;
+
 	};
 	
 	
@@ -67,10 +70,12 @@ namespace Balyoz
 
 		static GameplayInfoProvider* getInfoProvider();
 
-		GameUnit*	createGameUnit(const UnitData* pUnitData);
+		GameUnit*	createGameUnit(const MapGameObject* pUnitMapInfo);
 		void		shoot(GameUnit *pGameUnit, int iWeaponIndex);
 		void		deletePhyicsObject(PhysicsObject* pPO);
+		void		deleteBullet(Bullet* pBullet);
 
+		Level					*m_pCurrentLevel;
 		
 
 		bool					m_bBufferedKeys;
@@ -89,11 +94,10 @@ namespace Balyoz
 
 		Ogre::FrameEvent		m_LastFrameEvent;
 		
-		std::map<std::string,UnitController*>	m_GameUnitControllerMap;
 		std::list<UnitController*>				m_GameUnitControllers;
+		std::map<std::string,UnitController*>	m_GameUnitControllerMap;
 
-		std::map<std::string,BulletController*>	m_BulletControllerMap;
-		std::list<BulletController*>			m_BulletControllers;
+		std::list<BulletController*>*				m_pBulletControllerList;
 	};
 
 }

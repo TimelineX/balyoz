@@ -16,7 +16,7 @@ class GenericXmlMapProperty :
 	public XmlMapProperty
 {
 public:
-	enum XML_FIELD_TYPES
+	enum ENUM_XML_FIELD_TYPES
 	{
 		XFT_NONE = -1,
 		XFT_STRING = 1,
@@ -63,11 +63,11 @@ public:
 			{
 				if(m_pNumberMap == NULL)
 				{
-					m_pNumberMap = new std::map<std::string,double>();
+					m_pNumberMap = new std::map<std::string,float>();
 				}
-				double d =Ogre::StringConverter::parseLong(parameterValue);
+				float d = Ogre::StringConverter::parseReal(parameterValue);
 
-				m_pNumberMap->insert(std::pair<std::string,double>(parameterName, d));
+				m_pNumberMap->insert(std::pair<std::string,float>(parameterName, d));
 				m_TypeMap[parameterName] = XFT_NUMBER;
 				return true;
 			}
@@ -130,12 +130,12 @@ public:
 			{
 				if(m_pNumberArrayMap == NULL)
 				{
-					m_pNumberArrayMap = new std::map<std::string,std::vector<double>*>();
+					m_pNumberArrayMap = new std::map<std::string,std::vector<float>*>();
 				}
 
-				std::vector<double>* pNumberArray = new std::vector<double>();
+				std::vector<float>* pNumberArray = new std::vector<float>();
 				vectorStringToNumberArray( vec, *pNumberArray );
-				m_pNumberArrayMap->insert( std::pair<std::string,std::vector<double>*>( parameterName, pNumberArray ) );
+				m_pNumberArrayMap->insert( std::pair<std::string,std::vector<float>*>( parameterName, pNumberArray ) );
 				m_TypeMap[parameterName] = XFT_NUMBERARRAY;
 				return true;
 
@@ -238,8 +238,8 @@ public:
 			return false;
 		}
 
-		std::map<std::string, XML_FIELD_TYPES>::iterator it = m_TypeMap.begin();
-		const std::map<std::string, XML_FIELD_TYPES>::iterator endit = m_TypeMap.end();
+		std::map<std::string, ENUM_XML_FIELD_TYPES>::iterator it = m_TypeMap.begin();
+		const std::map<std::string, ENUM_XML_FIELD_TYPES>::iterator endit = m_TypeMap.end();
 		while(it != endit)
 		{
 			if( (*it).first.compare(fullTag) == 0 )
@@ -252,7 +252,8 @@ public:
 			REPORT_WARNING(fullTag + std::string(" named xml tag not found!"));
 			return false;
 		}
-		
+
+
 		switch (it->second)
 		{
 		case XFT_STRING:
@@ -281,6 +282,43 @@ public:
 			return false;
 		}
 		return true;		
+	}
+
+
+	float getNumber(const std::string& fullTag)
+	{
+		return getNumber(fullTag, m_bIsLastOperationOk);
+	}
+
+	Ogre::Vector3 getVector3(const std::string& fullTag)
+	{		
+		return getVector3(fullTag, m_bIsLastOperationOk);
+	}
+
+	std::string getString(const std::string& fullTag)
+	{
+		return getString(fullTag, m_bIsLastOperationOk);
+	}
+
+	float getNumber(const std::string& fullTag, bool & bSuccess)
+	{
+		float lRet;
+		bSuccess = get<float>(fullTag,lRet);
+		return lRet;
+	}
+
+	Ogre::Vector3 getVector3(const std::string& fullTag, bool & bSuccess)
+	{
+		Ogre::Vector3 lRet;
+		bSuccess = get<Ogre::Vector3>(fullTag,lRet);
+		return lRet;
+	}
+
+	std::string getString(const std::string& fullTag, bool & bSuccess)
+	{
+		std::string lRet;
+		bSuccess = get<std::string>(fullTag,lRet);
+		return lRet;
 	}
 
 	void childTagStart( const std::string &tagName )
@@ -360,9 +398,9 @@ public:
 		}
 	}
 
-	XML_FIELD_TYPES getTypeOf( const std::string & tagName )
+	ENUM_XML_FIELD_TYPES getTypeOf( const std::string & tagName )
 	{
-		XML_FIELD_TYPES ret = m_TypeMap[tagName];
+		ENUM_XML_FIELD_TYPES ret = m_TypeMap[tagName];
 		if(  ret )
 		{
 			return ret;
@@ -378,19 +416,19 @@ public:
 				}
 			}
 		}
-		return XML_FIELD_TYPES(0);
+		return ENUM_XML_FIELD_TYPES(0);
 
 
 	}
 
-	std::map<std::string, XML_FIELD_TYPES>		m_TypeMap;
+	std::map<std::string, ENUM_XML_FIELD_TYPES>		m_TypeMap;
 	std::map<std::string, std::string>*			m_pStringMap;
-	std::map<std::string, double>*				m_pNumberMap;
+	std::map<std::string, float>*				m_pNumberMap;
 	std::map<std::string, Ogre::Vector2>*		m_pVector2Map;
 	std::map<std::string, Ogre::Vector3>*		m_pVector3Map;
 	std::map<std::string, Ogre::Matrix3>*		m_pMatrix3Map;
 	std::map<std::string, Ogre::Matrix4>*		m_pMatrix4Map;
-	std::map<std::string, std::vector<double>*>*	m_pNumberArrayMap;
+	std::map<std::string, std::vector<float>*>*	m_pNumberArrayMap;
 
 	std::vector<GenericXmlMapProperty*>*		m_pChildren;
 	std::string									m_RootTag;
@@ -400,6 +438,7 @@ public:
 		//bool									m_bChildInProcess;
 		GenericXmlMapProperty*					m_pChildInProcess;
 		std::string								m_ChildTagPattern;
+		bool									m_bIsLastOperationOk;
 
 		bool areAllNumber(std::vector<std::string> &vec)
 		{
@@ -413,11 +452,11 @@ public:
 			return true;
 		}
 
-		void vectorStringToNumberArray( std::vector<std::string> &vectorString, std::vector<double> &numberArray  )
+		void vectorStringToNumberArray( std::vector<std::string> &vectorString, std::vector<float> &numberArray  )
 		{
 			for( int i = 0; i < vectorString.size(); i++ )
 			{
-				numberArray.push_back( Ogre::StringConverter::parseLong( vectorString[i] ) );
+				numberArray.push_back( Ogre::StringConverter::parseReal( vectorString[i] ) );
 			}
 
 		}
