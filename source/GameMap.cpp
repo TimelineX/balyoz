@@ -1,38 +1,52 @@
-//#include "GameMap.h"
-//#include "GameObject.h"
-//
-//
-//using namespace Balyoz;
-//
-//GameMap::GameMap(void){
-//
-//}
-//
-//GameMap::~GameMap(){}
-//
-//GameMap::GameMap(const std::string &name){
-//	m_MapName = name;
-//}
-//
-//GameMap::MapGameObject* GameMap::getMapObjectByName(const std::string &objName) {
-//	std::vector<MapGameObject*>::iterator it = m_GameObjectList.begin();
-//	for( ; it != m_GameObjectList.end() ; it++){
+#include "GameMap.h"
+#include "GameObject.h"
+#define USE_SAFE
+#include "macros.h"
+
+using namespace Balyoz;
+
+GameMap::GameMap(const std::string &name){
+
+	m_MapName = name;
+	m_pGameObjectList = new std::list<MapGameObject*>();
+}
+
+GameMap::~GameMap()
+{
+	//std::list<MapGameObject*>::iterator it = m_pGameObjectList->begin();
+	//const std::list<MapGameObject*>::iterator endit = m_pGameObjectList->end();
+	//while (it != endit)
+	//{
+	//	MapGameObject *pGameMapObject = *it;
+	//	it = m_pGameObjectList->erase(it);
+	//	SAFE_DELETE(pGameMapObject);
+	//	it++;
+	//}
+	SAFE_DELETE(m_pGameObjectList);
+
+}
+
+
+//MapGameObject* GameMap::getMapObjectByName(const std::string &objName) {
+//	std::list<MapGameObject>::iterator it = m_pGameObjectList->begin();
+//	for( ; it != m_pGameObjectList->end() ; it++){
 //		MapGameObject * pGO = (*it);
-//		if( pGO->gameObject->m_Name.compare(objName) == 0 )
-//			return *it;
+//		if( pGO->m_GameUnitName.compare(objName) == 0 )
+//			return pGO;
 //	}
 //	return NULL;
 //}
 //
-//GameMap::MapGameObject* GameMap::getMapObjectByPosition(const Ogre::Vector3 &position){
-//	std::vector<MapGameObject*>::iterator it = m_GameObjectList.begin();
-//	for( ; it != m_GameObjectList.end() ; it++){
-//		if((*it)->position == position)
+//MapGameObject* GameMap::getMapObjectByPosition(const Ogre::Vector3 &position){
+//	std::list<MapGameObject>::iterator it = m_pGameObjectList->begin();
+//	for( ; it != m_pGameObjectList->end() ; it++){
+//		if((*it).m_Position == position)
 //			return *it;
 //	}
 //	return NULL;
 //}
-//
-//std::vector<GameMap::MapGameObject*>* GameMap::getAllMapObjects(){
-//	return NULL;
-//}
+
+
+std::list<MapGameObject*>* GameMap::getAllMapObjects(){
+	return m_pGameObjectList;
+}

@@ -1,18 +1,18 @@
 #pragma once
-
-#include "LevelProperty.h"
-#include "MapProperty.h"
-
+#include <string>
 namespace Balyoz{
 
-
+class GameMap;
 class Level
 {
 public:
-	Level(LevelProperty *pLevelProperty, MapProperty *pMapProperty);
+	Level(const std::string name = std::string(""));
 	~Level(void);
+	std::string m_Name;
+	std::string m_Terrain;
+	std::string m_MapName;
+	GameMap *m_pGameMap;
+	std::string m_SkyBox;
 
-	LevelProperty *m_pLevelProperty;
-	MapProperty *m_pMapProperty;
 };
 }

@@ -2,30 +2,32 @@
 #include "Weapon.h"
 using namespace Balyoz;
 
-GameUnit::GameUnit(void) : GameObject("")
+GameUnit::GameUnit(void) : GameObject(NULL)
 {
-	setAttributes("","",0,0,0,ENUM_UNIT_TYPE::NONE);
+	setAttributes(NULL,NULL,0,0,0,UNIT_TYPE_NONE);
 }
 
-GameUnit::GameUnit(const std::string& name, const std::string& mesh, const std::string& controller, 
-						   int health, int armour, int speed,ENUM_UNIT_TYPE::TYPE type) : GameObject(name){
+GameUnit::GameUnit( std::string* pName,  std::string* pMesh,  std::string* pController, 
+						   float health, float armour, float speed,ENUM_UNIT_TYPE type) : GameObject(pName){
 
-	setAttributes(mesh,controller,health,armour,speed,type);
+	setAttributes(pMesh,pController,health,armour,speed,type);
 }
-GameUnit::GameUnit(const std::string& name,const std::string& mesh,const std::string& controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type, std::vector<Weapon*>& weapons) : GameObject(name){
+GameUnit::GameUnit( std::string* pName, std::string* pMesh, std::string* pController,float health, float armour,float speed,ENUM_UNIT_TYPE type, std::vector<Weapon*>& weapons) : GameObject(pName){
 
    m_Weapons = weapons;
-   setAttributes(mesh,controller,health,armour,speed,type);
+   setAttributes(pMesh,pController,health,armour,speed,type);
 	
 }
-void GameUnit::setAttributes(const std::string& mesh,const std::string& controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type){
+void GameUnit::setAttributes( std::string* pMesh, std::string* controller,float health, float armour,float speed,ENUM_UNIT_TYPE type){
 
-									m_Controller	= controller;
-									m_Mesh			= mesh;
+									m_pController = controller;
+									m_pMesh			= pMesh;
 									m_Health		= health;
 									m_Armour		= armour;
 									m_Speed			= speed;
 									m_Type			= type;
+									m_GameObjectType = GAME_OBJECT_TYPE_UNIT;
+
 
 }
 GameUnit::~GameUnit(void)

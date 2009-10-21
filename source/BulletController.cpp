@@ -14,23 +14,6 @@ BulletController::~BulletController(void)
 
 void BulletController::run() 
 {
-	
-}
-
-
-
-
-
-DummyBulletController::DummyBulletController(void)
-{
-}
-
-DummyBulletController::~DummyBulletController(void)
-{
-}
-
-void DummyBulletController::run() 
-{
 	std::list<Bullet*>::iterator it = m_GameObjectList.begin();
 	const std::list<Bullet*>::iterator endIt = m_GameObjectList.end();
 	float fTime = GameController::getInfoProvider()->getFrameTime();
@@ -42,18 +25,17 @@ void DummyBulletController::run()
 		if(pBullet->m_LifeTime < 0)
 		{
 			// TODO: delete bullet
-			std::list<Bullet*>::iterator deleteit = it;
-			it++;
-			m_GameObjectList.erase(deleteit);
-			GameController::getInfoProvider()->deletePhyicsObject(pBullet->m_pPhysicsObject);
-			SAFE_DELETE(pBullet);
+			it = m_GameObjectList.erase(it);
+			GameController::getInfoProvider()->deleteBullet(pBullet);
 			continue;
 
 		}
-//		pBullet->m_pPhysicsObject->addForce(NxOgre::Vec3(0,9.8*pBullet->m_pPhysicsObject->getMass(),0));
-//		if(pBullet->m_pPhysicsObject->getLinearVelocity().magnitudeSquared() < pBullet->m_MaximumSpeed)
-			pBullet->m_pPhysicsObject->addLocalForce(pBullet->m_Force);
+		//		pBullet->m_pPhysicsObject->addForce(NxOgre::Vec3(0,9.8*pBullet->m_pPhysicsObject->getMass(),0));
+		//		if(pBullet->m_pPhysicsObject->getLinearVelocity().magnitudeSquared() < pBullet->m_MaximumSpeed)
+		pBullet->m_pPhysicsObject->addLocalForceAtLocalPos(pBullet->m_Force,NxOgre::Vec3(0,0,-.010f));
 		it++;
-	}
-
+	}	
 }
+
+
+

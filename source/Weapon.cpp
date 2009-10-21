@@ -15,12 +15,12 @@ Weapon::~Weapon(void)
 	
 }
 
-Weapon::Weapon(const std::string& name) : GameObject(name){
+Weapon::Weapon( std::string* pName) : GameObject(pName){
 
 }
 
-Weapon::Weapon(const std::string& Name, 
-				const std::string& MeshFileName, 
+Weapon::Weapon( std::string* pName, 
+				std::string* pMeshFileName, 
 				float		ReloadTime, 
 				unsigned int Capacity, 
 				unsigned int Initial, 
@@ -35,15 +35,15 @@ Weapon::Weapon(const std::string& Name,
 				const std::string& Explosion, 
 				const std::string& Particles, 
 				const std::string& Controller, 
-				EFFECT Effect) 
-				: GameObject(Name), 
+				ENUM_EFFECT Effect) 
+				: GameObject(pName), 
 				m_BulletProperty(InitialSpeed, MaximumSpeed, Power,Radius,LifeTime,Explosion,Particles,Controller,Effect){
 
 						   
-					   m_MeshFileName	= MeshFileName;
+					   m_pMeshFileName	= pMeshFileName;
 					   m_ReloadTime		= ReloadTime;
 					   m_LastShootTime	= 0;
-					   m_capacity		= Capacity;
+					   m_Capacity		= Capacity;
 					   m_Initial		= Initial;
 					   m_Maximum		= Maximum;
 					   m_Minimum		= Minimum;

@@ -9,7 +9,8 @@ BulletProperty::BulletProperty(
 				const std::string& Explosion, 
 				const std::string& Particles, 
 				const std::string& Controller,
-				EFFECT		Effect
+				ENUM_EFFECT		Effect,
+				BulletController* pBulletController
 				)
 {
 	m_InitialSpeed = InitialSpeed;
@@ -21,6 +22,7 @@ BulletProperty::BulletProperty(
 	m_Particles = Particles;
 	m_Controller = Controller;
 	m_Effect = Effect;
+	m_pBulletController = pBulletController;
 
 }
 
@@ -32,6 +34,7 @@ BulletProperty::BulletProperty()
 	m_Explosion = "";
 	m_Particles = "";
 	m_Controller = "";
-	m_Effect = EFFECT::NONE;
+	m_Effect = EFFECT_NONE;
+	m_pBulletController = 0;
 
 }

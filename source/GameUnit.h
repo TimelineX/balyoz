@@ -8,40 +8,44 @@
 #include "OGRE3DCommon.h"
 #include "PhysicsObject.h"
 
-namespace ENUM_UNIT_TYPE{
-	enum TYPE{
-		AIR,
-		NAVY,
-		NONE
-	};
-}
+
 
 namespace Balyoz{
 class Weapon;
+
+	enum ENUM_UNIT_TYPE{
+		UNIT_TYPE_NONE = 0,
+		UNIT_TYPE_AIR,
+		UNIT_TYPE_NAVY
+	};
 
 class GameUnit :
 	public GameObject
 {
 public:
 	GameUnit(void);
-	GameUnit(const std::string& name,const std::string& mesh,const std::string& controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type);
-	GameUnit(const std::string& name,const std::string& mesh,const std::string& controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type, std::vector<Weapon*>& weapons);
+	GameUnit( std::string* pName, std::string* pMesh, std::string* pController,float health, float armour,float speed,ENUM_UNIT_TYPE type);
+	GameUnit( std::string* pName, std::string* pMesh, std::string* pController,float health, float armour,float speed,ENUM_UNIT_TYPE type, std::vector<Weapon*>& weapons);
 	~GameUnit();
 
 	
-	std::string m_Mesh;
-	int m_Health;
-	int m_Armour;
-	int m_Speed;
-	std::string m_Controller;
-	ENUM_UNIT_TYPE::TYPE m_Type;
+	float m_Health;
+	float m_Armour;
+	float m_Speed;
+	ENUM_UNIT_TYPE m_Type;
 	std::vector<Weapon*> m_Weapons;
+	std::vector<std::string> m_WeaponNames;
 
-	PhysicsObject		*m_pBody;
+	PhysicsObject*		m_pBody;
+	std::string*		m_pMesh;
+	std::string*		m_pController;
 
 
 private:
-	void setAttributes(const std::string& mesh,const std::string& controller,int health, int armour,int speed,ENUM_UNIT_TYPE::TYPE type);
+	void setAttributes( std::string* mesh, std::string* controller,float health, float armour,float speed,ENUM_UNIT_TYPE type);
 
 };
+
+
+
 }

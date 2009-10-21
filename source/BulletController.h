@@ -1,10 +1,24 @@
 #pragma once
 #include "Bullet.h"
-#include "BulletControllerProperty.h"
 #include "Controller.h"
 
 namespace Balyoz
 {
+	class Bullet;
+
+	typedef enum BULLET_BEHAVIOUR
+	{
+		BULLET_BEHAVIOUR_HORIZONTAL = 1,
+		BULLET_BEHAVIOUR_VERTICAL,
+		BULLET_BEHAVIOUR_GUIDED
+	};
+	typedef enum BULLET_AIMING
+	{
+		BULLET_AIMING_NONE = 1,
+		BULLET_AIMING_WEAKEST,
+		BULLET_AIMING_STRONGEST
+	};
+
 	class BulletController :
 		public Controller<Bullet>
 	{
@@ -12,20 +26,12 @@ namespace Balyoz
 		BulletController(void);
 		~BulletController(void);
 
-		virtual void run() ;
-
-		BulletControllerProperty	*m_pBulletControllerProperty;
-
-	};
-
-
-	class DummyBulletController
-		: public BulletController
-	{
-	public:
-		DummyBulletController();
-		~DummyBulletController();
 		void run() ;
+
+		BULLET_AIMING m_Aiming;
+		BULLET_BEHAVIOUR m_Behavoiur;
+		float m_fAccuracy;
+
 	};
 
 };

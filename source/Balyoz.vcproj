@@ -239,6 +239,10 @@
 					RelativePath="..\configurations\debug\weapons.xml"
 					>
 				</File>
+				<File
+					RelativePath="..\configurations\debug\xmlfilemap.xml"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="release"
@@ -295,6 +299,10 @@
 			</File>
 			<File
 				RelativePath=".\Bullet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BulletProperty.h"
 				>
 			</File>
 			<File
@@ -383,6 +391,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BulletProperty.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ErrorReporter.cpp"
 				>
 			</File>
@@ -451,75 +463,11 @@
 			Name="Beans"
 			>
 			<File
-				RelativePath=".\BulletControllerProperty.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\BulletControllerProperty.h"
-				>
-			</File>
-			<File
-				RelativePath=".\BulletProperty.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\BulletProperty.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GameProperty.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\GameProperty.h"
-				>
-			</File>
-			<File
 				RelativePath=".\GenericXmlMapProperty.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\GenericXmlMapProperty.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LevelProperty.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LevelProperty.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MapProperty.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MapProperty.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TerrainProperty.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TerrainProperty.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UnitProperty.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UnitProperty.h"
-				>
-			</File>
-			<File
-				RelativePath=".\WeaponProperty.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\WeaponProperty.h"
 				>
 			</File>
 			<File
@@ -566,6 +514,14 @@
 		<Filter
 			Name="Utils"
 			>
+			<File
+				RelativePath=".\DataPool.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MappedVector.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
