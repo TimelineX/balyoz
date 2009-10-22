@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<weapons>
+  <weapon>
+    <name>machine gun</name>
+    <mesh>cube.mesh</mesh>
+    <reloadtime>50</reloadtime>
+    <capacity>1000</capacity>
+    <initial>1</initial>
+    <maximum>9</maximum>
+    <minimum>1</minimum>
+    <anglebetweenbullets>18</anglebetweenbullets>
+    <bullet>
+      <initialspeed>-90</initialspeed>
+      <maximumspeed>-100</maximumspeed>
+      <power>100</power>
+      <radius>10</radius>
+      <effect>linear</effect>
+      <lifetime>.5</lifetime>
+      <particles>none</particles>
+      <explosion>explosion</explosion>
+      <controller>dummy</controller>
+    </bullet>
+  </weapon>
+
+
+  <weapon>
+    <name>bazooka</name>
+    <mesh>cube.mesh</mesh>
+    <reloadtime>800</reloadtime>
+    <capacity>1000</capacity>
+    <initial>1</initial>
+    <maximum>9</maximum>
+    <minimum>1</minimum>
+    <anglebetweenbullets>18</anglebetweenbullets>
+
+    <bullet>
+      <initialspeed>-30</initialspeed>
+      <maximumspeed>-100</maximumspeed>
+      <power>100</power>
+      <radius>10</radius>
+      <effect>linear</effect>
+      <lifetime>1.5</lifetime>
+      <particles>Examples/Smoke</particles>
+      <explosion>explosion</explosion>
+      <controller>guidedclevermissile</controller>
+    </bullet>
+  </weapon>
+
+</weapons>
