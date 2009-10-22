@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<levels>
+	<level>
+		<name>level-1</name>
+		<terrain>flatterrain-1</terrain>
+		<map>map-1</map>
+		<skybox>Examples/SpaceSkyBox</skybox>
+	</level>	
+</levels>
