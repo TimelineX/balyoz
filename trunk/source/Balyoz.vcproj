@@ -193,100 +193,57 @@
 				Name="debug"
 				>
 				<File
-					RelativePath="..\configurations\debug\bulletcontroller.xml"
+					RelativePath="..\bin\Debug\bulletcontroller.xml"
 					>
 				</File>
 				<File
-					RelativePath="..\configurations\debug\game.xml"
+					RelativePath="..\bin\Debug\game.xml"
 					>
 				</File>
 				<File
-					RelativePath="..\configurations\debug\levels.xml"
+					RelativePath="..\bin\Debug\levels.xml"
 					>
 				</File>
 				<File
-					RelativePath="..\configurations\debug\maps.xml"
+					RelativePath="..\bin\Debug\maps.xml"
 					>
 				</File>
 				<File
-					RelativePath="..\configurations\debug\ogre.cfg"
+					RelativePath="..\bin\Debug\media.cfg"
 					>
 				</File>
 				<File
-					RelativePath="..\configurations\debug\Plugins.cfg"
+					RelativePath="..\bin\Debug\ogre.cfg"
 					>
 				</File>
 				<File
-					RelativePath="..\configurations\debug\resources.cfg"
+					RelativePath="..\bin\Debug\Plugins.cfg"
 					>
 				</File>
 				<File
-					RelativePath="..\configurations\debug\terrains.xml"
+					RelativePath="..\bin\Debug\resources.cfg"
 					>
 				</File>
 				<File
-					RelativePath="..\configurations\debug\units.xml"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\configurations\debug\weapons.xml"
+					RelativePath="..\bin\Debug\terrains.xml"
 					>
 				</File>
 				<File
-					RelativePath="..\configurations\debug\xmlfilemap.xml"
+					RelativePath="..\bin\Debug\units.xml"
+					>
+				</File>
+				<File
+					RelativePath="..\bin\Debug\weapons.xml"
+					>
+				</File>
+				<File
+					RelativePath="..\bin\Debug\xmlfilemap.xml"
 					>
 				</File>
 			</Filter>
 			<Filter
 				Name="release"
 				>
-				<File
-					RelativePath="..\configurations\release\bulletcontroller.xml"
-					>
-				</File>
-				<File
-					RelativePath="..\configurations\release\game.xml"
-					>
-				</File>
-				<File
-					RelativePath="..\configurations\release\levels.xml"
-					>
-				</File>
-				<File
-					RelativePath="..\configurations\release\maps.xml"
-					>
-				</File>
-				<File
-					RelativePath="..\configurations\release\ogre.cfg"
-					>
-				</File>
-				<File
-					RelativePath="..\configurations\release\Plugins.cfg"
-					>
-				</File>
-				<File
-					RelativePath="..\configurations\release\resources.cfg"
-					>
-				</File>
-				<File
-					RelativePath="..\configurations\release\terrains.xml"
-					>
-				</File>
-				<File
-					RelativePath="..\configurations\release\units.xml"
-					>
-				</File>
-				<File
-					RelativePath="..\configurations\release\weapons.xml"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
