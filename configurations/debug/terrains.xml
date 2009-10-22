@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<terrains>
-	<terrain>
-		<name>flatterrain-1</name>
-		<type>flatterrain</type>
-		<length>1000</length>
-	</terrain>
-	
-</terrains>
