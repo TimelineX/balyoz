@@ -33,32 +33,38 @@ void GameBalyoz::init()
 void GameBalyoz::createScene(void)
 {
 
+
+	Ogre::ColourValue fadeColour(0.7,0.7,.15);
+	m_pSceneMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
+	// Create a light
+	Light* l = m_pSceneMgr->createLight("MainLight");
+	// Accept default settings: point light, white diffuse, just set position
+	// NB I could attach the light to a SceneNode if I wanted it to move automatically with
+	//  other objects, but I don't
+	l->setPosition(20,80,50);
+
+	m_pWindow->getViewport(0)->setBackgroundColour(fadeColour);
+	m_pSceneMgr->setSkyBox(true, "SkyBox", 200);
+
 	//	[OGRE] set up camera
 	m_pCamera->setPosition(Vector3(0,35,35));
-	m_pCamera->lookAt(Vector3(0,0,0));
+	m_pCamera->lookAt(Vector3(0,0,-100));
 	m_pCamera->setNearClipDistance(1);
+	m_pSceneMgr->setFog( FOG_LINEAR, fadeColour, .04, 20, 210);
+	Ogre::Plane oceanSurface;
+	oceanSurface.normal = Ogre::Vector3::UNIT_Y;
+	oceanSurface.d = 10;
+	Ogre::MeshManager::getSingleton().createPlane("OceanSurface",
+		Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+		oceanSurface,
+		1500, 1500, 150, 150, true, 1, 1, 1, Ogre::Vector3::UNIT_Z);
+	Ogre::Entity *pOceanSurfaceEntity= m_pSceneMgr->createEntity( "OceanSurface", "OceanSurface" );
+	pOceanSurfaceEntity->setMaterialName("Ocean2_Cg");
+	SceneNode *pNode;
+	pNode = m_pSceneMgr->getRootSceneNode()->createChildSceneNode();
+//	pNode->translate(750,0,750);
+	pNode->attachObject(pOceanSurfaceEntity);
 
-	//	[OGRE] build floor
-	int i = 0;
-	//m_pSceneMgr->setWorldGeometry("terrain.cfg");
-	StaticGeometry* s;
-	s = m_pSceneMgr->createStaticGeometry("StaticFloor");
-	s->setRegionDimensions(Vector3(1600.0, 1000.0, 1600.0));
-	s->setOrigin(Vector3::ZERO);
-	for (NxOgre::Real z = -300.0;z <= 300.0;z += 20.0)
-	{
-		for (NxOgre::Real x = -40.0;x <= 40.0;x += 20.0)
-		{
-			String name = String("Plane_") + StringConverter::toString(i++);
-		
-			Entity* entity = m_pSceneMgr->createEntity(name, "plane.mesh");
-			entity->setQueryFlags (0);
-			entity->setCastShadows(false);
-			s->addEntity(entity, Vector3(x,0,z));
-		}
-	}
-	s->build();
-	m_pSceneMgr->setWorldGeometryRenderQueue(8);
 
 
     	//	[OGRE] create a skybox
