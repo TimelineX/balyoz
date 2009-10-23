@@ -4,16 +4,19 @@
     <name>map-1</name>
     <unit>
       <name>test-1</name>
-      <position>6 10 -10</position>
+      <position>15 10 460</position>
       <orientation>0 -1 0</orientation>
-
     </unit>
     <unit>
       <name>test-2</name>
-      <position>16 10 -10</position>
+      <position>0 10 460</position>
       <orientation>0 -1 0</orientation>
-
     </unit>
+    <unit>
+      <name>test-1</name>
+      <position>-15 10 460</position>
+      <orientation>0 -1 0</orientation>
+    </unit>    
   </map>
 
 </maps>

@@ -16,12 +16,14 @@ void BulletController::run()
 {
 	std::list<Bullet*>::iterator it = m_GameObjectList.begin();
 	const std::list<Bullet*>::iterator endIt = m_GameObjectList.end();
-	float fTime = GameController::getInfoProvider()->getFrameTime();
+	float fCureentGameTime = GameController::getInfoProvider()->getGameTime();
+	fCureentGameTime = GameController::getInfoProvider()->getGameTime();
+	float fElapsedTime = fCureentGameTime - m_fLastGameTime;
 
 	while(it != endIt)
 	{
 		Bullet *pBullet = *it;
-		pBullet->m_LifeTime -= fTime;
+		pBullet->m_LifeTime -= fElapsedTime;
 		if(pBullet->m_LifeTime < 0)
 		{
 			// TODO: delete bullet
@@ -34,7 +36,8 @@ void BulletController::run()
 		//		if(pBullet->m_pPhysicsObject->getLinearVelocity().magnitudeSquared() < pBullet->m_MaximumSpeed)
 		pBullet->m_pPhysicsObject->addLocalForceAtLocalPos(pBullet->m_Force,NxOgre::Vec3(0,0,-.010f));
 		it++;
-	}	
+	}
+	m_fLastGameTime = fCureentGameTime;
 }
 
 

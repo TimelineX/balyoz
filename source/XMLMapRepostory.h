@@ -18,6 +18,7 @@ public:
 
 
 
+	std::vector<PropertyClass*>			m_PropertyVector;
 	std::map<std::string, PropertyClass*> m_Propertys;
 	std::string m_Name;
 };
@@ -38,13 +39,12 @@ XMLMapRepostory<PropertyClass>::~XMLMapRepostory(void)
 template <class PropertyClass>
 void XMLMapRepostory<PropertyClass>::initFromXml(const std::string &fName, const std::string &rootTag, const std::string & mainTag)
 {
-	std::vector<PropertyClass*> Propertys;
-	parseXMLForGameProperty<PropertyClass>(Propertys,fName,rootTag,mainTag);
+	parseXMLForGameProperty<PropertyClass>(m_PropertyVector,fName,rootTag,mainTag);
 
-	const int iSz = (const int)Propertys.size();
+	const int iSz = (const int)m_PropertyVector.size();
 
 	for(int i = 0; i < iSz ; i++)
 	{
-		m_Propertys[Propertys[i]->m_Name] = Propertys[i];
+		m_Propertys[m_PropertyVector[i]->m_Name] = m_PropertyVector[i];
 	}
 }

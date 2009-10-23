@@ -2,7 +2,7 @@
 #include "Weapon.h"
 using namespace Balyoz;
 
-GameUnit::GameUnit(void) : GameObject(NULL)
+GameUnit::GameUnit(std::string* pName) : GameObject(pName)
 {
 	setAttributes(NULL,NULL,0,0,0,UNIT_TYPE_NONE);
 }

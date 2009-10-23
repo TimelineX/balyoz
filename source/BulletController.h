@@ -32,6 +32,8 @@ namespace Balyoz
 		BULLET_BEHAVIOUR m_Behavoiur;
 		float m_fAccuracy;
 
+		float m_fLastGameTime;
+
 	};
 
 };

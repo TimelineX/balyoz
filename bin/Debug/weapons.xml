@@ -15,7 +15,7 @@
       <power>100</power>
       <radius>10</radius>
       <effect>linear</effect>
-      <lifetime>.5</lifetime>
+      <lifetime>1.5</lifetime>
       <particles>none</particles>
       <explosion>explosion</explosion>
       <controller>dummy</controller>
@@ -34,12 +34,12 @@
     <anglebetweenbullets>18</anglebetweenbullets>
 
     <bullet>
-      <initialspeed>-30</initialspeed>
+      <initialspeed>-60</initialspeed>
       <maximumspeed>-100</maximumspeed>
       <power>100</power>
       <radius>10</radius>
       <effect>linear</effect>
-      <lifetime>1.5</lifetime>
+      <lifetime>8.5</lifetime>
       <particles>Examples/Smoke</particles>
       <explosion>explosion</explosion>
       <controller>guidedclevermissile</controller>

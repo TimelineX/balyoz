@@ -5,7 +5,10 @@
 #include "NavyGameUnit.h"
 
 #include <map>
-
+#include <OgreCommon.h>
+#include "Level.h"
+#include "GameMap.h"
+#include "Terrain.h"
 using std::map;
 using namespace Balyoz;
 
@@ -42,40 +45,40 @@ void GameFactory::createXmlMapRepostories()
 	}
 	//std::map<std::string,GenericXmlMapProperty*> files;
 
-	std::map<std::string, GenericXmlMapProperty*>::iterator it = pFileMap->m_Propertys.begin();
-	const std::map<std::string, GenericXmlMapProperty*>::iterator endit = pFileMap->m_Propertys.end();
+	std::vector<GenericXmlMapProperty*>::iterator it = pFileMap->m_PropertyVector.begin();
+	const std::vector<GenericXmlMapProperty*>::iterator endit = pFileMap->m_PropertyVector.end();
 	XMLMapRepostory<GenericXmlMapProperty> *tmp;
 	std::string roottag;
 	std::string maintag;
 	std::string filename;
 	while( it != endit)
 	{
-		tmp = new XMLMapRepostory<GenericXmlMapProperty>(it->first); 
+		tmp = new XMLMapRepostory<GenericXmlMapProperty>((*it)->getString("/name")); 
 		if	(
-			it->second->get<std::string>("/roottag",roottag) &&
-			it->second->get<std::string>("/maintag",maintag) &&
-			it->second->get<std::string>("/file",filename) 
+			(*it)->get<std::string>("/roottag",roottag) &&
+			(*it)->get<std::string>("/maintag",maintag) &&
+			(*it)->get<std::string>("/file",filename) 
 			)
 		{
 				tmp->initFromXml(filename,roottag,maintag);
 		}
 		else
 		{
-				REPORT_ERROR("xmlfilemap loading failed");
+			REPORT_ERROR_AND_STOP( filename + ": xmlfilemap loading failed" );
 		}
 
-		std::map<std::string, GenericXmlMapProperty*>::iterator itPropertys = tmp->m_Propertys.begin();
-		const std::map<std::string, GenericXmlMapProperty*>::iterator enditPropertys = tmp->m_Propertys.end();
+		std::vector<GenericXmlMapProperty*>::iterator itPropertys = tmp->m_PropertyVector.begin();
+		const std::vector<GenericXmlMapProperty*>::iterator enditPropertys = tmp->m_PropertyVector.end();
 		while( itPropertys != enditPropertys )
 		{
-			GenericXmlMapProperty *pSecond = itPropertys->second;
+			GenericXmlMapProperty *pCurrentGXMP = *itPropertys;
 
 			bool bSuccess = false;
 
 			if( tmp->m_Name.compare("bullet controller") == 0 )
 			{
 				BulletController *pBulletController = new BulletController();
-				std::string sTmp = pSecond->getString("/behaviour");
+				std::string sTmp = pCurrentGXMP->getString("/behaviour");
 				if (sTmp.compare("forward") == 0)
 				{
 					pBulletController->m_Behavoiur = BULLET_BEHAVIOUR_HORIZONTAL;
@@ -96,7 +99,7 @@ void GameFactory::createXmlMapRepostories()
 					pBulletController->m_Behavoiur = BULLET_BEHAVIOUR_HORIZONTAL;
 				}
 
-				sTmp = pSecond->getString("/aiming");
+				sTmp = pCurrentGXMP->getString("/aiming");
 				if (sTmp.compare("weakest") == 0)
 				{
 					pBulletController->m_Aiming = BULLET_AIMING_WEAKEST;
@@ -117,9 +120,9 @@ void GameFactory::createXmlMapRepostories()
 					pBulletController->m_Aiming = BULLET_AIMING_NONE;
 				}
 
-				pBulletController->m_fAccuracy = pSecond->getNumber("/accuracy");
+				pBulletController->m_fAccuracy = pCurrentGXMP->getNumber("/accuracy");
 
-				m_BulletControllers[itPropertys->first] = pBulletController;
+				m_BulletControllers[pCurrentGXMP->getString("/name")] = pBulletController;
 				m_pBulletControllerList->push_back(pBulletController);
 
 			}
@@ -128,20 +131,66 @@ void GameFactory::createXmlMapRepostories()
 			}
 			else if( tmp->m_Name.compare("levels") == 0 )
 			{
-				Level *pLevel = new Level(itPropertys->first);
-				pLevel->m_Terrain = pSecond->getString("/terrain");
-				pLevel->m_MapName = pSecond->getString("/map");
+				Level *pLevel = new Level(pCurrentGXMP->getString("/name"));
+				pCurrentGXMP->getAll<std::string>("/terrain",pLevel->m_TerrainNames);
+				for (int i = 0 ; i < pLevel->m_TerrainNames.size(); i++)
+				{
+					pLevel->m_Terrains.push_back(new Terrain(*(m_TerrainPrototypes[pLevel->m_TerrainNames[i]])));
+				}
+				pLevel->m_MapName = pCurrentGXMP->getString("/map");
 				pLevel->m_pGameMap = getMap(pLevel->m_MapName);
-				pLevel->m_SkyBox = pSecond->getString("/skybox");
 
-				m_GameLevels[itPropertys->first] = pLevel;
+				pLevel->m_SkyBoxName = pCurrentGXMP->getString("/skybox/resourcename",pLevel->m_bSetupSkyBox);
+				pLevel->m_fSkyBoxDistance = pCurrentGXMP->getNumber("/skybox/distance");
+
+				pLevel->m_FogColour = pCurrentGXMP->getColourValue("/fog/colour",bSuccess);
+				pLevel->m_bSetupFog |= bSuccess;
+				std::string tmpStr = pCurrentGXMP->getString("/fog/mode",bSuccess);
+				pLevel->m_bSetupFog |= bSuccess;
+				if (tmpStr.compare("linear") == 0)
+				{
+					pLevel->m_FogMode = Ogre::FOG_LINEAR;
+				} 
+				else if (tmpStr.compare("exp") == 0)
+				{
+					pLevel->m_FogMode = Ogre::FOG_EXP;
+				}
+
+				else if (tmpStr.compare("exp2") == 0)
+				{
+					pLevel->m_FogMode = Ogre::FOG_EXP2;
+				}
+				else
+				{
+					pLevel->m_FogMode = Ogre::FOG_NONE;
+				}
+				pLevel->m_fFogDensity = pCurrentGXMP->getNumber("/fog/density",bSuccess);
+				pLevel->m_bSetupFog |= bSuccess;
+				pLevel->m_fFogStart = pCurrentGXMP->getNumber("/fog/start",bSuccess);
+				pLevel->m_bSetupFog |= bSuccess;
+				pLevel->m_fFogEnd = pCurrentGXMP->getNumber("/fog/end",bSuccess);
+				pLevel->m_bSetupFog |= bSuccess;
+
+				pLevel->m_LightName = pCurrentGXMP->getString("/light/lightname", pLevel->m_bSetupLight);
+				pLevel->m_AmbientColour = pCurrentGXMP->getColourValue("/light/ambientcolour");
+				pLevel->m_DiffuseLightColour = pCurrentGXMP->getColourValue("/light/diffusecolour");
+				pLevel->m_SpecularLightColour = pCurrentGXMP->getColourValue("/light/specularcolour");
+				pLevel->m_LightPosition = pCurrentGXMP->getVector3("/light/position");
+
+				pLevel->m_CameraPosition = pCurrentGXMP->getVector3("/camera/position");
+				pLevel->m_CameraLookAt = pCurrentGXMP->getVector3("/camera/lookat");
+
+
+
+
+				m_GameLevels[pLevel->m_Name] = pLevel;
 			}
 			else if( tmp->m_Name.compare("maps") == 0 )
 			{
-				GameMap* pGameMap = new GameMap(itPropertys->first);
+				GameMap* pGameMap = new GameMap(pCurrentGXMP->getString("/name"));
 
 				std::vector<GenericXmlMapProperty*>* pUnitsOnMap ;
-				itPropertys->second->getChildrenOf("/unit", pUnitsOnMap);
+				pCurrentGXMP->getChildrenOf("/unit", pUnitsOnMap);
 				for(int i =0; i < pUnitsOnMap->size(); i++)
 				{
 					MapGameObject *pGamemapobject = new  MapGameObject(pUnitsOnMap->at(i)->m_Name,
@@ -150,27 +199,60 @@ void GameFactory::createXmlMapRepostories()
 					pGameMap->m_pGameObjectList->push_back(pGamemapobject);
 				}
 				pGameMap->m_pGameObjectList->sort();
-				m_GameMaps[itPropertys->first] = pGameMap;
+				m_GameMaps[pGameMap->m_MapName] = pGameMap;
 			}
 			else if( tmp->m_Name.compare("terrains") == 0 )
 			{
+				Terrain *pTerrain = new Terrain();
+
+				pTerrain->m_Name = pCurrentGXMP->getString("/name");
+				
+				std::string tmpStr = pCurrentGXMP->getString("/type");
+				if ( tmpStr.compare("flat") == 0)
+				{
+					pTerrain->m_TerrainType = TERRAIN_TYPE_FLAT;
+				} 
+				else if ( tmpStr.compare("heightmap") == 0)
+				{
+					pTerrain->m_TerrainType = TERRAIN_TYPE_HEIGT_MAP;
+				}
+				else if ( tmpStr.compare("ocean") == 0)
+				{
+					pTerrain->m_TerrainType = TERRAIN_TYPE_OCEAN;
+				}
+				else
+				{
+					pTerrain->m_TerrainType = TERRAIN_TYPE_NONE;
+					REPORT_WARNING(tmpStr + std::string(": this terrain type cannot be recognised for terrain ") + pTerrain->m_Name );
+				}
+
+				pTerrain->m_ResourceName = pCurrentGXMP->getString("/resourcename");
+				pTerrain->m_fWidth		= pCurrentGXMP->getNumber("/width");
+				pTerrain->m_fHeight		= pCurrentGXMP->getNumber("/height");
+				pTerrain->m_fLength		= pCurrentGXMP->getNumber("/length");
+				pTerrain->m_iLengthSegments = (int)pCurrentGXMP->getNumber("/lengthsegments");
+				pTerrain->m_iWidthSegnemts = (int)pCurrentGXMP->getNumber("/widthsegments");
+				
+				pTerrain->m_bStatic = Ogre::StringConverter::parseBool(pCurrentGXMP->getString("/static"));
+				m_TerrainPrototypes[pTerrain->m_Name] = pTerrain;
+
 			}
 			else if( tmp->m_Name.compare("units") == 0 )
 			{
-				GameUnit *pGameUnit		= new GameUnit();
+				GameUnit *pGameUnit		= new GameUnit( new std::string(pCurrentGXMP->getString("/name")));
 				
-				pGameUnit->m_pMesh			= new std::string(pSecond->getString("/mesh", bSuccess));
-				pGameUnit->m_pController	= new std::string(pSecond->getString("/controller", bSuccess));
-				pGameUnit->m_Health = pSecond->getNumber("/health", bSuccess);
-				pGameUnit->m_Armour = pSecond->getNumber("/armour", bSuccess);
-				pGameUnit->m_Speed = pSecond->getNumber("/speed", bSuccess);
+				pGameUnit->m_pMesh			= new std::string(pCurrentGXMP->getString("/mesh", bSuccess));
+				pGameUnit->m_pController	= new std::string(pCurrentGXMP->getString("/controller", bSuccess));
+				pGameUnit->m_Health = pCurrentGXMP->getNumber("/health", bSuccess);
+				pGameUnit->m_Armour = pCurrentGXMP->getNumber("/armour", bSuccess);
+				pGameUnit->m_Speed = pCurrentGXMP->getNumber("/speed", bSuccess);
 
-				std::string sTmp = pSecond->getString("/primaryweapon", bSuccess);
+				std::string sTmp = pCurrentGXMP->getString("/primaryweapon", bSuccess);
 				pGameUnit->m_WeaponNames.push_back(sTmp) ;
-				sTmp = pSecond->getString("/secondaryweapon", bSuccess);
+				sTmp = pCurrentGXMP->getString("/secondaryweapon", bSuccess);
 				pGameUnit->m_WeaponNames.push_back(sTmp) ;
 
-				sTmp = pSecond->getString("/type",bSuccess);
+				sTmp = pCurrentGXMP->getString("/type",bSuccess);
 				if( sTmp.compare("navy") == 0 )
 				{
 					pGameUnit->m_Type = UNIT_TYPE_NAVY;
@@ -180,31 +262,31 @@ void GameFactory::createXmlMapRepostories()
 					pGameUnit->m_Type = UNIT_TYPE_AIR;
 				}
 
-				m_GameUnitPrototypes[itPropertys->first] = pGameUnit;
+				m_GameUnitPrototypes[std::string(pGameUnit->m_pName->c_str())] = pGameUnit;
 			}
 			else if( tmp->m_Name.compare("weapons") == 0 )
 			{
-				Weapon *pWeapon = new Weapon(new std::string(itPropertys->first));
-				pWeapon->m_pMeshFileName = new std::string(pSecond->getString("/mesh"));
-				pWeapon->m_ReloadTime = pSecond->getNumber("/reloadtime");
-				pWeapon->m_Capacity = pSecond->getNumber("/capacity");
-				pWeapon->m_Initial = pSecond->getNumber("/initial");
-				pWeapon->m_Maximum = pSecond->getNumber("/maximum");
-				pWeapon->m_Minimum = pSecond->getNumber("/minimum");
-				pWeapon->m_BulletAngle = pSecond->getNumber("/anglebetweenbullets");
+				Weapon *pWeapon = new Weapon(new std::string(pCurrentGXMP->getString("/name")));
+				pWeapon->m_pMeshFileName = new std::string(pCurrentGXMP->getString("/mesh"));
+				pWeapon->m_ReloadTime = pCurrentGXMP->getNumber("/reloadtime");
+				pWeapon->m_Capacity = pCurrentGXMP->getNumber("/capacity");
+				pWeapon->m_Initial = pCurrentGXMP->getNumber("/initial");
+				pWeapon->m_Maximum = pCurrentGXMP->getNumber("/maximum");
+				pWeapon->m_Minimum = pCurrentGXMP->getNumber("/minimum");
+				pWeapon->m_BulletAngle = pCurrentGXMP->getNumber("/anglebetweenbullets");
 				
-				pWeapon->m_BulletProperty.m_InitialSpeed = pSecond->getNumber("/bullet/initialspeed");
-				pWeapon->m_BulletProperty.m_MaximumSpeed = pSecond->getNumber("/bullet/maximumspeed");
-				pWeapon->m_BulletProperty.m_Power = pSecond->getNumber("/bullet/power");
-				pWeapon->m_BulletProperty.m_Radius = pSecond->getNumber("/bullet/radius");
-				pWeapon->m_BulletProperty.m_Effect = EFFECT_LINEER; // TODO :  pSecond->getNumber("/bullet/effect");
+				pWeapon->m_BulletProperty.m_InitialSpeed = pCurrentGXMP->getNumber("/bullet/initialspeed");
+				pWeapon->m_BulletProperty.m_MaximumSpeed = pCurrentGXMP->getNumber("/bullet/maximumspeed");
+				pWeapon->m_BulletProperty.m_Power = pCurrentGXMP->getNumber("/bullet/power");
+				pWeapon->m_BulletProperty.m_Radius = pCurrentGXMP->getNumber("/bullet/radius");
+				pWeapon->m_BulletProperty.m_Effect = EFFECT_LINEER; // TODO :  pCurrentGXMP->getNumber("/bullet/effect");
 				REPORT_WARNING("TODO : incomplete code for effect!");
-				pWeapon->m_BulletProperty.m_LifeTime = pSecond->getNumber("/bullet/lifetime");
-				pWeapon->m_BulletProperty.m_Particles = pSecond->getString("/bullet/particles");
-				pWeapon->m_BulletProperty.m_Explosion = pSecond->getString("/bullet/explosion");
-				pWeapon->m_BulletProperty.m_Controller = pSecond->getString("/bullet/controller");
-				pWeapon->m_BulletProperty.m_pBulletController = getBulletController(pSecond->getString("/controller"));
-				m_WeaponPrototypes[itPropertys->first] = pWeapon;
+				pWeapon->m_BulletProperty.m_LifeTime = pCurrentGXMP->getNumber("/bullet/lifetime");
+				pWeapon->m_BulletProperty.m_Particles = pCurrentGXMP->getString("/bullet/particles");
+				pWeapon->m_BulletProperty.m_Explosion = pCurrentGXMP->getString("/bullet/explosion");
+				pWeapon->m_BulletProperty.m_Controller = pCurrentGXMP->getString("/bullet/controller");
+				pWeapon->m_BulletProperty.m_pBulletController = getBulletController(pCurrentGXMP->getString("/bullet/controller"));
+				m_WeaponPrototypes[std::string(pWeapon->m_pName->c_str())] = pWeapon;
 
 
 			}

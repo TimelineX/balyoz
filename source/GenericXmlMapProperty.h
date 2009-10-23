@@ -10,6 +10,7 @@
 #include <OgreMatrix3.h>
 #include <OgreMatrix4.h>
 #include <OgreVector3.h>
+#include <OgreColourValue.h>
 #include <OgreVector2.h>
 #include <OgreStringConverter.h>
 class GenericXmlMapProperty :
@@ -34,7 +35,6 @@ public:
 	{
 		if(XmlMapProperty::set(parameterName,parameterValue))
 		{
-			return true;
 		}
 
 		
@@ -201,13 +201,14 @@ public:
 
 
 	template<typename T>
-	bool get(const std::string &fullTag, T& parameterValue)
+	bool get( const std::string &fullTag, T& parameterValue )
 	{
 		std::vector<std::string> words = Ogre::StringUtil::split(fullTag,"/ ");
 		if( words.size() > 1 ) 
 		{ 
 			if( m_pChildren == NULL )
 			{
+				REPORT_WARNING(fullTag + std::string(" named xml tag not found!"));
 				return false;
 			}
 			std::vector<std::string> tagSplit;
@@ -231,10 +232,16 @@ public:
 						{ 
 							childRootTag += "/" + words[j];
 						}
-						return m_pChildren->at(i)->get<T>(childRootTag,parameterValue);
+						bool bRet = m_pChildren->at(i)->get<T>(childRootTag,parameterValue);
+						if(!bRet)
+						{
+							REPORT_WARNING(fullTag + std::string(" named xml tag not found or wrong type requested"));
+						}
+						return bRet;
 					}
 				}
 			}
+			REPORT_WARNING(fullTag + std::string(" named xml tag not found "));
 			return false;
 		}
 
@@ -243,7 +250,37 @@ public:
 		while(it != endit)
 		{
 			if( (*it).first.compare(fullTag) == 0 )
-				break;
+			{
+				switch (it->second)
+				{
+				case XFT_STRING:
+					parameterValue = *((T*)(&(m_pStringMap->find(fullTag)->second)));
+					break;
+				case XFT_NUMBER:
+					parameterValue = *((T*)(&(m_pNumberMap->find(fullTag)->second)));
+					break;
+				case XFT_VECTOR2:
+					parameterValue = *((T*)(&(m_pVector2Map->find(fullTag)->second)));
+					break;
+				case XFT_VECTOR3:
+					parameterValue = *((T*)(&(m_pVector3Map->find(fullTag)->second)));
+					break;
+				case XFT_MATRIX3:
+					parameterValue = *((T*)(&(m_pMatrix3Map->find(fullTag)->second)));
+					break;
+				case XFT_MATRIX4:
+					parameterValue = *((T*)(&(m_pMatrix4Map->find(fullTag)->second)));
+					break;
+				case XFT_NUMBERARRAY:
+					parameterValue = *((T*)(&(m_pNumberArrayMap->find(fullTag)->second)));
+					break;
+				default:
+					REPORT_WARNING(std::string("unknown XML FIELD TYPE for:") + fullTag );
+					return false;
+					break;
+				}
+				return true;
+			}
 			it++;
 		}
 		
@@ -253,36 +290,169 @@ public:
 			return false;
 		}
 
-
-		switch (it->second)
-		{
-		case XFT_STRING:
-			parameterValue = *((T*)(&(m_pStringMap->find(fullTag)->second)));
-			break;
-		case XFT_NUMBER:
-			parameterValue = *((T*)(&(m_pNumberMap->find(fullTag)->second)));
-			break;
-		case XFT_VECTOR2:
-			parameterValue = *((T*)(&(m_pVector2Map->find(fullTag)->second)));
-			break;
-		case XFT_VECTOR3:
-			parameterValue = *((T*)(&(m_pVector3Map->find(fullTag)->second)));
-			break;
-		case XFT_MATRIX3:
-			parameterValue = *((T*)(&(m_pMatrix3Map->find(fullTag)->second)));
-			break;
-		case XFT_MATRIX4:
-			parameterValue = *((T*)(&(m_pMatrix4Map->find(fullTag)->second)));
-			break;
-		case XFT_NUMBERARRAY:
-			parameterValue = *((T*)(&(m_pNumberArrayMap->find(fullTag)->second)));
-			break;
-		default:
-			REPORT_WARNING(std::string("unknown XML FIELD TYPE for:") + fullTag );
-			return false;
-		}
 		return true;		
 	}
+
+
+
+
+	template<typename T>
+	bool getAll( const std::string &fullTag, std::vector<T>& parameterValues )
+	{
+		std::vector<std::string> words = Ogre::StringUtil::split(fullTag,"/ ");
+		if( words.size() > 1 ) 
+		{ 
+			if( m_pChildren == NULL )
+			{
+				REPORT_WARNING(fullTag + std::string(" named xml tag not found!"));
+				return false;
+			}
+			std::vector<std::string> tagSplit;
+			tagSplit = Ogre::StringUtil::split(words[0],":");
+			std::string tagChildName;
+			std::string tagName;
+			tagName = tagSplit[0];
+			if(tagSplit.size()>1)
+			{
+				tagChildName = tagSplit[1];
+			}
+			for( int i = 0; i < m_pChildren->size(); i++ )
+			{
+				if( m_pChildren->at(i)->m_RootTag.compare(tagName) == 0 )
+				{
+					if( tagChildName.compare(m_pChildren->at(i)->m_Name) == 0 )
+					{
+
+						std::string childRootTag;
+						for(int j = 1; j < words.size() ; j++ )
+						{ 
+							childRootTag += "/" + words[j];
+						}
+						bool bRet = m_pChildren->at(i)->getAll<T>(childRootTag,parameterValues);
+						if(!bRet)
+						{
+							REPORT_WARNING(fullTag + std::string(" named xml tag not found or wrong type requested"));
+						}
+						return bRet;
+					}
+				}
+			}
+			REPORT_WARNING(fullTag + std::string(" named xml tag not found "));
+			return false;
+		}
+
+		std::map<std::string, ENUM_XML_FIELD_TYPES>::iterator it = m_TypeMap.begin();
+		const std::map<std::string, ENUM_XML_FIELD_TYPES>::iterator endit = m_TypeMap.end();
+		T parameterValue;
+		while(it != endit)
+		{
+			if( (*it).first.compare(fullTag) == 0 )
+			{
+				switch (it->second)
+				{
+				case XFT_STRING:
+					parameterValue = *((T*)(&(m_pStringMap->find(fullTag)->second)));
+					break;
+				case XFT_NUMBER:
+					parameterValue = *((T*)(&(m_pNumberMap->find(fullTag)->second)));
+					break;
+				case XFT_VECTOR2:
+					parameterValue = *((T*)(&(m_pVector2Map->find(fullTag)->second)));
+					break;
+				case XFT_VECTOR3:
+					parameterValue = *((T*)(&(m_pVector3Map->find(fullTag)->second)));
+					break;
+				case XFT_MATRIX3:
+					parameterValue = *((T*)(&(m_pMatrix3Map->find(fullTag)->second)));
+					break;
+				case XFT_MATRIX4:
+					parameterValue = *((T*)(&(m_pMatrix4Map->find(fullTag)->second)));
+					break;
+				case XFT_NUMBERARRAY:
+					parameterValue = *((T*)(&(m_pNumberArrayMap->find(fullTag)->second)));
+					break;
+				default:
+					REPORT_WARNING(std::string("unknown XML FIELD TYPE for:") + fullTag );
+					return false;
+				}
+				parameterValues.push_back(parameterValue);
+			}
+			it++;
+		}
+
+		if(parameterValues.size() == 0)
+		{
+			REPORT_WARNING(fullTag + std::string(" named xml tag not found!"));
+			return false;
+		}
+
+
+
+		return true;		
+	}
+
+
+
+
+
+
+
+
+
+	std::vector<float> getAllNumbers(const std::string& fullTag)
+	{
+		return getAllNumbers(fullTag, m_bIsLastOperationOk);
+	}
+
+	std::vector<Ogre::Vector3> getAllVector3s(const std::string& fullTag)
+	{		
+		return getAllVector3s(fullTag, m_bIsLastOperationOk);
+	}
+	std::vector<Ogre::ColourValue> getAllColourValues(const std::string& fullTag)
+	{		
+		return getAllColourValues(fullTag, m_bIsLastOperationOk);
+	}
+	std::vector<std::string> getAllStrings(const std::string& fullTag)
+	{
+		return getAllStrings(fullTag, m_bIsLastOperationOk);
+	}
+
+	std::vector<float> getAllNumbers(const std::string& fullTag, bool & bSuccess)
+	{
+		std::vector<float> lRet;
+		bSuccess = getAll<float>(fullTag,lRet);
+		return lRet;
+	}
+
+	std::vector<Ogre::ColourValue> getAllColourValues(const std::string& fullTag, bool & bSuccess)
+	{
+		std::vector<Ogre::Vector3> vecValues;
+		bSuccess = getAll<Ogre::Vector3>(fullTag,vecValues);
+		std::vector<Ogre::ColourValue> colValues;
+		for (int i = 0; i < vecValues.size(); i++)
+		{
+			colValues.push_back(Ogre::ColourValue(vecValues[i].x,vecValues[i].y,vecValues[i].z));
+		}
+		return colValues;
+	}
+
+	std::vector<Ogre::Vector3> getAllVector3s(const std::string& fullTag, bool & bSuccess)
+	{
+		std::vector<Ogre::Vector3> lRet;
+		bSuccess = getAll<Ogre::Vector3>(fullTag,lRet);
+		return lRet;
+	}
+	std::vector<std::string> getAllStrings(const std::string& fullTag, bool & bSuccess)
+	{
+		std::vector<std::string> lRet;
+		bSuccess = getAll<std::string>(fullTag,lRet);
+		return lRet;
+	}
+
+
+
+
+
 
 
 	float getNumber(const std::string& fullTag)
@@ -294,7 +464,10 @@ public:
 	{		
 		return getVector3(fullTag, m_bIsLastOperationOk);
 	}
-
+	Ogre::ColourValue getColourValue(const std::string& fullTag)
+	{		
+		return getColourValue(fullTag, m_bIsLastOperationOk);
+	}
 	std::string getString(const std::string& fullTag)
 	{
 		return getString(fullTag, m_bIsLastOperationOk);
@@ -307,13 +480,20 @@ public:
 		return lRet;
 	}
 
+	Ogre::ColourValue getColourValue(const std::string& fullTag, bool & bSuccess)
+	{
+		Ogre::Vector3 vecValue;
+		bSuccess = get<Ogre::Vector3>(fullTag,vecValue);
+		Ogre::ColourValue colValue(vecValue.x,vecValue.y,vecValue.z);
+		return colValue;
+	}
+
 	Ogre::Vector3 getVector3(const std::string& fullTag, bool & bSuccess)
 	{
 		Ogre::Vector3 lRet;
 		bSuccess = get<Ogre::Vector3>(fullTag,lRet);
 		return lRet;
 	}
-
 	std::string getString(const std::string& fullTag, bool & bSuccess)
 	{
 		std::string lRet;

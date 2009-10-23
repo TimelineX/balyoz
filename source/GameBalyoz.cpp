@@ -34,36 +34,36 @@ void GameBalyoz::createScene(void)
 {
 
 
-	Ogre::ColourValue fadeColour(0.7,0.7,.15);
-	m_pSceneMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
-	// Create a light
-	Light* l = m_pSceneMgr->createLight("MainLight");
-	// Accept default settings: point light, white diffuse, just set position
-	// NB I could attach the light to a SceneNode if I wanted it to move automatically with
-	//  other objects, but I don't
-	l->setPosition(20,80,50);
+	//Ogre::ColourValue fadeColour(0.7,0.7,.15);
+	//m_pSceneMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
+	//// Create a light
+	//Light* l = m_pSceneMgr->createLight("MainLight");
+	//// Accept default settings: point light, white diffuse, just set position
+	//// NB I could attach the light to a SceneNode if I wanted it to move automatically with
+	////  other objects, but I don't
+	//l->setPosition(20,80,50);
 
-	m_pWindow->getViewport(0)->setBackgroundColour(fadeColour);
-	m_pSceneMgr->setSkyBox(true, "SkyBox", 200);
+	//m_pWindow->getViewport(0)->setBackgroundColour(fadeColour);
+	//m_pSceneMgr->setSkyBox(true, "SkyBox", 200);
 
 	//	[OGRE] set up camera
 	m_pCamera->setPosition(Vector3(0,35,35));
 	m_pCamera->lookAt(Vector3(0,0,-100));
 	m_pCamera->setNearClipDistance(1);
-	m_pSceneMgr->setFog( FOG_LINEAR, fadeColour, .04, 20, 210);
-	Ogre::Plane oceanSurface;
-	oceanSurface.normal = Ogre::Vector3::UNIT_Y;
-	oceanSurface.d = 10;
-	Ogre::MeshManager::getSingleton().createPlane("OceanSurface",
-		Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-		oceanSurface,
-		1500, 1500, 150, 150, true, 1, 1, 1, Ogre::Vector3::UNIT_Z);
-	Ogre::Entity *pOceanSurfaceEntity= m_pSceneMgr->createEntity( "OceanSurface", "OceanSurface" );
-	pOceanSurfaceEntity->setMaterialName("Ocean2_Cg");
-	SceneNode *pNode;
-	pNode = m_pSceneMgr->getRootSceneNode()->createChildSceneNode();
-//	pNode->translate(750,0,750);
-	pNode->attachObject(pOceanSurfaceEntity);
+//	m_pSceneMgr->setFog( FOG_LINEAR, fadeColour, .04, 20, 210);
+//	Ogre::Plane oceanSurface;
+//	oceanSurface.normal = Ogre::Vector3::UNIT_Y;
+//	oceanSurface.d = 10;
+//	Ogre::MeshManager::getSingleton().createPlane("OceanSurface",
+//		Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+//		oceanSurface,
+//		1500, 1500, 150, 150, true, 1, 1, 1, Ogre::Vector3::UNIT_Z);
+//	Ogre::Entity *pOceanSurfaceEntity= m_pSceneMgr->createEntity( "OceanSurface", "OceanSurface" );
+//	pOceanSurfaceEntity->setMaterialName("Ocean2_Cg");
+//	SceneNode *pNode;
+//	pNode = m_pSceneMgr->getRootSceneNode()->createChildSceneNode();
+////	pNode->translate(750,0,750);
+//	pNode->attachObject(pOceanSurfaceEntity);
 
 
 
