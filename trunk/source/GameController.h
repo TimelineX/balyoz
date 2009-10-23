@@ -33,9 +33,10 @@ namespace Balyoz
 		virtual OIS::Mouse*			getMouse() = 0;
 		virtual OIS::Keyboard*		getKeyboard() = 0;
 		virtual float				getFrameTime() = 0;
+		virtual float				getGameTime() = 0;
 		virtual void				shoot(GameUnit *pGameUnit, int iWeaponIndex) = 0;
 		virtual void				deletePhyicsObject(PhysicsObject* pPO) = 0;
-		virtual void		deleteBullet(Bullet* pBullet) = 0;
+		virtual void				deleteBullet(Bullet* pBullet) = 0;
 
 	};
 	
@@ -66,7 +67,8 @@ namespace Balyoz
 		
 		OIS::Mouse*			getMouse();
 		OIS::Keyboard*		getKeyboard();
-		float				getFrameTime();
+		float		getGameTime(){return m_fGameTime;};
+		float		getFrameTime(){return m_LastFrameEvent.timeSinceLastFrame;};
 
 		static GameplayInfoProvider* getInfoProvider();
 
@@ -76,7 +78,6 @@ namespace Balyoz
 		void		deleteBullet(Bullet* pBullet);
 
 		Level					*m_pCurrentLevel;
-		
 
 		bool					m_bBufferedKeys;
 		bool					m_bBufferedMouse;
@@ -93,6 +94,7 @@ namespace Balyoz
 		OIS::JoyStick			*m_pJoy;
 
 		Ogre::FrameEvent		m_LastFrameEvent;
+		float					m_fGameTime;
 		
 		std::list<UnitController*>				m_GameUnitControllers;
 		std::map<std::string,UnitController*>	m_GameUnitControllerMap;

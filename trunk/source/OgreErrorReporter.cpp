@@ -46,7 +46,7 @@ void OgreErrorReporter::report(ErrorType errType,const std::string &msg, const s
 
 	if(stopExecution)
 	{
-		throw new std::exception(msg.c_str());
+		throw new std::exception(message.c_str());
 	}
 }
 

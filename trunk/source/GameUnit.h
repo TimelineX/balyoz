@@ -23,7 +23,7 @@ class GameUnit :
 	public GameObject
 {
 public:
-	GameUnit(void);
+	GameUnit(std::string* pName = NULL);
 	GameUnit( std::string* pName, std::string* pMesh, std::string* pController,float health, float armour,float speed,ENUM_UNIT_TYPE type);
 	GameUnit( std::string* pName, std::string* pMesh, std::string* pController,float health, float armour,float speed,ENUM_UNIT_TYPE type, std::vector<Weapon*>& weapons);
 	~GameUnit();

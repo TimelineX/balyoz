@@ -94,7 +94,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /y $(THE_GAME)\configurations\$(ConfigurationName)\*.* $(THE_GAME)\bin\$(ConfigurationName)\"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -307,10 +307,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OgreErrorReporter.h"
-				>
-			</File>
-			<File
 				RelativePath=".\PhysicsObject.h"
 				>
 			</File>
@@ -389,10 +385,6 @@
 			</File>
 			<File
 				RelativePath=".\NavyGameUnit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\OgreErrorReporter.cpp"
 				>
 			</File>
 			<File
@@ -477,6 +469,14 @@
 			</File>
 			<File
 				RelativePath=".\MappedVector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreErrorReporter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreErrorReporter.h"
 				>
 			</File>
 		</Filter>

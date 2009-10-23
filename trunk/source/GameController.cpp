@@ -41,6 +41,7 @@ GameController::GameController(
 	m_bBufferedJoy = false;
 	m_bBufferedKeys = false;
 	m_bBufferedMouse = false;
+	m_fGameTime = 0;
 
 	m_pRenderWindow->getCustomAttribute("WINDOW", &windowHnd);
 	windowHndStr << windowHnd;
@@ -90,10 +91,7 @@ GameController::GameController(
 	
 }
 
-float GameController::getFrameTime()
-{
-	return m_LastFrameEvent.timeSinceLastFrame;
-}
+
 
 void GameController::deletePhyicsObject(PhysicsObject* pPO)
 {
@@ -111,10 +109,14 @@ void GameController::loadLevel(const std::string &levelName)
 	m_pCurrentLevel = GAME_FACTORY->getLevel(levelName);
 	if (m_pCurrentLevel == NULL)
 	{
-		REPORT_WARNING(levelName+" level not found");
+		REPORT_ERROR_AND_STOP(levelName+" level not found");
 	}
+
+	
+
 	std::list<MapGameObject*>::iterator it = m_pCurrentLevel->m_pGameMap->m_pGameObjectList->begin();
-	const std::list<MapGameObject*>::iterator endit = m_pCurrentLevel->m_pGameMap->m_pGameObjectList->end();
+	const std::list<MapGameObject*>::iterator endit = m_pCurrentLevel->m_pGameMap->m_pGameObjectList->end(); 
+	m_pCurrentLevel->load(m_pRenderSystem->getSceneManager(), m_pRenderWindow,m_pCamera, m_pCamera->getParentSceneNode());
 	while(it != endit)
 	{
 		createGameUnit((*it));
@@ -142,6 +144,7 @@ bool GameController::frameRenderingQueued(const Ogre::FrameEvent& evt)
 bool GameController::frameStarted(const Ogre::FrameEvent& evt)
 {
 	m_LastFrameEvent = evt;
+	m_fGameTime += evt.timeSinceLastFrame;
 	//m_LastFrameEvent.timeSinceLastFrame /= 5.0f;
 	//m_LastFrameEvent.timeSinceLastEvent /= 5.0f;
 	m_pNxTimeController->advance(m_LastFrameEvent.timeSinceLastFrame);

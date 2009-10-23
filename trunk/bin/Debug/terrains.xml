@@ -2,8 +2,39 @@
 <terrains>
 	<terrain>
 		<name>flatterrain-1</name>
-		<type>flatterrain</type>
-		<length>1000</length>
-	</terrain>
+    <type>flat</type>
+    <resourcename>Ocean2_Cg</resourcename>
+    <width>1000</width>
+    <height>1000</height>
+    <length>1000</length>
+    <widthsegments>100</widthsegments>
+    <lengthsegments>100</lengthsegments>
+    <static>yes</static>
+
+  </terrain>
+  
+  <terrain>
+    <name>hills-1</name>
+    <type>heightmap</type>
+    <resourcename>terrain.cfg</resourcename>
+    <width>1000</width>
+    <length>1000</length>
+    <height>1000</height>
+    <widthsegments>100</widthsegments>
+    <lengthsegments>100</lengthsegments>
+    <static>yes</static>
+  </terrain>
+  
+  <terrain>
+    <name>ocean-1</name>
+    <type>ocean</type>
+    <resourcename>Ocean2_Cg</resourcename>
+    <width>1000</width>
+    <length>1000</length>
+    <height>10</height>
+    <widthsegments>20</widthsegments>
+    <lengthsegments>20</lengthsegments>
+    <static>no</static>    
+  </terrain>
 	
 </terrains>

@@ -60,7 +60,7 @@ namespace Balyoz
 		std::list<BulletController*>*				m_pBulletControllerList;
 		std::map<std::string,GameMap*>				m_GameMaps;
 		std::map<std::string,Level*>				m_GameLevels;
-
+		std::map<std::string,Terrain*>				m_TerrainPrototypes;
 		std::map<std::string,GameUnit*>				m_GameUnitPrototypes;
 		std::map<std::string,BulletProperty*>		m_BulletPrototypes;
 		std::map<std::string,Weapon*>				m_WeaponPrototypes;
