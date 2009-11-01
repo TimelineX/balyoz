@@ -6,7 +6,7 @@
     <resourcename>Ocean2_Cg</resourcename>
     <width>1000</width>
     <height>1000</height>
-    <length>1000</length>
+    <length>5000</length>
     <widthsegments>100</widthsegments>
     <lengthsegments>100</lengthsegments>
     <static>yes</static>
@@ -31,9 +31,9 @@
     <resourcename>Ocean2_Cg</resourcename>
     <width>1000</width>
     <length>1000</length>
-    <height>10</height>
-    <widthsegments>20</widthsegments>
-    <lengthsegments>20</lengthsegments>
+    <height>0</height>
+    <widthsegments>254</widthsegments>
+    <lengthsegments>254</lengthsegments>
     <static>no</static>    
   </terrain>
 	

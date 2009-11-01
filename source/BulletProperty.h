@@ -31,19 +31,21 @@ namespace Balyoz
 				const std::string& Particles, 
 				const std::string& Controller,
 				ENUM_EFFECT		Effect,
-				BulletController* pBulletController = 0
+				BulletController* pBulletController = 0,
+				float fRocketForce = 0 
 				);
 
 		~BulletProperty(void){};
 
 		BulletController*	m_pBulletController;
 
-		float			m_MaximumSpeed;
-		float			m_InitialSpeed;
-		float			m_Power;
-		float			m_Radius;
+		float			m_fRocketForce;
+		float			m_fMaximumSpeed;
+		float			m_fInitialSpeed;
+		float			m_fPower;
+		float			m_fRadius;
 		ENUM_EFFECT		m_Effect;	
-		float			m_LifeTime;
+		float			m_fLifeTime;
 		std::string		m_Explosion;
 		std::string		m_Particles;
 		std::string		m_Controller;
