@@ -1,8 +1,6 @@
 #include "GameFactory.h"
 #define USE_REPORT
 #include "macros.h"
-#include "AirGameUnit.h"
-#include "NavyGameUnit.h"
 
 #include <map>
 #include <OgreCommon.h>
@@ -193,11 +191,14 @@ void GameFactory::createXmlMapRepostories()
 				pCurrentGXMP->getChildrenOf("/unit", pUnitsOnMap);
 				for(int i =0; i < pUnitsOnMap->size(); i++)
 				{
-					MapGameObject *pGamemapobject = new  MapGameObject(pUnitsOnMap->at(i)->m_Name,
-						pUnitsOnMap->at(i)->getVector3("/orientation"),
-						pUnitsOnMap->at(i)->getVector3("/position"));
-					pGameMap->m_pGameObjectList->push_back(pGamemapobject);
+					//MapGameObject *pGamemapobject = new  MapGameObject(pUnitsOnMap->at(i)->m_Name,
+					//	pUnitsOnMap->at(i)->getVector3("/orientation"),
+					//	pUnitsOnMap->at(i)->getVector3("/position"));
+					pGameMap->m_pGameObjectList->push_back(MapGameObject(pUnitsOnMap->at(i)->m_Name,
+							pUnitsOnMap->at(i)->getVector3("/orientation"),
+							pUnitsOnMap->at(i)->getVector3("/position")));
 				}
+//				sort(pGameMap->m_pGameObjectList->begin(),pGameMap->m_pGameObjectList->end(),)
 				pGameMap->m_pGameObjectList->sort();
 				m_GameMaps[pGameMap->m_MapName] = pGameMap;
 			}
@@ -268,20 +269,21 @@ void GameFactory::createXmlMapRepostories()
 			{
 				Weapon *pWeapon = new Weapon(new std::string(pCurrentGXMP->getString("/name")));
 				pWeapon->m_pMeshFileName = new std::string(pCurrentGXMP->getString("/mesh"));
-				pWeapon->m_ReloadTime = pCurrentGXMP->getNumber("/reloadtime");
-				pWeapon->m_Capacity = pCurrentGXMP->getNumber("/capacity");
-				pWeapon->m_Initial = pCurrentGXMP->getNumber("/initial");
-				pWeapon->m_Maximum = pCurrentGXMP->getNumber("/maximum");
-				pWeapon->m_Minimum = pCurrentGXMP->getNumber("/minimum");
-				pWeapon->m_BulletAngle = pCurrentGXMP->getNumber("/anglebetweenbullets");
+				pWeapon->m_fReloadTime = pCurrentGXMP->getNumber("/reloadtime");
+				pWeapon->m_uiCapacity = pCurrentGXMP->getNumber("/capacity");
+				pWeapon->m_uiInitial = pCurrentGXMP->getNumber("/initial");
+				pWeapon->m_uiMaximum = pCurrentGXMP->getNumber("/maximum");
+				pWeapon->m_uiMinimum = pCurrentGXMP->getNumber("/minimum");
+				pWeapon->m_uiBulletAngle = pCurrentGXMP->getNumber("/anglebetweenbullets");
 				
-				pWeapon->m_BulletProperty.m_InitialSpeed = pCurrentGXMP->getNumber("/bullet/initialspeed");
-				pWeapon->m_BulletProperty.m_MaximumSpeed = pCurrentGXMP->getNumber("/bullet/maximumspeed");
-				pWeapon->m_BulletProperty.m_Power = pCurrentGXMP->getNumber("/bullet/power");
-				pWeapon->m_BulletProperty.m_Radius = pCurrentGXMP->getNumber("/bullet/radius");
+				pWeapon->m_BulletProperty.m_fRocketForce = pCurrentGXMP->getNumber("/bullet/rocketforce");
+				pWeapon->m_BulletProperty.m_fInitialSpeed = pCurrentGXMP->getNumber("/bullet/initialspeed");
+				pWeapon->m_BulletProperty.m_fMaximumSpeed = pCurrentGXMP->getNumber("/bullet/maximumspeed");
+				pWeapon->m_BulletProperty.m_fPower = pCurrentGXMP->getNumber("/bullet/power");
+				pWeapon->m_BulletProperty.m_fRadius = pCurrentGXMP->getNumber("/bullet/radius");
 				pWeapon->m_BulletProperty.m_Effect = EFFECT_LINEER; // TODO :  pCurrentGXMP->getNumber("/bullet/effect");
 				REPORT_WARNING("TODO : incomplete code for effect!");
-				pWeapon->m_BulletProperty.m_LifeTime = pCurrentGXMP->getNumber("/bullet/lifetime");
+				pWeapon->m_BulletProperty.m_fLifeTime = pCurrentGXMP->getNumber("/bullet/lifetime");
 				pWeapon->m_BulletProperty.m_Particles = pCurrentGXMP->getString("/bullet/particles");
 				pWeapon->m_BulletProperty.m_Explosion = pCurrentGXMP->getString("/bullet/explosion");
 				pWeapon->m_BulletProperty.m_Controller = pCurrentGXMP->getString("/bullet/controller");

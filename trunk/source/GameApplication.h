@@ -138,7 +138,7 @@ protected:
     virtual void chooseSceneManager(void)
     {
         // Create the SceneManager, in this case a generic one
-        m_pSceneMgr = m_pRoot->createSceneManager(ST_EXTERIOR_CLOSE, "ExampleSMInstance");
+        m_pSceneMgr = m_pRoot->createSceneManager(ST_GENERIC, "GAME BALYOZ");
     }
     virtual void createCamera(void)
     {

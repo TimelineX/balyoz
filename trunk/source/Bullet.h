@@ -21,20 +21,20 @@ namespace Balyoz
 		~Bullet(void);
 		void setBulletProperty(const BulletProperty &bulletProperty )
 		{
-			m_MaximumSpeed = bulletProperty.m_MaximumSpeed;
-			m_InitialSpeed = bulletProperty.m_InitialSpeed;
+			m_fMaximumSpeed = bulletProperty.m_fMaximumSpeed;
+			m_fInitialSpeed = bulletProperty.m_fInitialSpeed;
 			m_Effect = bulletProperty.m_Effect;
-			m_LifeTime = bulletProperty.m_LifeTime;
-			m_Power = bulletProperty.m_Power;
-			m_Radius = bulletProperty.m_Radius;
+			m_fLifeTime = bulletProperty.m_fLifeTime;
+			m_fPower = bulletProperty.m_fPower;
+			m_fRadius = bulletProperty.m_fRadius;
 		};
 		
-		float			m_InitialSpeed;
-		float			m_MaximumSpeed;
-		float			m_Power;
-		float			m_Radius;
-		float			m_LifeTime;
-		float			m_CreationTime;
+		float			m_fInitialSpeed;
+		float			m_fMaximumSpeed;
+		float			m_fPower;
+		float			m_fRadius;
+		float			m_fLifeTime;
+		float			m_fCreationTime;
 		ENUM_EFFECT		m_Effect;
 		NxOgre::Vec3	m_Force;
 

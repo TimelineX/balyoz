@@ -37,6 +37,7 @@ namespace Balyoz
 		virtual void				shoot(GameUnit *pGameUnit, int iWeaponIndex) = 0;
 		virtual void				deletePhyicsObject(PhysicsObject* pPO) = 0;
 		virtual void				deleteBullet(Bullet* pBullet) = 0;
+		virtual Ogre::Camera*		getActiveCamera() = 0;				
 
 	};
 	
@@ -61,6 +62,8 @@ namespace Balyoz
 
 		void loadLevel(const std::string &levelName);
 
+		void loadGameUnits();
+
 
 		void runControllers();
 		void processEventQueue();	
@@ -69,15 +72,21 @@ namespace Balyoz
 		OIS::Keyboard*		getKeyboard();
 		float		getGameTime(){return m_fGameTime;};
 		float		getFrameTime(){return m_LastFrameEvent.timeSinceLastFrame;};
+		Ogre::Camera*		getActiveCamera();				
+			
 
 		static GameplayInfoProvider* getInfoProvider();
 
-		GameUnit*	createGameUnit(const MapGameObject* pUnitMapInfo);
+		GameUnit*	createGameUnit(const MapGameObject& pUnitMapInfo);
 		void		shoot(GameUnit *pGameUnit, int iWeaponIndex);
 		void		deletePhyicsObject(PhysicsObject* pPO);
 		void		deleteBullet(Bullet* pBullet);
 
 		Level					*m_pCurrentLevel;
+		GameMap					*m_pCurrentMap;
+		std::list<MapGameObject>::iterator m_CurrentMapListIterator;
+		std::list<MapGameObject>::iterator m_CurrentMapListEndIterator;
+
 
 		bool					m_bBufferedKeys;
 		bool					m_bBufferedMouse;
@@ -100,6 +109,8 @@ namespace Balyoz
 		std::map<std::string,UnitController*>	m_GameUnitControllerMap;
 
 		std::list<BulletController*>*				m_pBulletControllerList;
+
+		std::list<GameUnit*>						m_IngameUnits;
 	};
 
 }

@@ -5,10 +5,48 @@
 
     <unit>
       <name>test-2</name>
-      <position>750 100 1400</position>
+      <position>0 5 30</position>
       <orientation>0 -1 0</orientation>
     </unit>
-  
+    <unit>
+      <name>test-1</name>
+      <position>0 5 55</position>
+      <orientation>0 -1 0</orientation>
+    </unit>
+
+    <unit>
+      <name>test-1</name>
+      <position>0 5 160</position>
+      <orientation>0 -1 0</orientation>
+    </unit>
+
+    <unit>
+      <name>test-1</name>
+      <position>0 5 175</position>
+      <orientation>0 -1 0</orientation>
+    </unit>
+
+
+    <unit>
+      <name>test-1</name>
+      <position>0 5 195</position>
+      <orientation>0 -1 0</orientation>
+    </unit>
+
+
+    <unit>
+      <name>test-1</name>
+      <position>0 5 205</position>
+      <orientation>0 -1 0</orientation>
+    </unit>
+
+
+    <unit>
+      <name>test-1</name>
+      <position>0 5 545</position>
+      <orientation>0 -1 0</orientation>
+    </unit>
+
   </map>
 
 </maps>

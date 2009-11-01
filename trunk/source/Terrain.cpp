@@ -29,7 +29,7 @@ void Terrain::load( Ogre::SceneManager * pSceneManager, Ogre::RenderWindow * pRe
 	case TERRAIN_TYPE_OCEAN:
 		Ogre::Plane oceanSurface;
 		oceanSurface.normal = Ogre::Vector3::UNIT_Y;
-		oceanSurface.d = m_fHeight;
+		oceanSurface.d = -m_fHeight;
 
 		Ogre::MeshManager::getSingleton().createPlane("OceanSurface",
 			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,

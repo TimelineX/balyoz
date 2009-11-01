@@ -34,10 +34,10 @@ namespace Balyoz
 
 		//MapGameObject* getMapObjectByName		(const std::string& objName)  ;
 		//MapGameObject* getMapObjectByPosition	(const Ogre::Vector3& position) ;
-		std::list<MapGameObject*>* getAllMapObjects();
+		std::list<MapGameObject>* getAllMapObjects();
 
 	public:
-		std::list<MapGameObject*> *m_pGameObjectList;
+		std::list<MapGameObject> *m_pGameObjectList;
 
 		
 	};

@@ -6,8 +6,14 @@ using namespace Balyoz;
 
 Weapon::Weapon(void)
 {
-	   m_LastShootTime	= 0;
-
+	m_pMeshFileName	= 0;
+	m_fReloadTime		= 0;
+	m_fLastShootTime	= 0;
+	m_uiCapacity		= 0;
+	m_uiInitial		= 0;
+	m_uiMaximum		= 0;
+	m_uiMinimum		= 0;
+	m_uiBulletAngle	= 0;
 }
 
 Weapon::~Weapon(void)
@@ -41,11 +47,11 @@ Weapon::Weapon( std::string* pName,
 
 						   
 					   m_pMeshFileName	= pMeshFileName;
-					   m_ReloadTime		= ReloadTime;
-					   m_LastShootTime	= 0;
-					   m_Capacity		= Capacity;
-					   m_Initial		= Initial;
-					   m_Maximum		= Maximum;
-					   m_Minimum		= Minimum;
-					   m_BulletAngle	= Angle;
+					   m_fReloadTime		= ReloadTime;
+					   m_fLastShootTime	= 0;
+					   m_uiCapacity		= Capacity;
+					   m_uiInitial		= Initial;
+					   m_uiMaximum		= Maximum;
+					   m_uiMinimum		= Minimum;
+					   m_uiBulletAngle	= Angle;
 }

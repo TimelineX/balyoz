@@ -2,11 +2,11 @@
 #include "Controller.h"
 #include "GameUnit.h"
 #include <list>
+#include <OgreCamera.h>
 
 #define OIS_DYNAMIC_LIB
 #include <OIS/OISKeyboard.h>
 #include <OIS/OISMouse.h>
-
 
 namespace Balyoz
 {
@@ -14,7 +14,7 @@ namespace Balyoz
 	{
 	public:
 		UnitController(void){}
-		UnitController(ControllerType ctype):Controller<GameUnit>(ctype){}
+		UnitController(ENUM_CONTROLLER_TYPE ctype):Controller<GameUnit>(ctype){}
 		~UnitController(void){}
 		std::string& getName(){return m_Name;};
 
@@ -36,6 +36,7 @@ namespace Balyoz
 		OIS::Keyboard*		m_pKeyboard;
 
 		NxOgre::Vec3		m_TranslateVec;
+		Ogre::Camera*		m_pCamera;
 
 	};
 
