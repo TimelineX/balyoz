@@ -8,7 +8,7 @@
     <speed>50</speed>
     <primaryweapon>bazooka</primaryweapon>
     <secondaryweapon>machine gun</secondaryweapon>
-    <controller>ai</controller>
+    <controller>dummy</controller>
     <type>navy</type>
   </unit>
   <unit>
@@ -16,7 +16,7 @@
     <mesh>cube.mesh</mesh>
     <health>200</health>
     <armour>5</armour>
-    <speed>20</speed>
+    <speed>50</speed>
     <primaryweapon>bazooka</primaryweapon>
     <secondaryweapon>machine gun</secondaryweapon>
 

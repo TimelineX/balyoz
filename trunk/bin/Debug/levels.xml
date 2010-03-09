@@ -2,22 +2,22 @@
 <levels>
 	<level>
 		<name>level-1</name>
-    <terrain>ocean-1</terrain>
+    <terrain>hills-1</terrain>
     <map>map-1</map>
     <camera>
-      <position>0 15 0</position>
-      <lookat>0 0 100</lookat>
+      <position>750 145 1500</position>
+      <lookat>750 75 1365</lookat>
     </camera>
 		<skybox>
       <resourcename>SkyBox</resourcename>
-      <distance>200</distance>      
+      <distance>2000</distance>      
     </skybox>
     <fog>
-      <colour>0.2 0.2 .2</colour>
+      <colour>0.8 0.8 .65</colour>
       <mode>linear</mode>
       <density>.01</density>
       <start>0</start>
-      <end>205</end>
+      <end>1001</end>
     </fog>
     <light>
       <lightname>mainlight</lightname>
