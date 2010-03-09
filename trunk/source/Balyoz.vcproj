@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(OGRE_HOME)\include&quot;;&quot;$(OGRE_HOME)\samples\include&quot;;&quot;$(NXOGRE_DIR)\sdk&quot;;&quot;$(PHYSX_DIR)\SDKs\Cooking\include&quot;;&quot;$(PHYSX_DIR)\SDKs\NxCharacter\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Foundation\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Physics\include&quot;;&quot;$(PHYSX_DIR)\SDKs\PhysXLoader\include&quot;;&quot;$(THE_GAME)\utils\tinyxml&quot;;&quot;$(NXOGRE_DIR)\rendersystems\ogre&quot;"
+				AdditionalIncludeDirectories="&quot;$(THE_GAME)\utils\ogre\include&quot;;&quot;$(THE_GAME)\utils\ogre\samples\include&quot;;&quot;$(THE_GAME)\utils\nxogre\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Cooking\include&quot;;&quot;$(PHYSX_DIR)\SDKs\NxCharacter\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Foundation\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Physics\include&quot;;&quot;$(PHYSX_DIR)\SDKs\PhysXLoader\include&quot;;&quot;$(THE_GAME)\utils\tinyxml&quot;;&quot;$(THE_GAME)\utils\nxogre\rendersystems\ogre&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -65,7 +65,7 @@
 				ShowProgress="0"
 				OutputFile="$(OutDir)/$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OGRE_HOME)\lib&quot;;&quot;$(NXOGRE_DIR)\lib&quot;;&quot;$(PHYSX_DIR)\SDKs\lib\Win32&quot;;&quot;$(THE_GAME)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(PHYSX_DIR)\SDKs\lib\Win32&quot;;&quot;$(THE_GAME)\lib&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
 				RandomizedBaseAddress="1"
