@@ -218,7 +218,7 @@ void GameController::shoot(GameUnit *pGameUnit, int iWeaponIndex)
 	}
 	m_pNxScene->setActorFlags(pGameUnit->m_pBody, pBullet->m_pPhysicsObject, NxOgre::Enums::ActorFlags_DisableCollision);
 	
-	m_GameUnits.push_back(pBullet);
+//	m_GameUnits.push_back(pBullet);
 
 }
 
@@ -266,7 +266,7 @@ GameUnit* GameController::createGameUnit(const MapGameObject* pUnitMapInfo)
 	}
 
 
-	m_GameUnits.push_back
+//	m_GameUnits.push_back
 	return pGameUnit;
 }
 

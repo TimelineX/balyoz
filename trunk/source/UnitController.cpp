@@ -3,19 +3,16 @@
 #include "EventCollector.h"
 #include "GameUnit.h"
 #include "Weapon.h"
-#include <OgreMath.h>
-#include <OIS/OISKeyboard.h>
 
 using namespace Balyoz;
 
 
 
 HumanController::HumanController()
-:UnitController(CONTROLLER_TYPE_HUMAN)
+:UnitController(CONTROLLER_HUMAN)
 {
 	m_pMouse = GameController::getInfoProvider()->getMouse();
 	m_pKeyboard = GameController::getInfoProvider()->getKeyboard();
-	m_pCamera = GameController::getInfoProvider()->getActiveCamera();
 	m_Name = "human";
 }
 
@@ -31,115 +28,81 @@ void HumanController::run()
 	float fTime = GameController::getInfoProvider()->getFrameTime();
 
 	const OIS::MouseState &mouseState =  m_pMouse->getMouseState();
-	bool bMoveCamera = false;
-	NxOgre::Vec3 translateVec;
 
 	if(mouseState.X.rel != 0 )
 	{
-		translateVec[0] -= mouseState.X.rel / 10.0f;
-		bMoveCamera = true;
+		m_TranslateVec[0] += mouseState.X.rel / 1000.0f;
 	}
 	if( mouseState.Y.rel != 0 )
 	{
-		translateVec[2] -= mouseState.Y.rel / 10.0f;
-		bMoveCamera = true;
-	}
-
-	const float translateAmount = 1.f;
-
-	if(m_pKeyboard->isKeyDown(OIS::KC_W))
-	{
-		translateVec[2] += translateAmount;
-		bMoveCamera = true;
-	}
-
-	if(m_pKeyboard->isKeyDown(OIS::KC_S))
-	{
-		translateVec[2] -= translateAmount/2.0f;
-		bMoveCamera = true;
-	}
-
-	if(m_pKeyboard->isKeyDown(OIS::KC_A))
-	{
-		translateVec[0] += translateAmount;
-		bMoveCamera = true;
-	}
-
-	if(m_pKeyboard->isKeyDown(OIS::KC_D))
-	{
-		translateVec[0] -= translateAmount;
-		bMoveCamera = true;
+		m_TranslateVec[2] += mouseState.Y.rel / 1000.0f;
 	}
 
 
 	float fRoll = 0;
 	float fPitch = 0;
-	NxOgre::Vec3 speed;
-//	float fSqrtTime = Ogre::Math::Sqrt(fTime);
 	while(it != endIt)
 	{
 		GameUnit *pGU = (*it);
 		PhysicsObject *kb  = pGU->m_pBody;
-		NxOgre::Vec3 tmpV = ( translateVec * ( pGU->m_Speed   ));
+		NxOgre::Vec3 tmpV = ( m_TranslateVec * ( pGU->m_Speed * fTime  ))*4000;
 		kb->addForce(tmpV);//->setGlobalPosition( kb->getGlobalPosition() + tmpV );
 
-		speed = kb->getLinearVelocity();
-		fRoll = -100 * speed.x / pGU->m_Speed ;
-		if(fRoll > 45)
+		fRoll = -m_TranslateVec[0] * 30.0f ;
+		if(fRoll > 90)
 		{
-			fRoll = 45;
+			fRoll = 90;
 		}
-		else if (fRoll < -45)
+		else if (fRoll < -90)
 		{
-			fRoll = -45;
+			fRoll = -90;
 		}
 		
-		fPitch = 100 * speed.z / pGU->m_Speed;
-		if(fPitch > 45)
+		fPitch = m_TranslateVec[2] * 30.0f ;
+		if(fPitch > 90)
 		{
-			fPitch = 45;
+			fPitch = 90;
 		}
-		else if (fPitch < -45)
+		else if (fPitch < -90)
 		{
-			fPitch = -45;
+			fPitch = -90;
 		}
 
 		kb->getSceneNode()->roll(Ogre::Radian(Ogre::Angle(fRoll)));
 		kb->getSceneNode()->pitch(Ogre::Radian(Ogre::Angle(fPitch)));
 
-		if((m_pKeyboard->isKeyDown(OIS::KC_LCONTROL) || mouseState.buttonDown(OIS::MB_Left)) && pGU->m_Weapons.size() > 0)
+		if(mouseState.buttonDown(OIS::MB_Left) && pGU->m_Weapons.size() > 0)
 		{			
-			if( pGU->m_Weapons[0]->m_fLastShootTime  < 0 )
+			if( pGU->m_Weapons[0]->m_LastShootTime  < 0 )
 			{
 				GameController::getInfoProvider()->shoot(pGU,0);
-				pGU->m_Weapons[0]->m_fLastShootTime = pGU->m_Weapons[0]->m_fReloadTime;
+				pGU->m_Weapons[0]->m_LastShootTime = pGU->m_Weapons[0]->m_ReloadTime;
 			}
 		}
 
 
-		if((m_pKeyboard->isKeyDown(OIS::KC_SPACE) || mouseState.buttonDown(OIS::MB_Right)) && pGU->m_Weapons.size() > 1)
+		if(mouseState.buttonDown(OIS::MB_Right) && pGU->m_Weapons.size() > 1)
 		{
-			if( pGU->m_Weapons[1]->m_fLastShootTime  < 0 )
+			if( pGU->m_Weapons[1]->m_LastShootTime  < 0 )
 			{
 				GameController::getInfoProvider()->shoot(pGU,1);
-				pGU->m_Weapons[1]->m_fLastShootTime = pGU->m_Weapons[1]->m_fReloadTime;
+				pGU->m_Weapons[1]->m_LastShootTime = pGU->m_Weapons[1]->m_ReloadTime;
 			}
 		}
 
 
-		pGU->m_Weapons[0]->m_fLastShootTime -= fTime * 1000.0f;
-		pGU->m_Weapons[1]->m_fLastShootTime -= fTime * 1000.0f;
+		pGU->m_Weapons[0]->m_LastShootTime -= fTime * 1000.0f;
+		pGU->m_Weapons[1]->m_LastShootTime -= fTime * 1000.0f;
 		it++;
 	}
-	m_pCamera->move(Ogre::Vector3(speed.x* fTime/2.0f,0,speed.z* fTime));
 		
-//	translateVec *= 0  ;
+	m_TranslateVec *= .985  ;
 }
 
 UnitAIController::UnitAIController()
-:UnitController(CONTROLLER_TYPE_AI)
+:UnitController(CONTROLLER_AI)
 {
-	m_Name = "ai";
+	m_Name = "dummy";
 }
 UnitAIController::~UnitAIController()
 {

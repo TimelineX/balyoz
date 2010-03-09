@@ -3,7 +3,7 @@
   <bulletcontroller>
     <name>dummy</name>
     <behaviour>forward</behaviour>
-    <accuracy>1.0</accuracy>
+    <accuracy>0.90</accuracy>
     <aiming>none</aiming>
   </bulletcontroller>
 
@@ -11,7 +11,7 @@
   <bulletcontroller>
     <name>guidedclevermissile</name>
     <behaviour>guided</behaviour>
-    <accuracy>0.6</accuracy>
+    <accuracy>0.09</accuracy>
     <aiming>weakest</aiming>
   </bulletcontroller>
 
