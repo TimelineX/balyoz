@@ -33,13 +33,13 @@ public:
 
 	BulletProperty	m_BulletProperty;
 	std::string*	m_pMeshFileName;
-	float			m_fLastShootTime;
-	float			m_fReloadTime;
-	unsigned int	m_uiCapacity;
-	unsigned int	m_uiInitial;
-	unsigned int	m_uiMaximum;
-	unsigned int	m_uiMinimum;
-	unsigned int	m_uiBulletAngle;
+	float			m_LastShootTime;
+	float			m_ReloadTime;
+	unsigned int	m_Capacity;
+	unsigned int	m_Initial;
+	unsigned int	m_Maximum;
+	unsigned int	m_Minimum;
+	unsigned int	m_BulletAngle;
 
 
 };

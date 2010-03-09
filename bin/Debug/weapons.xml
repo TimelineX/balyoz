@@ -3,16 +3,15 @@
   <weapon>
     <name>machine gun</name>
     <mesh>cube.mesh</mesh>
-    <reloadtime>200</reloadtime>
+    <reloadtime>50</reloadtime>
     <capacity>1000</capacity>
     <initial>1</initial>
     <maximum>9</maximum>
     <minimum>1</minimum>
-    <anglebetweenbullets>70</anglebetweenbullets>
+    <anglebetweenbullets>18</anglebetweenbullets>
     <bullet>
-      <initialspeed>90</initialspeed>
-      <maximumspeed>100</maximumspeed>
-      <rocketforce>0</rocketforce>
+      <initialspeed>-90</initialspeed>
+      <maximumspeed>-100</maximumspeed>
       <power>100</power>
       <radius>10</radius>
       <effect>linear</effect>
@@ -27,7 +26,7 @@
   <weapon>
     <name>bazooka</name>
     <mesh>cube.mesh</mesh>
-    <reloadtime>1000</reloadtime>
+    <reloadtime>800</reloadtime>
     <capacity>1000</capacity>
     <initial>1</initial>
     <maximum>9</maximum>
@@ -35,9 +34,8 @@
     <anglebetweenbullets>18</anglebetweenbullets>
 
     <bullet>
-      <initialspeed>0</initialspeed>
-      <maximumspeed>100</maximumspeed>
-      <rocketforce>2500</rocketforce>
+      <initialspeed>-60</initialspeed>
+      <maximumspeed>-100</maximumspeed>
       <power>100</power>
       <radius>10</radius>
       <effect>linear</effect>

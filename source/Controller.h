@@ -4,11 +4,11 @@
 #include "GameObject.h"
 namespace Balyoz
 {
-	enum ENUM_CONTROLLER_TYPE
+	enum ControllerType
 	{
-		CONTROLLER_TYPE_NONE = 0,
-		CONTROLLER_TYPE_HUMAN = 1<<8,
-		CONTROLLER_TYPE_AI = 1<<16
+		CONTROLLER_NONE = 0,
+		CONTROLLER_HUMAN = 1<<8,
+		CONTROLLER_AI = 1<<16
 	};
 
 	template <typename GameObjectClass>
@@ -16,8 +16,8 @@ namespace Balyoz
 	{
 	public:
 
-		Controller(void){ m_ControllerType = CONTROLLER_TYPE_NONE; };
-		Controller(ENUM_CONTROLLER_TYPE ctype){ m_ControllerType = ctype; };
+		Controller(void){ m_ControllerType = CONTROLLER_NONE; };
+		Controller(ControllerType ctype){ m_ControllerType = ctype; };
 		~Controller(void){};
 
 		template <typename GameObjectClass>
@@ -57,6 +57,6 @@ namespace Balyoz
 		virtual void run() = 0;
 		
 		std::list<GameObjectClass*> m_GameObjectList;	
-		ENUM_CONTROLLER_TYPE				m_ControllerType;
+		ControllerType				m_ControllerType;
 	};
 }

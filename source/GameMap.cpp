@@ -8,7 +8,7 @@ using namespace Balyoz;
 GameMap::GameMap(const std::string &name){
 
 	m_MapName = name;
-	m_pGameObjectList = new std::list<MapGameObject>();
+	m_pGameObjectList = new std::list<MapGameObject*>();
 }
 
 GameMap::~GameMap()
@@ -47,6 +47,6 @@ GameMap::~GameMap()
 //}
 
 
-std::list<MapGameObject>* GameMap::getAllMapObjects(){
+std::list<MapGameObject*>* GameMap::getAllMapObjects(){
 	return m_pGameObjectList;
 }

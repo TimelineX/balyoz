@@ -102,9 +102,7 @@
 			OutputDirectory="$(THE_GAME)\bin\$(ConfigurationName)"
 			IntermediateDirectory="$(THE_GAME)\obj\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="1"
-			UseOfMFC="0"
 			CharacterSet="2"
-			ManagedExtensions="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -125,8 +123,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(OGRE_HOME)\include&quot;;&quot;$(OGRE_HOME)\samples\include&quot;;&quot;$(NXOGRE_DIR)\sdk&quot;;&quot;$(PHYSX_DIR)\SDKs\Cooking\include&quot;;&quot;$(PHYSX_DIR)\SDKs\NxCharacter\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Foundation\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Physics\include&quot;;&quot;$(PHYSX_DIR)\SDKs\PhysXLoader\include&quot;;&quot;$(THE_GAME)\utils\tinyxml&quot;;&quot;$(NXOGRE_DIR)\rendersystems\ogre&quot;"
-				RuntimeLibrary="2"
+				AdditionalIncludeDirectories="&quot;$(OGRE_HOME)\include&quot;;&quot;$(OGRE_HOME)\samples\include&quot;;&quot;$(NXOGRE_DIR)\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Cooking\include&quot;;&quot;$(PHYSX_DIR)\SDKs\NxCharacter\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Foundation\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Physics\include&quot;;&quot;$(PHYSX_DIR)\SDKs\PhysXLoader\include&quot;;&quot;$(THE_GAME)\utils\tinyxml&quot;"
+				RuntimeLibrary="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
@@ -142,9 +140,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib OIS.lib NxOgre.lib NxOgreOGRE3D.lib PhysXLoader.lib NxCooking.lib NxCharacter.lib"
+				AdditionalDependencies="OgreMain.lib OIS.lib NxOgre.lib PhysXLoader.lib NxCooking.lib NxCharacter.lib"
 				OutputFile="$(OutDir)/$(ProjectName).exe"
-				AdditionalLibraryDirectories="&quot;$(OGRE_HOME)\lib&quot;;&quot;$(PHYSX_DIR)\SDKs\lib\Win32&quot;;&quot;$(THE_GAME)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OGRE_HOME)\lib&quot;;&quot;$(NXOGRE_DIR)\lib&quot;;&quot;$(PHYSX_DIR)\SDKs\lib\Win32&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
 				OptimizeReferences="2"
@@ -253,6 +251,10 @@
 			Filter="h"
 			>
 			<File
+				RelativePath=".\AirGameUnit.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Bullet.h"
 				>
 			</File>
@@ -301,6 +303,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\NavyGameUnit.h"
+				>
+			</File>
+			<File
 				RelativePath=".\PhysicsObject.h"
 				>
 			</File>
@@ -329,6 +335,10 @@
 			Name="Source"
 			Filter="c;cpp"
 			>
+			<File
+				RelativePath=".\AirGameUnit.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\Bullet.cpp"
 				>
@@ -371,6 +381,10 @@
 			</File>
 			<File
 				RelativePath=".\Main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NavyGameUnit.cpp"
 				>
 			</File>
 			<File
@@ -463,14 +477,6 @@
 			</File>
 			<File
 				RelativePath=".\OgreErrorReporter.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="log"
-			>
-			<File
-				RelativePath="..\bin\Debug\Ogre.log"
 				>
 			</File>
 		</Filter>
