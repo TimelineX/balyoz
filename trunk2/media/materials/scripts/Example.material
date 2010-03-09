@@ -1,0 +1,14 @@
+material Examples/10PointBlock
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture 10points.png
+			}
+		}
+	}
+}
