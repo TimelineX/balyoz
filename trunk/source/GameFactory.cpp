@@ -20,6 +20,7 @@ GameFactory::GameFactory(void)
 	m_pBulletPool = new DataPool<Bullet>();
 	m_pGameUnitPool = new DataPool<GameUnit>(true, 128);
 	m_pBulletControllerList = new std::list<BulletController*>();
+	m_pUnitControllerList = new std::list<UnitController*>();
 
 }
 
@@ -124,6 +125,40 @@ void GameFactory::createXmlMapRepostories()
 
 				m_BulletControllers[pCurrentGXMP->getString("/name")] = pBulletController;
 				m_pBulletControllerList->push_back(pBulletController);
+
+			}
+			else if(tmp->m_Name.compare ("unit controller") == 0){
+
+				UnitController* uc;
+				std::string sTmp = pCurrentGXMP->getString("/name");
+				if(sTmp.compare ("human") == 0){
+					uc = new HumanController();
+				}
+				else if(sTmp.compare ("ai") == 0){
+					uc = new UnitAIController();
+				}
+				else{
+					REPORT_WARNING("undefined unit controller type is set.AI controller will be set");
+					uc = new UnitAIController();
+				}
+
+				sTmp = pCurrentGXMP->getString("/priority");
+				if(sTmp.compare ("high") == 0){
+					uc->m_ControllerPriority = HIGH;
+				}
+				else if(sTmp.compare ("medium") == 0){
+					uc->m_ControllerPriority = MEDIUM;
+				}
+				else if(sTmp.compare("low") == 0){
+					uc->m_ControllerPriority = LOW; 
+				}
+				else{
+					REPORT_WARNING("undefined unit controller priorty is defined so defult priority (medium) will be set");
+					uc->m_ControllerPriority = MEDIUM;
+				}
+
+				m_pUnitControllerList->push_back (uc);
+				m_UnitControllers[pCurrentGXMP->getString("/name")] = uc;
 
 			}
 			else if( tmp->m_Name.compare("game") == 0 )

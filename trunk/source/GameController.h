@@ -18,6 +18,7 @@
 #include "GameMap.h"
 #include "BulletController.h"
 #include "Level.h"
+#include "IEvent.h"
 #include <list>
 #include <map>
 
@@ -34,9 +35,9 @@ namespace Balyoz
 		virtual OIS::Keyboard*		getKeyboard() = 0;
 		virtual float				getFrameTime() = 0;
 		virtual float				getGameTime() = 0;
-		virtual void				shoot(GameUnit *pGameUnit, int iWeaponIndex) = 0;
-		virtual void				deletePhyicsObject(PhysicsObject* pPO) = 0;
-		virtual void				deleteBullet(Bullet* pBullet) = 0;
+		//virtual void				shoot(GameUnit *pGameUnit, int iWeaponIndex) = 0;
+		//virtual void				deletePhyicsObject(PhysicsObject* pPO) = 0;
+		//virtual void				deleteBullet(Bullet* pBullet) = 0;
 
 	};
 	
@@ -62,8 +63,8 @@ namespace Balyoz
 		void loadLevel(const std::string &levelName);
 
 
-		void runControllers();
-		void processEventQueue();	
+		//void runControllers();
+		//void processEventQueue();	
 		
 		OIS::Mouse*			getMouse();
 		OIS::Keyboard*		getKeyboard();
@@ -73,9 +74,9 @@ namespace Balyoz
 		static GameplayInfoProvider* getInfoProvider();
 
 		GameUnit*	createGameUnit(const MapGameObject* pUnitMapInfo);
-		void		shoot(GameUnit *pGameUnit, int iWeaponIndex);
+		/*void		shoot(GameUnit *pGameUnit, int iWeaponIndex);
 		void		deletePhyicsObject(PhysicsObject* pPO);
-		void		deleteBullet(Bullet* pBullet);
+		void		deleteBullet(Bullet* pBullet);*/
 
 		Level					*m_pCurrentLevel;
 
@@ -96,12 +97,24 @@ namespace Balyoz
 		Ogre::FrameEvent		m_LastFrameEvent;
 		float					m_fGameTime;
 		
-		std::list<Bullet*>						m_Bullets;
-		std::list<GameUnit*>					m_GameUnits;
+		/*std::list<Bullet*>						m_Bullets;		
 		std::list<UnitController*>				m_GameUnitControllers;
 		std::map<std::string,UnitController*>	m_GameUnitControllerMap;
+		std::list<BulletController*>*				m_pBulletControllerList;*/
 
-		std::list<BulletController*>*				m_pBulletControllerList;
+
+
+		//added by emre for new controller structure
+		std::list<IEvent*>								m_eventList;
+		
+		std::map<Controller*, std::vector<GameObject*>> m_controllerGameObjectMap;
+
+
+		//event list related functions
+		void updateEventList();
+		void executeEventList();
+		
+		//
 	};
 
 }

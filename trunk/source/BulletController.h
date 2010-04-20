@@ -20,13 +20,13 @@ namespace Balyoz
 	};
 
 	class BulletController :
-		public Controller<Bullet>
+		public Controller
 	{
 	public:
 		BulletController(void);
 		~BulletController(void);
 
-		void run() ;
+		void run(std::vector<GameObject*>& eventList, GameObject* gameObj) ;
 
 		BULLET_AIMING m_Aiming;
 		BULLET_BEHAVIOUR m_Behavoiur;

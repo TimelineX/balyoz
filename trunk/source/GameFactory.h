@@ -42,7 +42,7 @@ namespace Balyoz
 		static GameFactory* getSingleton();
 
 		BulletController*		getBulletController	(const std::string& controllerName);
-		//UnitController*			getUnitController	(const std::string& controllerName);
+		UnitController*			getUnitController	(const std::string& controllerName);
 
 		Level*		getLevel	(const std::string& levelName);
 		GameMap*	getMap	    (const std::string& mapName);
@@ -58,6 +58,10 @@ namespace Balyoz
 
 		std::map<std::string,BulletController*>		m_BulletControllers;
 		std::list<BulletController*>*				m_pBulletControllerList;
+
+		std::map<std::string,UnitController*>		m_UnitControllers;
+		std::list<UnitController*>*					m_pUnitControllerList;
+
 		std::map<std::string,GameMap*>				m_GameMaps;
 		std::map<std::string,Level*>				m_GameLevels;
 		std::map<std::string,Terrain*>				m_TerrainPrototypes;
