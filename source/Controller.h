@@ -1,7 +1,8 @@
 #pragma once
-#include <list>
-#include <string>
+
+#include <vector>
 #include "GameObject.h"
+
 namespace Balyoz
 {
 	enum ControllerType
@@ -11,52 +12,29 @@ namespace Balyoz
 		CONTROLLER_AI = 1<<16
 	};
 
-	template <typename GameObjectClass>
+	enum CONTROLLER_PRIORITY{
+		HIGH = 100,
+		MEDIUM = 1000,
+		LOW = 10000
+	};
+	
 	class Controller
 	{
 	public:
 
-		Controller(void){ m_ControllerType = CONTROLLER_NONE; };
-		Controller(ControllerType ctype){ m_ControllerType = ctype; };
+		Controller(void){
+			m_ControllerType = CONTROLLER_NONE; 
+			m_ControllerPriority = MEDIUM; 
+		};
+		Controller(ControllerType ctype, CONTROLLER_PRIORITY priority){ 
+			m_ControllerType = ctype; 
+			m_ControllerPriority = priority;
+		};
 		~Controller(void){};
-
-		template <typename GameObjectClass>
-		void registerGameObject(GameObjectClass* pGameObject)
-		{
-			m_GameObjectList.push_back(pGameObject);
-		}
-
-		template <typename GameObjectClass>
-		void unregisterGameObject(GameObjectClass* pGameObject)
-		{
-			m_GameObjectList.remove(pGameObject);
-		}
-
-		template <typename GameObjectClass>
-		void unregisterGameObjectByName(std::string &gameUnitName)
-		{
-			std::list<GameObjectClass*>::iterator it = m_GameObjectList.begin();
-			const std::list<GameObjectClass*>::iterator endIt = m_GameObjectList.end();
-			GameObject* pGO;
-			while(it != endIt)
-			{
-				pGO = static_cast<GameObject>(*it);
-				if(  pGO->m_Name.compare(gameUnitName) == 0 )
-				{
-					
-					m_GameObjects.erase(it);
-					return;
-				}
-				it++;
-			}
-
-		}
-
-
 		
-		virtual void run() = 0;
+		virtual void run(std::vector<GameObject*>& eventList, GameObject* gameObj) = 0;		
 		
-		std::list<GameObjectClass*> m_GameObjectList;	
 		ControllerType				m_ControllerType;
+		CONTROLLER_PRIORITY			m_ControllerPriority;
 	};
 }

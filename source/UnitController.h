@@ -10,11 +10,11 @@
 
 namespace Balyoz
 {
-	class UnitController : public Controller<GameUnit>
+	class UnitController : public Controller
 	{
 	public:
 		UnitController(void){}
-		UnitController(ControllerType ctype):Controller<GameUnit>(ctype){}
+		UnitController(ControllerType ctype, CONTROLLER_PRIORITY p):Controller(ctype,p){}
 		~UnitController(void){}
 		std::string& getName(){return m_Name;};
 
@@ -29,7 +29,7 @@ namespace Balyoz
 	public:
 		HumanController();
 		~HumanController();
-		void run() ;
+		void run(std::vector<GameObject*>& eventList, GameObject* gameObj) ;
 
 
 		OIS::Mouse*			m_pMouse;
@@ -47,7 +47,7 @@ namespace Balyoz
 	public:
 		UnitAIController();
 		~UnitAIController();
-		void run() ;
+		void run(std::vector<GameObject*>& eventList, GameObject* gameObj) ;
 
 	};
 };

@@ -7,6 +7,7 @@
 //#include "NxOgreOGRE3D.h"
 #include "OGRE3DCommon.h"
 #include "PhysicsObject.h"
+#include "Controller.h"
 
 
 
@@ -39,6 +40,8 @@ public:
 	PhysicsObject*		m_pBody;
 	std::string*		m_pMesh;
 	std::string*		m_pController;
+
+	Controller*			m_UnitController;
 
 
 private:

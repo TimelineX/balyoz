@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<unitcontrollers>
+  <unitcontroller>
+    <name>dummy</name>
+    <priority>low</priority>
+  </unitcontroller>
+
+  <unitcontroller>
+    <name>human</name>
+    <priority>high</priority>
+  </unitcontroller>
+
+  <unitcontroller>
+    <name>ai</name>
+    <priority>medium</priority>
+  </unitcontroller>
+</unitcontrollers>

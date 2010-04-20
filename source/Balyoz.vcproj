@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="Balyoz"
 	ProjectGUID="{68BDF7EA-A049-4112-B031-068947812004}"
 	RootNamespace="simplesample"
@@ -65,7 +65,7 @@
 				ShowProgress="0"
 				OutputFile="$(OutDir)/$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(PHYSX_DIR)\SDKs\lib\Win32&quot;;..\lib"
+				AdditionalLibraryDirectories="&quot;$(PHYSX_DIR)\SDKs\lib\Win32&quot;;..\lib;&quot;$(NXOGRE_DIR)\sdk&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
 				RandomizedBaseAddress="1"
@@ -229,6 +229,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\unitcontroller.xml"
+					>
+				</File>
+				<File
 					RelativePath="..\bin\Debug\units.xml"
 					>
 				</File>
@@ -252,10 +256,6 @@
 			>
 			<File
 				RelativePath=".\AirGameUnit.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Bullet.h"
 				>
 			</File>
 			<File
@@ -432,6 +432,10 @@
 			Name="Controllers"
 			>
 			<File
+				RelativePath=".\Bullet.h"
+				>
+			</File>
+			<File
 				RelativePath=".\BulletController.cpp"
 				>
 			</File>
@@ -449,6 +453,18 @@
 			</File>
 			<File
 				RelativePath=".\GameController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IEvent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MoveEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MoveEvent.h"
 				>
 			</File>
 			<File
